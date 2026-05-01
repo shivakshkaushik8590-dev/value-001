@@ -101,9 +101,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add some random delay to service items for staggered reveal if they are revealed together
-    const serviceItems = document.querySelectorAll('.service-item');
-    serviceItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.1}s`;
-    });
+    // Chatbot Toggle Logic
+    const chatTrigger = document.getElementById('chat-trigger');
+    const chatWindow = document.getElementById('chat-window');
+    const closeChat = document.getElementById('close-chat');
+    const contactChatLink = document.getElementById('contact-chat-link');
+
+    if (chatTrigger && chatWindow && closeChat) {
+        const toggleChat = () => {
+            chatWindow.classList.toggle('active');
+            const pulse = chatTrigger.querySelector('.chat-pulse');
+            if (pulse) pulse.style.display = 'none';
+        };
+
+        chatTrigger.addEventListener('click', toggleChat);
+        
+        if (contactChatLink) {
+            contactChatLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatWindow.classList.add('active');
+            });
+        }
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && chatWindow.classList.contains('active')) {
+                chatWindow.classList.remove('active');
+            }
+        });
+    }
 });
