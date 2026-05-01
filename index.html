@@ -370,6 +370,9 @@
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
+                    <div style="margin-top: 20px;">
+                        <a href="javascript:void(0)" id="contact-chat-link" class="read-more">Chat with an expert <i class="fas fa-comment-dots"></i></a>
+                    </div>
                 </div>
                 <div class="contact-form-container reveal-right">
                     <form id="contactForm" class="contact-form glass">
@@ -430,6 +433,36 @@
             <p>&copy; 2026 Value 001. All rights reserved. | <a href="#">Privacy Policy</a></p>
         </div>
     </footer>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+        <button id="chat-trigger" class="chat-trigger" aria-label="Open Chat">
+            <i class="fas fa-comment-dots"></i>
+            <span class="chat-pulse"></span>
+        </button>
+        
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">V</div>
+                    <div>
+                        <h4>Value 001 Concierge</h4>
+                        <p><span class="online-status"></span> Online</p>
+                    </div>
+                </div>
+                <button id="close-chat" class="close-chat"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-body">
+                <iframe
+                    src="https://www.chatbase.co/chatbot-iframe/O9-pw3hJE1YNIi_UvP98k"
+                    width="100%"
+                    height="100%"
+                    frameborder="0"
+                    allow="microphone"
+                ></iframe>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
