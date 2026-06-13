@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: "$$$$",
             origin: "Tuscany, Italy",
             finish: "Honed / Semi-Gloss",
-            image: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=400",
+            image: "assets/images/mat-carrara.png",
             desc: "Classic Italian white marble with soft grey feather veining. Perfect for bathroom vanities, splashbacks, and fireplace surrounds.",
             specs: { thickness: "20mm", durability: "High (Indoor)", ecoRating: "A+" }
         },
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: "$$$",
             origin: "Bavaria, Germany",
             finish: "Matte Oil / Wire-Brushed",
-            image: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=400",
+            image: "assets/images/mat-oak.png",
             desc: "Timeless wire-brushed European oak boards. Configured in a classic herringbone layout to expand room perspectives.",
             specs: { thickness: "15mm (4mm veneer)", durability: "High (Residential)", ecoRating: "A++" }
         },
