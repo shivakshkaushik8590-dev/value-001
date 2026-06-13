@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Value 001 | Premium Room Decoration & Interior Design</title>
-    <meta name="description" content="Experience the pinnacle of luxury living with Value 001. Bespoke interior design and premium room decoration services tailored for sophistication and comfort.">
+    <title>Value Website Platform | Modern Digital Experience</title>
+    <meta name="description" content="Value Website Platform is a modern, responsive digital environment designed for efficiency, accessibility, and professional service presentation.">
+    <meta name="author" content="Shivaksh Kaushik">
+    <meta name="keywords" content="Value Website, Digital Platform, Responsive Design, Shivaksh Kaushik, Geeta University">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,17 +17,20 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="container nav-content">
-            <a href="#" class="logo">VALUE <span>001</span></a>
+            <a href="#" class="logo">VALUE <span>PLATFORM</span></a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#pricing">Pricing</a></li>
+                <li><a href="designer.html" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Studio</a></li>
+                <li><a href="#srs-docs">Project SRS</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="#" id="admin-link" class="admin-only" style="display: none;"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#contact" class="btn btn-outline">Book Now</a>
+                <button id="login-trigger" class="btn btn-outline">Login</button>
+                <a href="#contact" class="btn btn-primary">Get Started</a>
                 <button class="menu-toggle" aria-label="Toggle Menu">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -40,8 +45,10 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#gallery">Gallery</a></li>
             <li><a href="#pricing">Pricing</a></li>
+            <li><a href="designer.html" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Studio</a></li>
+            <li><a href="#ecosystem">Ecosystem</a></li>
+            <li><a href="#srs-docs">Project SRS</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </div>
@@ -53,11 +60,11 @@
             <div class="overlay"></div>
         </div>
         <div class="container hero-content">
-            <h1 class="reveal">Transform Your Space into <span class="highlight">Luxury Living</span></h1>
-            <p class="reveal">Exquisite interior decoration services for those who appreciate the finer things in life. Elegance, comfort, and sophistication in every corner.</p>
+            <h1 class="reveal">Welcome to the <span class="highlight">Value Website Platform</span></h1>
+            <p class="reveal">A modern web-based ecosystem designed for interactive, responsive, and high-performance digital experiences. Professionalism redefined for the modern age.</p>
             <div class="hero-btns reveal">
-                <a href="#gallery" class="btn btn-primary">Explore Designs</a>
-                <a href="#about" class="btn btn-outline-white">Our Story</a>
+                <a href="#services" class="btn btn-primary">Explore Features</a>
+                <a href="#srs-docs" class="btn btn-outline-white">View Project SRS</a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -110,24 +117,70 @@
     <section id="about" class="about section bg-light">
         <div class="container">
             <div class="section-header center">
-                <span class="subtitle">About Us</span>
-                <h2>The Vision Behind Value 001</h2>
+                <span class="subtitle">Academic Submission</span>
+                <h2>Project Overview & Objectives</h2>
             </div>
             <div class="about-grid">
                 <div class="about-card reveal">
-                    <div class="icon-box"><i class="fas fa-eye"></i></div>
-                    <h3>Our Vision</h3>
-                    <p>To be the world's leading premium decoration brand, setting global standards for luxury, sustainability, and comfort in modern living spaces.</p>
+                    <div class="icon-box"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Purpose</h3>
+                    <p>Reducing manual communication and providing a centralized digital platform where users access information quickly and efficiently.</p>
                 </div>
                 <div class="about-card reveal" style="transition-delay: 0.1s;">
-                    <div class="icon-box"><i class="fas fa-hand-holding-heart"></i></div>
-                    <h3>Our Commitment</h3>
-                    <p>We are committed to delivering excellence through meticulous craftsmanship and a client-focused approach that ensures every project is a masterpiece.</p>
+                    <div class="icon-box"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Modern Accessibility</h3>
+                    <p>Improving user accessibility and navigation through mobile-friendly design and high-performance frontend technologies.</p>
                 </div>
                 <div class="about-card reveal" style="transition-delay: 0.2s;">
-                    <div class="icon-box"><i class="fas fa-star"></i></div>
-                    <h3>Our Philosophy</h3>
-                    <p>Luxury is not just about price; it's about the feeling of harmony and peace when you step into a perfectly balanced room.</p>
+                    <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                    <h3>Performance Focus</h3>
+                    <p>Built with Next.js, React, and Tailwind CSS patterns to ensure fast loading speeds and a smooth user interface interaction flow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project SRS Section -->
+    <section id="srs-docs" class="section bg-light">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">System Requirement Specification</span>
+                <h2>Technical Documentation</h2>
+            </div>
+            <div class="srs-grid">
+                <div class="srs-table-container reveal">
+                    <h3>7. System Requirements</h3>
+                    <div class="table-wrapper">
+                        <table class="srs-table">
+                            <thead>
+                                <tr><th>Component</th><th>Requirement</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>RAM</td><td>4 GB or Higher</td></tr>
+                                <tr><td>Processor</td><td>Intel i3 or Higher</td></tr>
+                                <tr><td>Operating System</td><td>Windows/Linux/macOS</td></tr>
+                                <tr><td>Framework</td><td>React.js / Next.js</td></tr>
+                                <tr><td>Styling</td><td>Tailwind CSS</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="srs-table-container reveal" style="transition-delay: 0.2s;">
+                    <h3>8. Database & Security</h3>
+                    <div class="table-wrapper">
+                        <table class="srs-table">
+                            <thead>
+                                <tr><th>Feature</th><th>Description</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Database Type</td><td>MongoDB / MySQL / Firebase</td></tr>
+                                <tr><td>Availability</td><td>24/7 Accessibility</td></tr>
+                                <tr><td>Reliability</td><td>Continuous Operation</td></tr>
+                                <tr><td>Scalability</td><td>Future Expansion Support</td></tr>
+                                <tr><td>SEO</td><td>Full Optimization</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,51 +190,51 @@
     <section id="services" class="services section">
         <div class="container">
             <div class="section-header">
-                <span class="subtitle">Private Services</span>
-                <h2>Tailored Styling Solutions</h2>
+                <span class="subtitle">Platform Features</span>
+                <h2>Scalable Digital Solutions</h2>
             </div>
             <div class="services-grid">
                 <!-- Service 1 -->
                 <div class="service-item reveal">
                     <div class="service-img">
-                        <img src="assets/images/bedroom.png" alt="Bedroom Decoration">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000" alt="Responsive Design">
                     </div>
                     <div class="service-info">
-                        <h3>Bedroom Decoration</h3>
-                        <p>Sleep in the lap of luxury with our custom bedroom designs focused on tranquility and comfort.</p>
+                        <h3>Responsive Interface</h3>
+                        <p>Fully adaptive layouts that ensure a seamless user experience across mobile, tablet, and desktop devices.</p>
                         <a href="#contact" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Service 2 -->
                 <div class="service-item reveal">
                     <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1000" alt="Living Room Styling">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000" alt="Dynamic Content">
                     </div>
                     <div class="service-info">
-                        <h3>Living Room Styling</h3>
-                        <p>Impress your guests with a living room that blends modern aesthetics with welcoming elegance.</p>
+                        <h3>Dynamic Content</h3>
+                        <p>Real-time data handling and dynamic rendering for a fast and efficient digital presence.</p>
                         <a href="#contact" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Service 3 -->
                 <div class="service-item reveal">
                     <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1540608201577-68d13e0029ce?auto=format&fit=crop&q=80&w=1000" alt="Lighting Setup">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=1000" alt="Secure Systems">
                     </div>
                     <div class="service-info">
-                        <h3>Lighting Setup</h3>
-                        <p>Illuminate your space with bespoke lighting solutions that create the perfect mood for every occasion.</p>
+                        <h3>Secure Authentication</h3>
+                        <p>Robust security protocols and user authentication systems to protect sensitive data and privacy.</p>
                         <a href="#contact" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Service 4 -->
                 <div class="service-item reveal">
                     <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1000" alt="Custom Interior">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1000" alt="Admin Controls">
                     </div>
                     <div class="service-info">
-                        <h3>Custom Interior Design</h3>
-                        <p>Complete end-to-end interior design services, from concept to the final finishing touches.</p>
+                        <h3>Admin Controls</h3>
+                        <p>Comprehensive administrative tools to manage content, monitor activity, and handle user interactions.</p>
                         <a href="#contact" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -189,42 +242,42 @@
         </div>
     </section>
 
-    <!-- Gallery -->
-    <section id="gallery" class="gallery section bg-dark">
+    <!-- Platform Ecosystem -->
+    <section id="ecosystem" class="section bg-dark">
         <div class="container">
             <div class="section-header center">
-                <span class="subtitle">Our Masterpieces</span>
-                <h2 class="text-white">The Luxury Portfolio</h2>
+                <span class="subtitle">Feature Modules</span>
+                <h2 class="text-white">Platform Ecosystem</h2>
             </div>
             <div class="gallery-grid">
                 <div class="gallery-item large reveal">
-                    <img src="assets/images/hero.png" alt="Gallery Image 1">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000" alt="Data Analytics">
                     <div class="gallery-overlay">
-                        <span>Modern Villa</span>
+                        <span>Dynamic Content Handling</span>
                     </div>
                 </div>
                 <div class="gallery-item reveal">
-                    <img src="assets/images/bedroom.png" alt="Gallery Image 2">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000" alt="Coding">
                     <div class="gallery-overlay">
-                        <span>Royal Bedroom</span>
+                        <span>API Integration</span>
                     </div>
                 </div>
                 <div class="gallery-item reveal">
-                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1000" alt="Gallery Image 3">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000" alt="Dashboard">
                     <div class="gallery-overlay">
-                        <span>Minimalist Loft</span>
+                        <span>Admin Dashboard</span>
                     </div>
                 </div>
                 <div class="gallery-item reveal">
-                    <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=80&w=1000" alt="Gallery Image 4">
+                    <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=1000" alt="Mobile">
                     <div class="gallery-overlay">
-                        <span>Cozy Nook</span>
+                        <span>Mobile Responsiveness</span>
                     </div>
                 </div>
                 <div class="gallery-item large-h reveal">
-                    <img src="https://images.unsplash.com/photo-1616137422495-1e902b7ec777?auto=format&fit=crop&q=80&w=1000" alt="Gallery Image 5">
+                    <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?auto=format&fit=crop&q=80&w=1000" alt="UI Design">
                     <div class="gallery-overlay">
-                        <span>Classic Elegance</span>
+                        <span>User Interaction Flow</span>
                     </div>
                 </div>
             </div>
@@ -235,52 +288,52 @@
     <section id="pricing" class="pricing section">
         <div class="container">
             <div class="section-header center">
-                <span class="subtitle">Exclusive Packages</span>
-                <h2>Invest in Your Comfort</h2>
+                <span class="subtitle">Platform Tiers</span>
+                <h2>Scalable Access Plans</h2>
             </div>
             <div class="pricing-grid">
                 <div class="pricing-card reveal">
                     <div class="pricing-header">
-                        <h3>Silver Tier</h3>
-                        <div class="price">$1,499 <span>/ room</span></div>
+                        <h3>Developer</h3>
+                        <div class="price">Free <span>/ basic</span></div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Initial Consultation</li>
-                        <li><i class="fas fa-check"></i> Color Palette Design</li>
-                        <li><i class="fas fa-check"></i> Basic Lighting Plan</li>
-                        <li><i class="fas fa-check"></i> Furniture Selection</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Custom 3D Modeline</li>
+                        <li><i class="fas fa-check"></i> Standard API Access</li>
+                        <li><i class="fas fa-check"></i> Responsive Web Layout</li>
+                        <li><i class="fas fa-check"></i> Community Support</li>
+                        <li><i class="fas fa-check"></i> Basic Interaction Flow</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Advanced Analytics</li>
                     </ul>
                     <a href="#contact" class="btn btn-full">Get Started</a>
                 </div>
                 <div class="pricing-card featured reveal">
                     <div class="popular-badge">Most Popular</div>
                     <div class="pricing-header">
-                        <h3>Gold Tier</h3>
-                        <div class="price">$2,999 <span>/ room</span></div>
+                        <h3>Professional</h3>
+                        <div class="price">$49 <span>/ month</span></div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Comprehensive Design</li>
-                        <li><i class="fas fa-check"></i> Custom 3D Visualization</li>
-                        <li><i class="fas fa-check"></i> Premium Textile Sourcing</li>
-                        <li><i class="fas fa-check"></i> Smart Lighting Integration</li>
-                        <li><i class="fas fa-check"></i> 1 Year Post-Design Support</li>
+                        <li><i class="fas fa-check"></i> Full API Integration</li>
+                        <li><i class="fas fa-check"></i> Admin Dashboard Access</li>
+                        <li><i class="fas fa-check"></i> Dynamic Content Handling</li>
+                        <li><i class="fas fa-check"></i> 24/7 Priority Support</li>
+                        <li><i class="fas fa-check"></i> Custom Domain Support</li>
                     </ul>
-                    <a href="#contact" class="btn btn-primary btn-full">Enquire Now</a>
+                    <a href="#contact" class="btn btn-primary btn-full">Upgrade Now</a>
                 </div>
                 <div class="pricing-card reveal">
                     <div class="pricing-header">
-                        <h3>Platinum Tier</h3>
-                        <div class="price">$5,499 <span>/ room</span></div>
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom <span>/ year</span></div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Full Turnkey Service</li>
-                        <li><i class="fas fa-check"></i> Bespoke Custom Furniture</li>
-                        <li><i class="fas fa-check"></i> Art & Antique Sourcing</li>
-                        <li><i class="fas fa-check"></i> International Material Import</li>
+                        <li><i class="fas fa-check"></i> Dedicated Infrastructure</li>
+                        <li><i class="fas fa-check"></i> Full Source Code Access</li>
+                        <li><i class="fas fa-check"></i> AI Integration Module</li>
+                        <li><i class="fas fa-check"></i> White-label Solution</li>
                         <li><i class="fas fa-check"></i> Lifetime VIP Support</li>
                     </ul>
-                    <a href="#contact" class="btn btn-full">Contact Elite</a>
+                    <a href="#contact" class="btn btn-full">Contact Sales</a>
                 </div>
             </div>
         </div>
@@ -408,8 +461,8 @@
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="#" class="logo">VALUE <span>001</span></a>
-                <p>Curating spaces of timeless elegance and modern luxury since 2012.</p>
+                <a href="#" class="logo">VALUE <span>PLATFORM</span></a>
+                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
@@ -417,7 +470,8 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#srs-docs">Project SRS</a></li>
                 </ul>
             </div>
             <div class="footer-newsletter">
@@ -430,9 +484,58 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Value 001. All rights reserved. | <a href="#">Privacy Policy</a></p>
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="student-info">
+                    <p style="margin: 0; color: var(--accent-gold); font-weight: 600;">Prepared By: Shivaksh Kaushik</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
+                </div>
+                <div class="project-info" style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
         </div>
     </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Register</div>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" placeholder="admin@value.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Shivaksh Kaushik" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="user@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Chatbot Widget -->
     <div id="chatbot-widget" class="chatbot-widget">
@@ -464,6 +567,7 @@
         </div>
     </div>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -133,5 +133,74 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatWindow.classList.remove('active');
             }
         });
+    // Authentication Modal Logic
+    const authModal = document.getElementById('auth-modal');
+    const loginTrigger = document.getElementById('login-trigger');
+    const closeModal = document.getElementById('close-modal');
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const adminLink = document.getElementById('admin-link');
+
+    if (loginTrigger && authModal && closeModal) {
+        loginTrigger.addEventListener('click', () => {
+            authModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeModal.addEventListener('click', () => {
+            authModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Tab Switching
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (tab.dataset.tab === 'login') {
+                    loginForm.style.display = 'block';
+                    signupForm.style.display = 'none';
+                } else {
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = 'block';
+                }
+            });
+        });
+
+        // Login Simulation
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const btn = loginForm.querySelector('button');
+            
+            btn.textContent = 'Authenticating...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                if (email.toLowerCase().includes('admin')) {
+                    adminLink.style.display = 'block';
+                    loginTrigger.textContent = 'Logged In (Admin)';
+                } else {
+                    loginTrigger.textContent = 'Logged In';
+                }
+                
+                authModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                btn.textContent = 'Login';
+                btn.disabled = false;
+                
+                alert('Authentication successful! ' + (email.includes('admin') ? 'Admin privileges granted.' : ''));
+            }, 1000);
+        });
+
+        // Close on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
     }
 });
