@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js 3D WebGL Library & OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -22,8 +25,11 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
+                <li><a href="#ecosystem">Gallery</a></li>
+                <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Room Designer</a></li>
+                <li><a href="materials.html">Materials</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
                 <li><a href="#pricing">Pricing</a></li>
-                <li><a href="designer.html" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Studio</a></li>
                 <li><a href="#srs-docs">Project SRS</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#" id="admin-link" class="admin-only" style="display: none;"><i class="fas fa-user-shield"></i> Admin</a></li>
@@ -45,9 +51,11 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
+            <li><a href="#ecosystem">Gallery</a></li>
+            <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Room Designer</a></li>
+            <li><a href="materials.html">Materials</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
             <li><a href="#pricing">Pricing</a></li>
-            <li><a href="designer.html" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Studio</a></li>
-            <li><a href="#ecosystem">Ecosystem</a></li>
             <li><a href="#srs-docs">Project SRS</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -280,6 +288,554 @@
                         <span>User Interaction Flow</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Room Designer Studio Section -->
+    <section id="designer-studio">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">Proprietary AI Engine</span>
+                <h2>AI Design Studio</h2>
+            </div>
+
+            <!-- Studio Hero Info Card -->
+            <div class="studio-hero">
+                <h3>Design Your Dream Space with AI</h3>
+                <p>Upload a room image or create a room from scratch and instantly visualize luxury interior designs, wall colors, flooring materials, ceiling styles, furniture layouts, and lighting setups.</p>
+                <div class="studio-hero-btns">
+                    <button class="btn btn-primary" onclick="document.getElementById('studio-file-input').click()"><i class="fas fa-cloud-upload-alt"></i> Upload Room</button>
+                    <a href="#studio-workbench" class="btn btn-outline-white">Start Designing</a>
+                </div>
+            </div>
+
+            <!-- Workspace workbench grid -->
+            <div id="studio-workbench" class="studio-grid reveal">
+                
+                <!-- Left Control Panel Sidebar -->
+                <aside class="studio-sidebar">
+                    <h3><i class="fas fa-magic"></i> Design Parameters</h3>
+                    
+                    <!-- Stepper -->
+                    <div class="studio-stepper">
+                        <div class="studio-step completed" title="Setup Room">1</div>
+                        <div class="studio-step active" title="Style Canvas">2</div>
+                        <div class="studio-step" title="Invoice Breakdown">3</div>
+                    </div>
+
+                    <!-- Accordion Groups -->
+                    <div class="studio-accordion">
+                        
+                        <!-- 1. Room Type Selection -->
+                        <div class="studio-accordion-item active">
+                            <div class="studio-accordion-header">
+                                <span>Room Type Selection</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Select Active Room Model</label>
+                                <div class="grid-select-3">
+                                    <div class="select-card selected" data-group="studio-room" data-value="living">
+                                        <i class="fas fa-couch"></i>
+                                        <span>Living</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="bedroom">
+                                        <i class="fas fa-bed"></i>
+                                        <span>Bedroom</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="dining">
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Dining</span>
+                                    </div>
+                                </div>
+                                <div class="grid-select-3">
+                                    <div class="select-card" data-group="studio-room" data-value="kitchen">
+                                        <i class="fas fa-sink"></i>
+                                        <span>Kitchen</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="bathroom">
+                                        <i class="fas fa-bath"></i>
+                                        <span>Bath</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="office">
+                                        <i class="fas fa-briefcase"></i>
+                                        <span>Office</span>
+                                    </div>
+                                </div>
+                                <div class="grid-select-3">
+                                    <div class="select-card" data-group="studio-room" data-value="study">
+                                        <i class="fas fa-book-reader"></i>
+                                        <span>Study</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="theatre">
+                                        <i class="fas fa-film"></i>
+                                        <span>Theatre</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-room" data-value="villa">
+                                        <i class="fas fa-hotel"></i>
+                                        <span>Villa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Wall Designer -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header">
+                                <span>Wall Designer</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Paint Color Collections</label>
+                                
+                                <span class="collection-title">Luxury Collection</span>
+                                <div class="swatch-grid">
+                                    <button class="swatch-btn selected" data-group="studio-wall" data-value="white_pearl" style="background-color: #f8fafc;" title="White Pearl"></button>
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="ivory_cream" style="background-color: #fff8e7;" title="Ivory Cream"></button>
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="beige_luxury" style="background-color: #e8dcc4;" title="Beige Luxury"></button>
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="champagne_gold" style="background-color: #c5a059;" title="Champagne Gold"></button>
+                                </div>
+
+                                <span class="collection-title">Modern Collection</span>
+                                <div class="swatch-grid">
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="matte_grey" style="background-color: #64748b;" title="Matte Grey"></button>
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="charcoal_black" style="background-color: #1e293b;" title="Charcoal Black"></button>
+                                </div>
+
+                                <span class="collection-title">Nature & Premium</span>
+                                <div class="swatch-grid">
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="emerald_green" style="background-color: #2e4f3f;" title="Emerald Green"></button>
+                                    <button class="swatch-btn" data-group="studio-wall" data-value="royal_blue" style="background-color: #0f172a;" title="Royal Blue"></button>
+                                </div>
+
+                                <div class="custom-picker-container">
+                                    <span class="input-label" style="margin-bottom:0;">Custom Paint:</span>
+                                    <input type="color" id="studio-custom-color" class="custom-color-input" value="#e8dcc4">
+                                </div>
+
+                                <label class="input-label" style="margin-top: 15px;">Wall Materials</label>
+                                <div class="texture-grid">
+                                    <div class="texture-card selected" data-group="studio-wall-mat" data-value="plaster">
+                                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=150" alt="Plaster">
+                                        <span>Plaster</span>
+                                    </div>
+                                    <div class="texture-card" data-group="studio-wall-mat" data-value="marble">
+                                        <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=150" alt="Marble Panels">
+                                        <span>Marble Panel</span>
+                                    </div>
+                                    <div class="texture-card" data-group="studio-wall-mat" data-value="wood">
+                                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=150" alt="Wood">
+                                        <span>Wood Panel</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Ceiling Designer -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header">
+                                <span>Ceiling Designer</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Ceiling Architecture</label>
+                                <div class="grid-select-2">
+                                    <div class="select-card selected" data-group="studio-ceil" data-value="flat">
+                                        <span>Flat Ceiling</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-ceil" data-value="coffered">
+                                        <span>Coffered Grid</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-ceil" data-value="beams">
+                                        <span>Wood Beams</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-ceil" data-value="molding">
+                                        <span>Crown Molding</span>
+                                    </div>
+                                </div>
+
+                                <label class="input-label" style="margin-top: 15px;">Ceiling Color Finish</label>
+                                <div class="swatch-grid">
+                                    <button class="swatch-btn selected" data-group="studio-ceil-color" data-value="ceil_white" style="background-color: #f8fafc;" title="White"></button>
+                                    <button class="swatch-btn" data-group="studio-ceil-color" data-value="ceil_beige" style="background-color: #f5f5f4;" title="Beige"></button>
+                                    <button class="swatch-btn" data-group="studio-ceil-color" data-value="ceil_gold" style="background-color: #c5a059;" title="Gold Accent"></button>
+                                    <button class="swatch-btn" data-group="studio-ceil-color" data-value="ceil_black" style="background-color: #0f172a;" title="Luxury Black"></button>
+                                    <button class="swatch-btn" data-group="studio-ceil-color" data-value="ceil_wood" style="background-color: #8b5a2b;" title="Wood Finish"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Flooring Designer -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header">
+                                <span>Flooring Designer</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Flooring Materials</label>
+                                <div class="texture-grid">
+                                    <div class="texture-card selected" data-group="studio-floor" data-value="wood">
+                                        <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=150" alt="Oak Wood">
+                                        <span>Oak Wood</span>
+                                    </div>
+                                    <div class="texture-card" data-group="studio-floor" data-value="marble">
+                                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" alt="Marble">
+                                        <span>Italian Marble</span>
+                                    </div>
+                                    <div class="texture-card" data-group="studio-floor" data-value="epoxy">
+                                        <img src="https://images.unsplash.com/photo-1544078751-58feb2dcbda2?auto=format&fit=crop&q=80&w=150" alt="Epoxy">
+                                        <span>Epoxy Floor</span>
+                                    </div>
+                                </div>
+
+                                <label class="input-label" style="margin-top: 15px;">Pattern Alignment</label>
+                                <div class="grid-select-2">
+                                    <div class="select-card selected" data-group="studio-floor-pat" data-value="herringbone">
+                                        <span>Herringbone</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-floor-pat" data-value="chevron">
+                                        <span>Chevron</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-floor-pat" data-value="diamond">
+                                        <span>Diamond Grid</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-floor-pat" data-value="villa">
+                                        <span>Luxury Villa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Lighting Designer -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header">
+                                <span>Lighting & Illumination</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Lighting Ambience</label>
+                                <div class="studio-hero-btns" style="margin-bottom: 20px; justify-content: flex-start;">
+                                    <button id="studio-day-mode" class="btn btn-outline active btn-mini"><i class="fas fa-sun"></i> Day Mode</button>
+                                    <button id="studio-night-mode" class="btn btn-outline btn-mini"><i class="fas fa-moon"></i> Night Mode</button>
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-labels">
+                                        <span>Luminous Brightness</span>
+                                        <span id="studio-brightness-val" class="slider-val">80%</span>
+                                    </div>
+                                    <input type="range" id="studio-brightness" class="designer-range" min="10" max="100" value="80">
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-labels">
+                                        <span>Color Temperature</span>
+                                        <span id="studio-temp-val" class="slider-val">3000K</span>
+                                    </div>
+                                    <input type="range" id="studio-temp" class="designer-range" min="2000" max="6000" step="500" value="3000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. Furniture & Decoration Drag Elements -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header" style="color: var(--accent-gold);">
+                                <span>Draggable Element Stamps</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content" style="background-color: var(--light-beige);">
+                                <p style="font-size:0.75rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3;">
+                                    Drag items to the Before/After canvas tab to customly position. Click stamp to resize/rotate.
+                                </p>
+                                <div class="drag-items-grid">
+                                    <!-- Sofa -->
+                                    <div class="studio-drag-item drag-item" draggable="true"
+                                         data-img="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&q=80&w=300"
+                                         data-title="Beige Sofa" data-price="$4,200" data-type="Furniture">
+                                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&q=80&w=150" alt="Sofa">
+                                        <span>Beige Sofa</span>
+                                    </div>
+                                    <!-- Chair -->
+                                    <div class="studio-drag-item drag-item" draggable="true"
+                                         data-img="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=300"
+                                         data-title="Leather Lounge Chair" data-price="$1,450" data-type="Furniture">
+                                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=150" alt="Chair">
+                                        <span>Luxury Chair</span>
+                                    </div>
+                                    <!-- Lamp -->
+                                    <div class="studio-drag-item drag-item" draggable="true"
+                                         data-img="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=300"
+                                         data-title="Gold Arch Lamp" data-price="$850" data-type="Lighting">
+                                        <img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=150" alt="Lamp">
+                                        <span>Pendant Lamp</span>
+                                    </div>
+                                    <!-- Plants -->
+                                    <div class="studio-drag-item drag-item" draggable="true"
+                                         data-img="https://images.unsplash.com/photo-1597055181300-e3633a207518?auto=format&fit=crop&q=80&w=300"
+                                         data-title="Fig Tree Planter" data-price="$250" data-type="Decoration">
+                                        <img src="https://images.unsplash.com/photo-1597055181300-e3633a207518?auto=format&fit=crop&q=80&w=150" alt="Plant">
+                                        <span>Indoor Plant</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Design Style Presets -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header">
+                                <span>Style Presets (One-Click)</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <label class="input-label">Select Premium Preset</label>
+                                <div class="grid-select-2">
+                                    <div class="select-card selected" data-group="studio-style" data-value="modern">
+                                        <span>Modern Luxury</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-style" data-value="minimalist">
+                                        <span>Minimalist</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-style" data-value="scandinavian">
+                                        <span>Nordic Style</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-style" data-value="zen">
+                                        <span>Japanese Zen</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-style" data-value="palace">
+                                        <span>Royal Palace</span>
+                                    </div>
+                                    <div class="select-card" data-group="studio-style" data-value="hotel">
+                                        <span>Premium Hotel</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 8. AI Recommendations Engine -->
+                        <div class="studio-accordion-item">
+                            <div class="studio-accordion-header" style="color: var(--accent-gold);">
+                                <span>AI Design Recommendation</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="studio-accordion-content">
+                                <p style="font-size:0.75rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.3;">
+                                    Analyzes space and budget constraints to compile premium suggestions.
+                                </p>
+                                <button id="studio-rec-btn" class="btn btn-primary btn-full">Generate AI Report</button>
+                                
+                                <div class="report-card" style="margin-top: 15px;">
+                                    <div class="report-header">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <h4 style="font-size:0.95rem; margin:0;">AI Proposal Report</h4>
+                                    </div>
+                                    <div class="report-grid">
+                                        <div class="report-item">
+                                            <span class="label">Best Wall</span>
+                                            <span id="report-wall" class="val">Pearl White</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="label">Best Floor</span>
+                                            <span id="report-floor" class="val">White Marble</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="label">Best Ceiling</span>
+                                            <span id="report-ceil" class="val">Flat LED</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="label">Best Lighting</span>
+                                            <span id="report-light" class="val">Halo Lamp</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="label">Furniture Placement</span>
+                                            <span id="report-furn" class="val">Velvet Sofa</span>
+                                        </div>
+                                        <div class="report-item">
+                                            <span class="label">Estimate Cost</span>
+                                            <span id="report-cost" class="val" style="color: var(--accent-gold);">$18,500 - $24,000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Actions -->
+                    <div class="sidebar-actions">
+                        <button id="studio-save-btn" class="btn btn-primary btn-full"><i class="fas fa-save"></i> Save Configuration</button>
+                        <div class="grid-select-2" style="margin-top: 10px;">
+                            <button class="btn btn-outline" onclick="alert('Exporting project invoice details PDF...')"><i class="far fa-file-pdf"></i> Export PDF</button>
+                            <button class="btn btn-outline" onclick="alert('Exporting HD visual render pack...')"><i class="far fa-images"></i> HD Render</button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Right Visual Render Canvas Panel -->
+                <section class="studio-canvas-panel">
+                    
+                    <!-- Tabs Selection -->
+                    <div class="canvas-tabs">
+                        <button class="canvas-tab active" data-view="view-3d"><i class="fas fa-cube"></i> 360° 3D Studio</button>
+                        <button class="canvas-tab" data-view="view-slider"><i class="fas fa-columns"></i> Before/After Slider</button>
+                        <button class="canvas-tab" data-view="view-variations"><i class="fas fa-th-large"></i> AI Variations</button>
+                    </div>
+
+                    <!-- Canvas Frame Wrapper -->
+                    <div class="canvas-wrapper">
+                        
+                        <!-- Canvas Pane 1: Three.js 3D Container -->
+                        <div id="view-3d" class="studio-view-pane active">
+                            <span class="canvas-mode-badge"><i class="fas fa-circle-notch fa-spin" style="margin-right:5px;"></i> Three.js WebGL</span>
+                            <div id="canvas-3d"></div>
+                        </div>
+
+                        <!-- Canvas Pane 2: Before/After Slider -->
+                        <div id="view-slider" class="studio-view-pane">
+                            <span class="canvas-mode-badge"><i class="fas fa-sliders-h" style="margin-right:5px;"></i> Comparison Sandbox</span>
+                            <div id="studio-slider-container" class="slider-container" style="border:none; border-radius:0; height:100%;">
+                                <!-- Slider Images -->
+                                <div class="slider-img slider-img-after" id="studio-slider-img-after">
+                                    <img id="studio-after-img" src="assets/images/hero.png" alt="Luxury Redesigned Room">
+                                </div>
+                                <div class="slider-img slider-img-before">
+                                    <img src="assets/images/bedroom.png" alt="Original Room Photo">
+                                </div>
+
+                                <!-- Drag & Drop elements interactive targets -->
+                                <div id="studio-canvas-interactive-overlay" class="canvas-interactive-overlay"></div>
+
+                                <!-- Day/Night Mode Filters -->
+                                <div id="night-filter-overlay" class="night-filter-overlay"></div>
+
+                                <!-- Slider Handle -->
+                                <div id="studio-slider-handle" class="slider-handle">
+                                    <div class="slider-handle-button"><i class="fas fa-arrows-alt-h"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Pane 3: Variations Grid -->
+                        <div id="view-variations" class="studio-view-pane">
+                            <span class="canvas-mode-badge"><i class="fas fa-brain" style="margin-right:5px;"></i> AI Variations</span>
+                            <div class="variations-grid">
+                                <div class="variation-item" onclick="document.getElementById('studio-after-img').src=this.querySelector('img').src; alert('Option A loaded in visualizer!')">
+                                    <img src="https://images.unsplash.com/photo-1600585154340-be6199f7a099?auto=format&fit=crop&q=80&w=500" alt="A">
+                                    <span class="variation-label">Option A</span>
+                                </div>
+                                <div class="variation-item" onclick="document.getElementById('studio-after-img').src=this.querySelector('img').src; alert('Option B loaded in visualizer!')">
+                                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=500" alt="B">
+                                    <span class="variation-label">Option B</span>
+                                </div>
+                                <div class="variation-item" onclick="document.getElementById('studio-after-img').src=this.querySelector('img').src; alert('Option C loaded in visualizer!')">
+                                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=500" alt="C">
+                                    <span class="variation-label">Option C</span>
+                                </div>
+                                <div class="variation-item" onclick="document.getElementById('studio-after-img').src=this.querySelector('img').src; alert('Option D loaded in visualizer!')">
+                                    <img src="https://images.unsplash.com/photo-1600210491866-e742330efc00?auto=format&fit=crop&q=80&w=500" alt="D">
+                                    <span class="variation-label">Option D</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden File input -->
+                        <input type="file" id="studio-file-input" class="file-input" accept="image/*" onchange="
+                            if (this.files.length > 0) {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    document.querySelector('.slider-img-before img').src = e.target.result;
+                                    alert('Custom photo uploaded! Switch to Before/After Slider tab to visualize.');
+                                };
+                                reader.readAsDataURL(this.files[0]);
+                            }
+                        ">
+                    </div>
+
+                    <!-- Cost Calculator Invoice bill card -->
+                    <div class="cost-breakdown-card reveal">
+                        <div class="cost-header">
+                            <h4>Bespoke Estimate Ledger</h4>
+                            <span class="badge" style="background: var(--light-beige); color: var(--primary-blue); font-weight:700; padding:6px 12px; border-radius:20px; font-size:0.8rem;">Ultra Luxury Tier</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Wall Material & Paint Cost</span>
+                            <span id="bill-wall" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Flooring Installation Cost</span>
+                            <span id="bill-floor" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Ceiling Architecture Cost</span>
+                            <span id="bill-ceil" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Layered Lighting Fixtures</span>
+                            <span id="bill-light" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Custom Sofa & Furniture</span>
+                            <span id="bill-furn" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Decors & Artworks</span>
+                            <span id="bill-decor" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Craftsmanship Labor Cost</span>
+                            <span id="bill-labor" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Concierge Packing, Shipping & Tax (8%)</span>
+                            <span id="bill-tax" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item">
+                            <span>Luxury Architecture Consultation Fee (15%)</span>
+                            <span id="bill-fee" class="item-cost">$0</span>
+                        </div>
+                        <div class="invoice-item total">
+                            <span>Estimated Total Design Value</span>
+                            <span id="bill-total">$0</span>
+                        </div>
+
+                        <!-- Budget Allocation bar charts -->
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Flooring Allocation</span>
+                                <span id="meter-floor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-floor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Wall Design Allocation</span>
+                                <span id="meter-wall-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-wall-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Fittings & Furniture Allocation</span>
+                                <span id="meter-fit-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-fit-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Labor complexity Allocation</span>
+                                <span id="meter-labor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-labor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </section>
@@ -569,5 +1125,6 @@
 
     <script src="data.js"></script>
     <script src="script.js"></script>
+    <script src="studio.js"></script>
 </body>
 </html>

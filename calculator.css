@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Cost Estimator & Recommendation Engine Styles
+   Inherits design variables from style.css
+   ========================================================================== */
+
+/* Page Setup */
+body {
+    background-color: var(--light-beige);
+}
+
+.calc-container {
+    max-width: 1300px;
+    margin: 90px auto 0;
+    padding: 30px 20px;
+    min-height: calc(100vh - 90px);
+}
+
+/* Layout Split */
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* ==========================================================================
+   LEFT PANEL: DIMENSION SLIDERS & PARAMETERS
+   ========================================================================== */
+.calc-card-panel {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.calc-card-panel h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 12px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calc-card-panel h3 i {
+    color: var(--accent-gold);
+}
+
+/* Sub-headings */
+.calc-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Dropdown styling */
+.calc-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: var(--white);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.calc-select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Quantities Row */
+.qty-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.qty-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.qty-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.qty-input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Checkboxes Grid layout */
+.checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    user-select: none;
+}
+
+.checkbox-label input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--accent-gold);
+}
+
+/* ==========================================================================
+   AI RECOMMENDATIONS ENGINE PANEL
+   ========================================================================== */
+.ai-rec-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.ai-rec-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-rec-card h3 i {
+    color: var(--accent-gold);
+}
+
+.rec-report-box {
+    background: var(--light-beige);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid var(--accent-gold);
+    transition: var(--transition-smooth);
+}
+
+.rec-report-box.hidden {
+    display: none;
+}
+
+.rec-report-box p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-style: italic;
+    color: var(--text-dark);
+}
+
+.rec-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-dark);
+}
+
+.rec-detail-item i {
+    color: var(--accent-gold);
+    width: 18px;
+}
+
+/* ==========================================================================
+   RIGHT PANEL: BREAKDOWN INVOICE BILLING
+   ========================================================================== */
+.invoice-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.invoice-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice-card h3 span.invoice-tag {
+    font-size: 0.75rem;
+    background: var(--light-beige);
+    color: var(--primary-blue);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.invoice-footer-actions {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Responsive Adaptive */
+@media (max-width: 992px) {
+    .calc-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .qty-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

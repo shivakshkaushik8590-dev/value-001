@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exquisite Material Library | VALUE 001 Luxury Interior</title>
+    <meta name="description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request concierge samples instantly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="materials.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled"> <!-- Force dark backdrop navbar layout -->
+        <div class="container nav-content">
+            <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#ecosystem">Gallery</a></li>
+                <li><a href="index.html#designer-studio">AI Room Designer</a></li>
+                <li><a href="#" class="nav-designer-link">Material Library</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="index.html#srs-docs">Project SRS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#contact" class="btn btn-primary">Book Consultation</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="materials-container">
+        <!-- Section Header -->
+        <div class="section-header center" style="margin-top: 30px; margin-bottom: 40px;">
+            <span class="subtitle">Curated Finishes</span>
+            <h2>The Material Library</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 1rem; line-height: 1.6;">
+                Explore our select index of premium marbles, handcrafted tiles, solid woods, metallic epoxy coatings, and luxury wallcoverings sourced globally for high-end residential interiors.
+            </p>
+        </div>
+
+        <!-- Filter and Search controls panel -->
+        <section class="mat-filter-panel reveal">
+            <!-- Search row -->
+            <div class="mat-search-row">
+                <div class="mat-search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="mat-search" class="mat-search-input" placeholder="Search by name, description, or origin (e.g. Carrara, Oak)...">
+                </div>
+                <button id="mat-fav-toggle" class="btn-fav-toggle"><i class="far fa-heart"></i> Show Favorites</button>
+            </div>
+
+            <!-- Categories horizontal scroll -->
+            <div class="mat-tabs-row">
+                <button class="mat-tab active" data-category="all">All Finishes</button>
+                <button class="mat-tab" data-category="marble">Marble Series</button>
+                <button class="mat-tab" data-category="tiles">Tile Series</button>
+                <button class="mat-tab" data-category="wood">Wooden Flooring</button>
+                <button class="mat-tab" data-category="epoxy">Epoxy Series</button>
+                <button class="mat-tab" data-category="wallpapers">Wallpapers</button>
+                <button class="mat-tab" data-category="ceiling">Ceiling Materials</button>
+                <button class="mat-tab" data-category="paint">Paint Colors</button>
+            </div>
+        </section>
+
+        <!-- Materials Grid list -->
+        <section class="materials-grid" id="materials-grid">
+            <!-- Dynamic material cards loaded here by materials.js -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 80px;">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#srs-docs">Project SRS</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Join our elite list for interior inspiration.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="student-info">
+                    <p style="margin: 0; color: var(--accent-gold); font-weight: 600;">Prepared By: Shivaksh Kaushik</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
+                </div>
+                <div class="project-info" style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         QUICK PREVIEW MODAL
+         ========================================================================== -->
+    <div id="preview-modal" class="modal">
+        <div class="mat-modal-content">
+            <span id="close-preview-modal" class="close-modal">&times;</span>
+            <div class="mat-modal-grid">
+                
+                <!-- Left Visual Preview -->
+                <div class="modal-left-visual">
+                    <img id="modal-img" src="" alt="Material HD Preview">
+                    <span id="modal-category" class="canvas-mode-badge">Marble</span>
+                </div>
+
+                <!-- Right Specifications & Requests -->
+                <div class="modal-right-specs">
+                    <h3 id="modal-title">Statuario Gold Marble</h3>
+                    <p id="modal-desc" class="modal-desc-text">Curated natural stone featuring dark and gold lines.</p>
+
+                    <!-- Technical specs list -->
+                    <div class="modal-specs-list">
+                        <h4>Material Specifications</h4>
+                        <div class="spec-row">
+                            <span class="label">Sourcing Origin</span>
+                            <span id="spec-origin" class="val">Carrara, Italy</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Surface Finish</span>
+                            <span id="spec-finish" class="val">Polished</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Available Thickness</span>
+                            <span id="spec-thick" class="val">20mm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Traffic Durability</span>
+                            <span id="spec-durability" class="val">High</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Sustainability Eco Rating</span>
+                            <span id="spec-eco" class="val" style="color: #10b981;">A</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Sourcing Tier Cost</span>
+                            <span id="spec-price" class="val" style="color: var(--accent-gold);">$$$$$</span>
+                        </div>
+                    </div>
+
+                    <!-- Sample request form -->
+                    <div class="modal-request-box">
+                        <h4>Request Material Sample</h4>
+                        <form id="sample-request-form" class="sample-form">
+                            <input type="hidden" id="sample-item-name" value="">
+                            <div class="form-group">
+                                <label for="client-name" style="font-size: 0.8rem;">Full Name</label>
+                                <input type="text" id="client-name" placeholder="John Doe" required style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-addr" style="font-size: 0.8rem;">Shipping Address</label>
+                                <input type="text" id="client-addr" placeholder="123 Design District, NY" required style="padding: 10px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0; font-size: 0.8rem;">Request Concierge Sample</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="materials.js"></script>
+</body>
+</html>

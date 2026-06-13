@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Cost Calculator | VALUE 001 Luxury Interior</title>
+    <meta name="description" content="Calculate custom room flooring, walls, lighting, and labor installation costs instantly. Generate custom AI recommendations based on budget levels.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled"> <!-- Force dark sticky header nav -->
+        <div class="container nav-content">
+            <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#ecosystem">Gallery</a></li>
+                <li><a href="index.html#designer-studio">AI Room Designer</a></li>
+                <li><a href="materials.html">Material Library</a></li>
+                <li><a href="#" class="nav-designer-link">Cost Calculator</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="index.html#srs-docs">Project SRS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#contact" class="btn btn-primary">Book Consultation</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="calc-container">
+        <!-- Section Header -->
+        <div class="section-header center" style="margin-top: 30px; margin-bottom: 40px;">
+            <span class="subtitle">Budget Estimator</span>
+            <h2>Smart Cost Calculator</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 1rem; line-height: 1.6;">
+                Input your custom room dimensions, select high-end flooring, wall, and ceiling finishes, configure lighting counts, and review real-time budget estimates.
+            </p>
+        </div>
+
+        <!-- Calculator Workspace Grid -->
+        <div class="calc-grid">
+            
+            <!-- Left Side: Inputs & AI Recommendations -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                
+                <!-- AI Recommendation Engine Form -->
+                <section class="ai-rec-card reveal">
+                    <h3><i class="fas fa-brain"></i> AI Recommendation Engine</h3>
+                    <div class="grid-select-3">
+                        <div class="qty-group">
+                            <label class="input-label">Room Size</label>
+                            <select id="rec-size" class="calc-select">
+                                <option value="small">Small (< 200 sqft)</option>
+                                <option value="medium" selected>Medium (200-400)</option>
+                                <option value="large">Large (> 400 sqft)</option>
+                            </select>
+                        </div>
+                        <div class="qty-group">
+                            <label class="input-label">Budget Tier</label>
+                            <select id="rec-budget" class="calc-select">
+                                <option value="basic">Basic Cozy</option>
+                                <option value="premium" selected>Premium</option>
+                                <option value="luxury">Luxury Elite</option>
+                                <option value="ultra">Ultra-Luxury</option>
+                            </select>
+                        </div>
+                        <div class="qty-group">
+                            <label class="input-label">Design Style</label>
+                            <select id="rec-style" class="calc-select">
+                                <option value="modern" selected>Modern Luxury</option>
+                                <option value="minimalist">Minimalist</option>
+                                <option value="scandinavian">Nordic Style</option>
+                                <option value="zen">Japanese Zen</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="calc-get-rec-btn" class="btn btn-primary btn-full" style="margin-top: 20px;">Generate AI Recommendation</button>
+
+                    <!-- Hidden AI Proposal Report Card -->
+                    <div id="calc-rec-report" class="rec-report-box hidden">
+                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: var(--primary-blue); margin-bottom: 8px;">AI Recommendation Proposal</h4>
+                        <p id="rec-report-text">Recommended configurations based on selections.</p>
+                        <div class="rec-details-grid">
+                            <div id="rec-report-wall" class="rec-detail-item"></div>
+                            <div id="rec-report-floor" class="rec-detail-item"></div>
+                            <div id="rec-report-ceil" class="rec-detail-item"></div>
+                            <div id="rec-report-light" class="rec-detail-item"></div>
+                        </div>
+                        <button id="calc-apply-rec-btn" class="btn btn-outline btn-full hidden" style="margin-top: 15px; border-color: var(--accent-gold); color: var(--accent-gold);">Apply Settings to Calculator</button>
+                    </div>
+                </section>
+
+                <!-- Parameter Configurations Panel -->
+                <section class="calc-card-panel reveal">
+                    <h3><i class="fas fa-sliders-h"></i> Room Parameters</h3>
+
+                    <!-- Part 1: Dimensions Sliders -->
+                    <div>
+                        <span class="calc-section-title">1. Room Dimensions</span>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Room Length (ft)</span>
+                                <span id="room-length-val" class="slider-val">18 ft</span>
+                            </div>
+                            <input type="range" id="room-length" class="designer-range" min="8" max="40" value="18">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Room Width (ft)</span>
+                                <span id="room-width-val" class="slider-val">14 ft</span>
+                            </div>
+                            <input type="range" id="room-width" class="designer-range" min="8" max="40" value="14">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Wall Height (ft)</span>
+                                <span id="room-height-val" class="slider-val">10 ft</span>
+                            </div>
+                            <input type="range" id="room-height" class="designer-range" min="8" max="15" value="10">
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Material Swaps -->
+                    <div>
+                        <span class="calc-section-title">2. Surface Selections</span>
+                        <div class="grid-select-2">
+                            <div class="qty-group">
+                                <label class="input-label">Flooring Material</label>
+                                <select id="calc-floor" class="calc-select">
+                                    <optgroup label="Hardwoods">
+                                        <option value="oak" selected>European Oak</option>
+                                        <option value="walnut">Smoked Walnut</option>
+                                        <option value="teak">Teak Wood</option>
+                                    </optgroup>
+                                    <optgroup label="Marbles">
+                                        <option value="statuario">Statuario Gold</option>
+                                        <option value="carrara">Carrara White</option>
+                                        <option value="black_galaxy">Black Galaxy</option>
+                                    </optgroup>
+                                    <optgroup label="Epoxy & Resin">
+                                        <option value="metallic_epoxy">Metallic Gold Epoxy</option>
+                                        <option value="ocean_epoxy">Ocean Reef Epoxy</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Wall Paint Color</label>
+                                <select id="calc-wall-color" class="calc-select">
+                                    <optgroup label="Luxury Colors">
+                                        <option value="pearl_white">Pearl White</option>
+                                        <option value="ivory_cream" selected>Ivory Cream</option>
+                                        <option value="champagne_gold">Champagne Gold</option>
+                                    </optgroup>
+                                    <optgroup label="Modern Slate">
+                                        <option value="slate_grey">Slate Grey</option>
+                                        <option value="charcoal_black">Charcoal Black</option>
+                                    </optgroup>
+                                    <optgroup label="Earthy Tones">
+                                        <option value="sage_green">Sage Green</option>
+                                        <option value="earth_brown">Earth Brown</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-select-2" style="margin-top: 15px;">
+                            <div class="qty-group">
+                                <label class="input-label">Wall Accent Material</label>
+                                <select id="calc-wall-mat" class="calc-select">
+                                    <option value="plaster" selected>None (Standard Paint)</option>
+                                    <option value="marble_panel">Marble Wall Panels</option>
+                                    <option value="wood_panel">Wooden Wall Panels</option>
+                                    <option value="stone_cladding">Stone Cladding</option>
+                                    <option value="wallpaper">Luxury Wallpaper</option>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Ceiling Structure</label>
+                                <select id="calc-ceil-type" class="calc-select">
+                                    <option value="flat" selected>Flat Plaster</option>
+                                    <option value="pop">POP false ceiling</option>
+                                    <option value="coffered">Coffered grid wood</option>
+                                    <option value="beams">Exposed wooden beams</option>
+                                    <option value="hotel">Luxury Hotel Ceiling</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-select-2" style="margin-top: 15px;">
+                            <div class="qty-group">
+                                <label class="input-label">Ceiling Paint Color</label>
+                                <select id="calc-ceil-color" class="calc-select">
+                                    <option value="white" selected>Pure White</option>
+                                    <option value="beige">Beige</option>
+                                    <option value="gold">Gold Accent</option>
+                                    <option value="black">Matte Black</option>
+                                    <option value="wood">Wood Finish</option>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Installation Style (Labor)</label>
+                                <select id="calc-style" class="calc-select">
+                                    <option value="modern" selected>Modern Luxury (Medium-High)</option>
+                                    <option value="minimalist">Minimalist (Low)</option>
+                                    <option value="scandinavian">Scandinavian (Medium)</option>
+                                    <option value="zen">Japanese Zen (Medium-High)</option>
+                                    <option value="palace">Royal Palace (Ultra-High)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group" style="margin-top: 20px; padding: 10px 0; border-top: 1px solid #f0f0f0;">
+                            <span class="input-label" style="margin-bottom:0;">Perimeter Cove LED lighting</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="calc-led">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Part 3: Lighting counts -->
+                    <div>
+                        <span class="calc-section-title">3. Lighting Fixtures</span>
+                        <div class="qty-grid">
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Chandeliers</label>
+                                <input type="number" id="count-chandelier" class="qty-input" min="0" max="5" value="1">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Pendant Lights</label>
+                                <input type="number" id="count-pendant" class="qty-input" min="0" max="10" value="0">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Spotlights</label>
+                                <input type="number" id="count-spotlight" class="qty-input" min="0" max="40" value="8">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Wall Sconces</label>
+                                <input type="number" id="count-sconce" class="qty-input" min="0" max="10" value="2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 4: Furniture & Decor checklists -->
+                    <div>
+                        <span class="calc-section-title">4. Furniture & Decor</span>
+                        <div class="checklist-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="sofa" checked>
+                                <span>Suede Lounge Sofa</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="chair" checked>
+                                <span>Luxury Armchairs</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="coffee" checked>
+                                <span>Marble Coffee Table</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="bookshelf">
+                                <span>Solid Oak Shelving</span>
+                            </label>
+                        </div>
+                        <div class="checklist-grid" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="rug" checked>
+                                <span>Plush Floor Rug</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="painting" checked>
+                                <span>Abstract Art Piece</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="plant" checked>
+                                <span>Fiddle Leaf Fig Tree</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="mirror">
+                                <span>Gold Arch Mirror</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Side: Invoice Breakdown Billing -->
+            <div>
+                <section class="invoice-card reveal">
+                    <h3>
+                        <span>Design Ledger</span>
+                        <span class="invoice-tag">Estimate invoice</span>
+                    </h3>
+
+                    <div class="invoice-item">
+                        <span>Wall Painting & Surface Accents</span>
+                        <span id="bill-wall" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Flooring Installation Cost</span>
+                        <span id="bill-floor" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Ceiling Structural Cost</span>
+                        <span id="bill-ceil" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Layered Lighting Fixtures</span>
+                        <span id="bill-light" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Luxury Furniture Collection</span>
+                        <span id="bill-furn" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Artworks & Decors Sourcing</span>
+                        <span id="bill-decor" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Master Craftsmanship Labor</span>
+                        <span id="bill-labor" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Shipping, Packing & Tax (8%)</span>
+                        <span id="bill-tax" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Luxury Architecture Consulting Fee (15%)</span>
+                        <span id="bill-fee" class="item-cost">$0</span>
+                    </div>
+                    <div class="invoice-item total">
+                        <span>Estimated Project Grand Total</span>
+                        <span id="bill-total">$0</span>
+                    </div>
+
+                    <!-- Budget allocation graphs -->
+                    <div class="budget-meter-group" style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
+                        <span class="calc-section-title">Budget Allocation Split</span>
+                        
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Flooring installation</span>
+                                <span id="meter-floor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-floor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Wall Finish & Paint</span>
+                                <span id="meter-wall-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-wall-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Fittings & Furniture</span>
+                                <span id="meter-fit-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-fit-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Installation Labor</span>
+                                <span id="meter-labor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-labor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer actions buttons -->
+                    <div class="invoice-footer-actions">
+                        <button class="btn btn-primary btn-full" onclick="alert('Sending invoice proposal to designer concierge...')"><i class="fas fa-paper-plane"></i> Lock In Sourcing Estimate</button>
+                        <button class="btn btn-outline btn-full" onclick="window.print()"><i class="fas fa-print"></i> Print Billing PDF</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 80px;">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#srs-docs">Project SRS</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Join our elite list for interior inspiration.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="student-info">
+                    <p style="margin: 0; color: var(--accent-gold); font-weight: 600;">Prepared By: Shivaksh Kaushik</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
+                </div>
+                <div class="project-info" style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="calculator.js"></script>
+</body>
+</html>

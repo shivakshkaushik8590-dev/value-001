@@ -1220,3 +1220,500 @@ h2 {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   AI Room Designer Studio Section Styles
+   ========================================================================== */
+#designer-studio {
+    background-color: var(--primary-blue);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+#designer-studio .section-header h2 {
+    color: var(--white);
+}
+
+/* Studio Hero Intro */
+.studio-hero {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.studio-hero h3 {
+    font-size: 2.2rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.studio-hero p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 800px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+.studio-hero-btns {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Main Studio Layout Split */
+.studio-grid {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Sidebar panel */
+.studio-sidebar {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.studio-sidebar h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.studio-sidebar h3 i {
+    color: var(--accent-gold);
+}
+
+/* Stepper indicators */
+.studio-stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.studio-stepper::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    right: 10px;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.studio-step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    z-index: 2;
+    transition: var(--transition-smooth);
+}
+
+.studio-step.active {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+}
+
+.studio-step.completed {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--white);
+}
+
+/* Accordion wrapper */
+.studio-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.studio-accordion-item {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--light-beige);
+}
+
+.studio-accordion-header {
+    background: var(--white);
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    user-select: none;
+}
+
+.studio-accordion-header:hover {
+    color: var(--accent-gold);
+}
+
+.studio-accordion-header i.chevron {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.studio-accordion-item.active {
+    border-color: var(--accent-gold);
+}
+
+.studio-accordion-item.active .studio-accordion-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.studio-accordion-item.active .studio-accordion-header i.chevron {
+    transform: rotate(180deg);
+}
+
+.studio-accordion-content {
+    padding: 18px;
+    display: none;
+    background: var(--white);
+}
+
+.studio-accordion-item.active .studio-accordion-content {
+    display: block;
+}
+
+/* Color Collections swatches */
+.collection-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin: 10px 0 5px;
+    display: block;
+}
+
+/* Color picker wrapper */
+.custom-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.custom-color-input {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+}
+
+/* Right Canvas Panel */
+.studio-canvas-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Tabs for Canvas visualization modes */
+.canvas-tabs {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.canvas-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    transition: var(--transition-smooth);
+}
+
+.canvas-tab.active {
+    background: var(--accent-gold);
+    color: var(--white);
+}
+
+/* Visual canvases */
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--white);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    background-color: #0c1220;
+}
+
+.studio-view-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.studio-view-pane.active {
+    display: block;
+}
+
+/* Three.js Container */
+#canvas-3d {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    cursor: grab;
+}
+
+#canvas-3d:active {
+    cursor: grabbing;
+}
+
+/* 3D Visual overlay controls */
+.canvas-mode-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid var(--accent-gold);
+    z-index: 20;
+}
+
+/* Day/Night Modes ambient overlay visual */
+.night-filter-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.35);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 12;
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.night-filter-overlay.active {
+    opacity: 1;
+}
+
+/* Dynamic Option Variations 2x2 grid */
+.variations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+    background: #000;
+}
+
+.variation-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.variation-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.variation-item:hover img {
+    transform: scale(1.05);
+}
+
+.variation-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--white);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 4px;
+    border: 1px solid var(--accent-gold);
+}
+
+/* AI Report Details card */
+.report-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.report-header {
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    color: var(--primary-blue);
+}
+
+.report-header i {
+    color: var(--accent-gold);
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.report-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.report-item span.label {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.report-item span.val {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+/* Cost Calculator invoice billing breakdown details */
+.cost-breakdown-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.cost-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.cost-header h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    color: var(--primary-blue);
+}
+
+.invoice-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+}
+
+.invoice-item.total {
+    border-top: 2px solid var(--primary-blue);
+    border-bottom: none;
+    padding-top: 15px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* Budget allocation bars */
+.budget-meter-group {
+    margin-top: 25px;
+}
+
+.budget-meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.budget-meter-container {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.budget-meter-fill {
+    height: 100%;
+    background: var(--accent-gold);
+    width: 0%;
+    transition: width 0.8s ease-in-out;
+}
+
+/* Adaptive mobile layout overrides */
+@media (max-width: 992px) {
+    .studio-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
