@@ -247,3 +247,335 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ==========================================================================
+   DESIGN MODELS GALLERY
+   ========================================================================== */
+
+.design-models-section {
+    margin: 0 0 60px;
+    padding: 50px 0 20px;
+}
+
+/* Section Header Row */
+.dm-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+}
+
+.dm-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 8px;
+}
+
+.dm-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
+
+.dm-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0;
+}
+
+/* Filter Pills */
+.dm-filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.dm-filter-btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1.5px solid #ddd;
+    background: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.dm-filter-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.dm-filter-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #fff;
+}
+
+/* Card Grid */
+.dm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* Individual Card */
+.dm-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border: 1.5px solid transparent;
+    transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.dm-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(15,23,42,0.14);
+    border-color: var(--accent-gold);
+}
+
+.dm-card.dm-card--selected {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), 0 20px 50px rgba(15,23,42,0.14);
+}
+
+/* Card Image */
+.dm-img-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.dm-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+    display: block;
+}
+
+.dm-card:hover .dm-img-wrapper img {
+    transform: scale(1.06);
+}
+
+/* Image Overlay */
+.dm-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.1) 55%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+    gap: 8px;
+}
+
+.dm-price-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(197, 160, 89, 0.92);
+    color: var(--primary-blue);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(4px);
+}
+
+.dm-tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.dm-tag {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    letter-spacing: 0.3px;
+}
+
+/* Active Selected Badge */
+.dm-active-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #10b981;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.dm-active-badge.hidden {
+    display: none;
+}
+
+/* Card Body */
+.dm-card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.dm-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.dm-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0 0 5px;
+}
+
+.dm-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Colour Palette Row */
+.dm-palette {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.dm-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    display: inline-block;
+    transition: transform 0.2s;
+    cursor: help;
+}
+
+.dm-swatch:hover {
+    transform: scale(1.3);
+}
+
+/* Feature List */
+.dm-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.dm-features li {
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+}
+
+.dm-features li i {
+    color: var(--accent-gold);
+    font-size: 0.72rem;
+    flex-shrink: 0;
+}
+
+/* Apply Button */
+.dm-apply-btn {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.28s ease;
+}
+
+.dm-apply-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(197,160,89,0.4);
+}
+
+/* Hidden card during filter */
+.dm-card.dm-hidden {
+    display: none;
+}
+
+/* Fade-in animation for filter */
+@keyframes dmFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dm-card.dm-visible {
+    animation: dmFadeIn 0.3s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .dm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dm-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dm-grid {
+        grid-template-columns: 1fr;
+    }
+    .dm-title {
+        font-size: 1.6rem;
+    }
+    .dm-img-wrapper {
+        height: 200px;
+    }
+}
+

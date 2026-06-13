@@ -404,3 +404,130 @@ document.addEventListener('DOMContentLoaded', () => {
     // Run initial rendering math
     recalculateCosts();
 });
+
+
+// ==========================================================================
+// DESIGN MODELS GALLERY - Filter + Apply Controller
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+
+    const dmCards = document.querySelectorAll('.dm-card');
+    const dmFilterBtns = document.querySelectorAll('.dm-filter-btn');
+    const dmApplyBtns = document.querySelectorAll('.dm-apply-btn');
+
+    // -------------------------------------------------------
+    // FILTER PILLS
+    // -------------------------------------------------------
+    dmFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            dmFilterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+
+            dmCards.forEach(card => {
+                const tags = card.dataset.tags || '';
+                const matches = filter === 'all' || tags.includes(filter);
+
+                card.classList.remove('dm-hidden', 'dm-visible');
+
+                if (matches) {
+                    card.classList.remove('dm-hidden');
+                    // Small stagger for animation
+                    requestAnimationFrame(() => card.classList.add('dm-visible'));
+                } else {
+                    card.classList.add('dm-hidden');
+                }
+            });
+        });
+    });
+
+    // -------------------------------------------------------
+    // "USE THIS STYLE" BUTTON — Populate Calculator
+    // -------------------------------------------------------
+    dmApplyBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Find the parent card
+            const card = btn.closest('.dm-card');
+            if (!card) return;
+
+            // Read data attributes from the card
+            const floor    = card.dataset.floor    || 'oak';
+            const wall     = card.dataset.wall     || 'pearl_white';
+            const wallMat  = card.dataset.wallMat  || 'plaster';
+            const ceilType = card.dataset.ceil      || 'flat';
+            const ceilCol  = card.dataset.ceilColor || 'white';
+            const style    = card.dataset.style    || 'modern';
+
+            // Map ceiling color token from data attribute to calc select value
+            // (calc selects use plain values like "gold", "white", "black", "wood")
+            const ceilColMap = {
+                gold: 'gold',
+                white: 'white',
+                black: 'black',
+                wood: 'wood',
+                beige: 'beige'
+            };
+
+            // Apply to calculator selects
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
+
+            setVal('calc-floor',      floor);
+            setVal('calc-wall-color', wall);
+            setVal('calc-wall-mat',   wallMat);
+            setVal('calc-ceil-type',  ceilType);
+            setVal('calc-ceil-color', ceilColMap[ceilCol] || 'white');
+            setVal('calc-style',      style);
+
+            // Mark this card as selected, deselect others
+            dmCards.forEach(c => {
+                c.classList.remove('dm-card--selected');
+                const badge = c.querySelector('.dm-active-badge');
+                if (badge) badge.classList.add('hidden');
+            });
+
+            card.classList.add('dm-card--selected');
+            const activeBadge = card.querySelector('.dm-active-badge');
+            if (activeBadge) activeBadge.classList.remove('hidden');
+
+            // Trigger recalculation (fires through change event)
+            const calcFloor = document.getElementById('calc-floor');
+            if (calcFloor) calcFloor.dispatchEvent(new Event('change'));
+
+            // Visual feedback on button
+            const origText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Style Applied!';
+            btn.style.background = '#10b981';
+            btn.style.borderColor = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = origText;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+            }, 2000);
+
+            // Smooth scroll down to the calculator
+            const calcSection = document.querySelector('.calc-grid');
+            if (calcSection) {
+                setTimeout(() => {
+                    calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        });
+    });
+
+    // Clicking anywhere on the card (not on button) also triggers apply
+    dmCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Don't double-fire if the actual button was clicked
+            if (e.target.closest('.dm-apply-btn')) return;
+            const applyBtn = card.querySelector('.dm-apply-btn');
+            if (applyBtn) applyBtn.click();
+        });
+    });
+});
+
