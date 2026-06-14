@@ -529,5 +529,74 @@ document.addEventListener('DOMContentLoaded', () => {
             if (applyBtn) applyBtn.click();
         });
     });
+    });
+
+    // ==========================================================================
+    // PRE-LOAD QUIZ SELECTIONS DYNAMICALLY
+    // ==========================================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const presetParam = urlParams.get('preset');
+    if (presetParam === 'quiz') {
+        const storedSelections = localStorage.getItem('valure_quiz_selections');
+        if (storedSelections) {
+            try {
+                const selections = JSON.parse(storedSelections);
+                
+                // Map selections
+                const colorMap = {
+                    white: 'pearl_white',
+                    gold: 'champagne_gold',
+                    blue: 'slate_grey',
+                    green: 'sage_green'
+                };
+                const floorMap = {
+                    marble: 'statuario',
+                    wood: 'oak',
+                    concrete: 'walnut',
+                    epoxy: 'metallic_epoxy'
+                };
+                const ceilMap = {
+                    flat: 'flat',
+                    coffered: 'coffered',
+                    beams: 'beams',
+                    hotel: 'hotel'
+                };
+
+                const mappedColor = colorMap[selections.color] || 'pearl_white';
+                const mappedFloor = floorMap[selections.floor] || 'oak';
+                const mappedCeil = ceilMap[selections.ceil] || 'flat';
+
+                // Prepopulate
+                const calcColor = document.getElementById('calc-wall-color');
+                const calcFloor = document.getElementById('calc-floor');
+                const calcCeil = document.getElementById('calc-ceil-type');
+
+                if (calcColor) calcColor.value = mappedColor;
+                if (calcFloor) calcFloor.value = mappedFloor;
+                if (calcCeil) calcCeil.value = mappedCeil;
+
+                // Trigger change event to update math sub-elements
+                if (calcFloor) calcFloor.dispatchEvent(new Event('change'));
+                
+                // Visual toast feedback
+                const toast = document.createElement('div');
+                toast.style.position = 'fixed';
+                toast.style.top = '100px';
+                toast.style.right = '30px';
+                toast.style.background = 'var(--primary-blue)';
+                toast.style.color = '#fff';
+                toast.style.border = '1px solid var(--accent-gold)';
+                toast.style.padding = '12px 24px';
+                toast.style.borderRadius = '8px';
+                toast.style.zIndex = '99999';
+                toast.style.boxShadow = 'var(--shadow-premium)';
+                toast.innerHTML = `<i class="fas fa-magic" style="color: var(--accent-gold); margin-right: 8px;"></i> Quiz selections applied to ledger!`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 4000);
+            } catch (err) {
+                console.error('Error loading quiz selections:', err);
+            }
+        }
+    }
 });
 

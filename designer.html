@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Design Studio | VALUE 001 Luxury Interior</title>
+    <title>AI Design Studio | Valure Luxury Interior Studio</title>
     <meta name="description" content="Design your luxury interior spaces with our proprietary AI Design Studio. Redraw ceilings, walls, lighting, and drag high-end styling components in real time.">
+    <link rel="canonical" href="https://valure.designdistrict.com/designer.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AI Design Studio | Valure Luxury Interior Studio" />
+    <meta property="og:description" content="Design your luxury interior spaces with our proprietary AI Design Studio. Redraw ceilings, walls, lighting, and drag high-end styling components in real time." />
+    <meta property="og:image" content="assets/images/hero.png" />
+    <meta property="og:url" content="https://valure.designdistrict.com/designer.html" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -14,9 +23,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav id="navbar" class="scrolled"> <!-- Force scrolled layout to match dark theme header -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation"> <!-- Force scrolled layout to match dark theme header -->
         <div class="container nav-content">
-            <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
             <ul class="nav-links">
                 <li><a href="index.html#home">Home</a></li>
                 <li><a href="index.html#about">About</a></li>
@@ -27,7 +36,7 @@
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="index.html#contact" class="btn btn-primary">Book Consultation</a>
+                <a href="index.html#contact" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Book Consultation</a>
             </div>
         </div>
     </nav>
@@ -570,11 +579,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer" style="margin-top: 80px;">
+    <footer class="footer" style="margin-top: 80px;" role="contentinfo">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
-                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
+                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Empowering interior visualizations with proprietary Web3D interfaces and high-fidelity AI render engines.</p>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
@@ -589,9 +598,9 @@
             <div class="footer-newsletter">
                 <h4>Newsletter</h4>
                 <p>Join our elite list for interior inspiration.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email">
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                <form class="newsletter-form" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your email" required aria-label="Email Address">
+                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
@@ -602,11 +611,16 @@
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
                 </div>
                 <div class="project-info" style="text-align: right;">
-                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; font-weight: 600;">Project: Valure Studio Platform</p>
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
                 </div>
             </div>
-            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
+                &copy; 2026 Valure Studio Platform. All rights reserved. | 
+                <a href="index.html#privacy-link" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="index.html#terms-link" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
+                <a href="index.html#cookie-policy-link" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
+            </p>
         </div>
     </footer>
 

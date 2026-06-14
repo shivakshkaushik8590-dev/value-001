@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exquisite Material Library | VALUE 001 Luxury Interior</title>
-    <meta name="description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request concierge samples instantly.">
+    <title>Exquisite Material Library | Valure Luxury Interior Studio</title>
+    <meta name="description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request physical concierge samples instantly.">
+    <link rel="canonical" href="https://valure.designdistrict.com/materials.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Exquisite Material Library | Valure Luxury Interior Studio" />
+    <meta property="og:description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request physical concierge samples instantly." />
+    <meta property="og:image" content="assets/images/mat-carrara.png" />
+    <meta property="og:url" content="https://valure.designdistrict.com/materials.html" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,9 +23,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav id="navbar" class="scrolled"> <!-- Force dark backdrop navbar layout -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation"> <!-- Force dark backdrop navbar layout -->
         <div class="container nav-content">
-            <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
+            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
             <ul class="nav-links">
                 <li><a href="index.html#home">Home</a></li>
                 <li><a href="index.html#about">About</a></li>
@@ -24,15 +33,35 @@
                 <li><a href="index.html#ecosystem">Gallery</a></li>
                 <li><a href="index.html#designer-studio">AI Room Designer</a></li>
                 <li><a href="#" class="nav-designer-link">Material Library</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
                 <li><a href="index.html#pricing">Pricing</a></li>
                 <li><a href="index.html#srs-docs">Project SRS</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="index.html#contact" class="btn btn-primary">Book Consultation</a>
+                <a href="index.html#contact" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Book Consultation</a>
+                <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+        <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
+        <ul class="mobile-links">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#ecosystem">Gallery</a></li>
+            <li><a href="index.html#designer-studio" style="color: var(--accent-gold); font-weight: 700;">AI Room Designer</a></li>
+            <li><a href="#">Material Library</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
 
     <!-- Main Content -->
     <main class="materials-container">
@@ -76,11 +105,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer" style="margin-top: 80px;">
+    <footer class="footer" style="margin-top: 80px;" role="contentinfo">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="index.html" class="logo">VALUE <span>PLATFORM</span></a>
-                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
+                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Empowering interior visualizations with proprietary Web3D interfaces and high-fidelity AI render engines.</p>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
@@ -95,9 +124,9 @@
             <div class="footer-newsletter">
                 <h4>Newsletter</h4>
                 <p>Join our elite list for interior inspiration.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email">
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                <form class="newsletter-form" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your email" required aria-label="Email Address">
+                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
@@ -108,11 +137,16 @@
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
                 </div>
                 <div class="project-info" style="text-align: right;">
-                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; font-weight: 600;">Project: Valure Studio Platform</p>
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
                 </div>
             </div>
-            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
+                &copy; 2026 Valure Studio Platform. All rights reserved. | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
+            </p>
         </div>
     </footer>
 
@@ -187,5 +221,16 @@
 
     <!-- Scripts -->
     <script src="materials.js"></script>
+    <script>
+        // Mobile menu for sub-page
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        if (menuToggle && mobileMenu && closeMenu) {
+            menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
+            document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
+        }
+    </script>
 </body>
 </html>

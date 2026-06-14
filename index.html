@@ -3,13 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Value Website Platform | Modern Digital Experience</title>
-    <meta name="description" content="Value Website Platform is a modern, responsive digital environment designed for efficiency, accessibility, and professional service presentation.">
+    <title>Valure Luxury Interior Studio | AI & 3D Interactive Design</title>
+    <meta name="description" content="Valure Luxury Interior Studio combines proprietary AI generation and Three.js 3D visualization. Calculate luxury material costs and custom layouts instantly.">
     <meta name="author" content="Shivaksh Kaushik">
-    <meta name="keywords" content="Value Website, Digital Platform, Responsive Design, Shivaksh Kaushik, Geeta University">
+    <meta name="keywords" content="Luxury Interior Design, AI Room Designer, 3D Room Visualizer, Valure Studio, Home Design Calculator, Custom Interior Sourcing">
+    <link rel="canonical" href="https://valure.designdistrict.com/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Valure Luxury Interior Studio | AI & 3D Interactive Design" />
+    <meta property="og:description" content="Valure Luxury Interior Studio combines proprietary AI generation and Three.js 3D visualization. Calculate luxury material costs and custom layouts instantly." />
+    <meta property="og:image" content="assets/images/hero.png" />
+    <meta property="og:url" content="https://valure.designdistrict.com/" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Valure Luxury Interior Studio | AI & 3D Interactive Design" />
+    <meta property="twitter:description" content="Valure Luxury Interior Studio combines proprietary AI generation and Three.js 3D visualization. Calculate luxury material costs and custom layouts instantly." />
+    <meta property="twitter:image" content="assets/images/hero.png" />
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InteriorDesign",
+      "name": "Valure Luxury Interior Studio",
+      "image": "https://valure.designdistrict.com/assets/images/hero.png",
+      "url": "https://valure.designdistrict.com/",
+      "telephone": "+1-555-001-VALUE",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Luxury Avenue, Design District",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10001",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.instagram.com/",
+        "https://www.pinterest.com/"
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Three.js 3D WebGL Library & OrbitControls -->
@@ -18,26 +57,26 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav id="navbar">
+    <nav id="navbar" role="navigation" aria-label="Main Navigation">
         <div class="container nav-content">
-            <a href="#" class="logo">VALUE <span>PLATFORM</span></a>
+            <a href="#" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#ecosystem">Gallery</a></li>
-                <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Room Designer</a></li>
+                <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic" aria-hidden="true"></i> AI Room Designer</a></li>
                 <li><a href="materials.html">Materials</a></li>
                 <li><a href="calculator.html">Calculator</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#srs-docs">Project SRS</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="#" id="admin-link" class="admin-only" style="display: none;"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
             <div class="nav-actions">
-                <button id="login-trigger" class="btn btn-outline">Login</button>
-                <a href="#contact" class="btn btn-primary">Get Started</a>
-                <button class="menu-toggle" aria-label="Toggle Menu">
+                <button id="login-trigger" class="btn btn-outline" style="padding: 10px 24px; font-size: 0.75rem;">Login</button>
+                <a id="admin-link" href="#" style="display:none;" class="btn btn-outline admin-only" aria-label="Admin Panel"><i class="fas fa-user-shield" style="margin-right:6px;"></i>Admin</a>
+                <a href="#contact" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Get Started</a>
+                <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -45,14 +84,14 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="close-menu"><i class="fas fa-times"></i></div>
+    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+        <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
         <ul class="mobile-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#ecosystem">Gallery</a></li>
-            <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic"></i> AI Room Designer</a></li>
+            <li><a href="#designer-studio" style="color: var(--accent-gold); font-weight: 700;"><i class="fas fa-magic" aria-hidden="true"></i> AI Room Designer</a></li>
             <li><a href="materials.html">Materials</a></li>
             <li><a href="calculator.html">Calculator</a></li>
             <li><a href="#pricing">Pricing</a></li>
@@ -64,15 +103,18 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-background">
-            <img src="assets/images/hero.png" alt="Luxury Living Room">
+            <img src="assets/images/hero.png" alt="Luxury Living Room Interior Visualizer">
             <div class="overlay"></div>
         </div>
         <div class="container hero-content">
-            <h1 class="reveal">Welcome to the <span class="highlight">Value Website Platform</span></h1>
-            <p class="reveal">A modern web-based ecosystem designed for interactive, responsive, and high-performance digital experiences. Professionalism redefined for the modern age.</p>
+            <div class="badge" style="background: rgba(212, 175, 55, 0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold); display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px;">
+                <i class="fas fa-cube"></i> Interactive AI & Web3D Design
+            </div>
+            <h1 class="reveal">Visualize Luxury. <span class="highlight">Estimate Instantly.</span></h1>
+            <p class="reveal">Valure Studio integrates photorealistic AI room generation and real-time Three.js 3D visualization. Design spaces, swap premium materials, and calculate custom architectural estimates instantly.</p>
             <div class="hero-btns reveal">
-                <a href="#services" class="btn btn-primary">Explore Features</a>
-                <a href="#srs-docs" class="btn btn-outline-white">View Project SRS</a>
+                <a href="#designer-studio" class="btn btn-primary"><i class="fas fa-magic" style="margin-right: 8px;"></i> Explore AI Studio</a>
+                <a href="calculator.html" class="btn btn-outline-white"><i class="fas fa-calculator" style="margin-right: 8px;"></i> Smart Estimator</a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -90,7 +132,7 @@
                 <div class="intro-text reveal-left">
                     <span class="subtitle">Elegance Redefined</span>
                     <h2>Sophistication in Every Detail</h2>
-                    <p>At Value 001, we believe that your home is a reflection of your soul. Our mission is to curate spaces that resonate with luxury, calmness, and unparalleled style.</p>
+                    <p>At Valure Luxury Studio, we believe that your home is a reflection of your soul. Our mission is to curate bespoke residential interior spaces that resonate with luxury, calmness, and unparalleled style.</p>
                     <div class="features">
                         <div class="feature-item">
                             <i class="fas fa-gem"></i>
@@ -125,25 +167,115 @@
     <section id="about" class="about section bg-light">
         <div class="container">
             <div class="section-header center">
-                <span class="subtitle">Academic Submission</span>
-                <h2>Project Overview & Objectives</h2>
+                <span class="subtitle">Innovative Luxury</span>
+                <h2>Redefining Interior Planning</h2>
             </div>
+            
+            <!-- Academic Reference Banner -->
+            <div class="academic-badge-banner" style="background: rgba(212, 175, 55, 0.08); border-left: 4px solid var(--accent-gold); padding: 18px 25px; border-radius: 6px; margin: -30px auto 50px; text-align: left; max-width: 800px; box-shadow: var(--shadow-soft);">
+                <p style="margin: 0; font-size: 0.88rem; color: var(--primary-blue); font-weight: 600; line-height: 1.5;">
+                    <i class="fas fa-university" style="color: var(--accent-gold); margin-right: 10px;"></i> 
+                    Academic Submission: Prepared by Shivaksh Kaushik (BBA | Geeta University) for the May 2026 term. Features include a fully interactive Three.js container, estimation billing engine, and live design sandboxes.
+                </p>
+            </div>
+
             <div class="about-grid">
                 <div class="about-card reveal">
-                    <div class="icon-box"><i class="fas fa-bullseye"></i></div>
-                    <h3>Our Purpose</h3>
-                    <p>Reducing manual communication and providing a centralized digital platform where users access information quickly and efficiently.</p>
+                    <div class="icon-box"><i class="fas fa-cube"></i></div>
+                    <h3>WebGL 3D Studio</h3>
+                    <p>Interact with our custom real-time WebGL engine. Rotate perspectives, adjust spot illumination, and inspect texture finishes live.</p>
                 </div>
                 <div class="about-card reveal" style="transition-delay: 0.1s;">
-                    <div class="icon-box"><i class="fas fa-mobile-alt"></i></div>
-                    <h3>Modern Accessibility</h3>
-                    <p>Improving user accessibility and navigation through mobile-friendly design and high-performance frontend technologies.</p>
+                    <div class="icon-box"><i class="fas fa-magic"></i></div>
+                    <h3>AI Generation</h3>
+                    <p>Upload a photograph of any raw space. Our proprietary algorithm maps depth boundaries to render luxury finishes in seconds.</p>
                 </div>
                 <div class="about-card reveal" style="transition-delay: 0.2s;">
-                    <div class="icon-box"><i class="fas fa-rocket"></i></div>
-                    <h3>Performance Focus</h3>
-                    <p>Built with Next.js, React, and Tailwind CSS patterns to ensure fast loading speeds and a smooth user interface interaction flow.</p>
+                    <div class="icon-box"><i class="fas fa-calculator"></i></div>
+                    <h3>Bespoke Invoicing</h3>
+                    <p>Generate detailed material bills and labor breakdowns automatically based on dynamic size variables and style multipliers.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Style Archetype Quiz Callout -->
+    <section class="style-quiz-cta bg-dark text-white" style="padding: 80px 0; text-align: center; background: radial-gradient(circle at center, var(--secondary-blue) 0%, var(--primary-blue) 100%); position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: rgba(212, 175, 55, 0.03); border-radius: 50%; filter: blur(80px);"></div>
+        <div style="position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px; background: rgba(212, 175, 55, 0.03); border-radius: 50%; filter: blur(80px);"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <span class="subtitle" style="color: var(--accent-gold);">Style Discovery</span>
+            <h2 class="text-white" style="font-size: 2.2rem; margin-bottom: 15px;">Discover Your Architectural Archetype</h2>
+            <p style="color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 35px; font-size: 1.05rem; line-height: 1.6;">
+                Take our signature 3-Second Style Match Quiz. Our AI matching model calculates your design preferences and automatically pre-populates your workspace configurations.
+            </p>
+            <button id="open-quiz-btn" class="btn btn-primary" style="background: var(--accent-gold); border-color: var(--accent-gold); color: var(--primary-blue);">
+                <i class="fas fa-magic" style="margin-right: 8px;"></i> Match Your Style
+            </button>
+        </div>
+    </section>
+
+    <!-- How Valure Works -->
+    <section class="how-it-works section">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">Design Pipeline</span>
+                <h2>Three Steps to Perfection</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 0.95rem;">Our cloud-based engine streamlines luxury sourcing from upload to ledger settlement.</p>
+            </div>
+            <div class="about-grid" style="grid-template-columns: repeat(3, 1fr); text-align: center;">
+                <div class="step-card" style="padding: 20px;">
+                    <div style="width: 70px; height: 70px; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); font-size: 1.6rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; border: 1px dashed var(--accent-gold);">01</div>
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: var(--primary-blue); margin-bottom: 12px;">Scan & Upload</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">Drop a camera snap of your living room, suite, or bath. The system renders depth parameters automatically.</p>
+                </div>
+                <div class="step-card" style="padding: 20px;">
+                    <div style="width: 70px; height: 70px; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); font-size: 1.6rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; border: 1px dashed var(--accent-gold);">02</div>
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: var(--primary-blue); margin-bottom: 12px;">Design & Adjust</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">Configure ceiling architecture, paint swatches, teak flooring, and drag high-end furniture stamps live.</p>
+                </div>
+                <div class="step-card" style="padding: 20px;">
+                    <div style="width: 70px; height: 70px; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); font-size: 1.6rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; border: 1px dashed var(--accent-gold);">03</div>
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: var(--primary-blue); margin-bottom: 12px;">Source & Consult</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">Review the itemized ledger estimations, download your design pack PDF, and request curated material samples.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust / Statistics Showcase -->
+    <section class="stats-showcase bg-light" style="padding: 80px 0; border-top: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03);">
+        <div class="container">
+            <div class="about-grid" style="grid-template-columns: repeat(4, 1fr); text-align: center;">
+                <div class="stat-item">
+                    <span style="font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; color: var(--primary-blue); display: block; line-height: 1;">1,200+</span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); font-weight: 700; margin-top: 8px; display: block;">Spaces Sourced</span>
+                </div>
+                <div class="stat-item">
+                    <span style="font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; color: var(--primary-blue); display: block; line-height: 1;">$14M+</span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); font-weight: 700; margin-top: 8px; display: block;">Budgets Managed</span>
+                </div>
+                <div class="stat-item">
+                    <span style="font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; color: var(--primary-blue); display: block; line-height: 1;">99.4%</span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); font-weight: 700; margin-top: 8px; display: block;">Sourcing Accuracy</span>
+                </div>
+                <div class="stat-item">
+                    <span style="font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; color: var(--primary-blue); display: block; line-height: 1;">24-Hr</span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); font-weight: 700; margin-top: 8px; display: block;">AI Rendering</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certified Partners Showcase -->
+    <section class="partners-showcase" style="padding: 60px 0; border-bottom: 1px solid rgba(0,0,0,0.03);">
+        <div class="container" style="text-align: center;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 25px;">Integrations & Certified Sourcing Partners</span>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 50px; flex-wrap: wrap; opacity: 0.65;">
+                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--primary-blue); letter-spacing: 1px;"><i class="fas fa-gem" style="margin-right:8px; color: var(--accent-gold);"></i> MARMI ITALY</div>
+                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--primary-blue); letter-spacing: 1px;"><i class="fas fa-tree" style="margin-right:8px; color: var(--accent-gold);"></i> WOODLAND DE</div>
+                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--primary-blue); letter-spacing: 1px;"><i class="fas fa-bolt" style="margin-right:8px; color: var(--accent-gold);"></i> LUMENS USA</div>
+                <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--primary-blue); letter-spacing: 1px;"><i class="fas fa-palette" style="margin-right:8px; color: var(--accent-gold);"></i> PAINTS LAB</div>
             </div>
         </div>
     </section>
@@ -905,9 +1037,9 @@
             <div class="testimonials-slider">
                 <div class="testimonial-card">
                     <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
-                    <p>"Value 001 transformed our penthouse into a sanctuary of elegance. Their attention to detail is simply unmatched in the industry."</p>
+                    <p>"Valure Studio transformed our penthouse into a sanctuary of elegance. Their attention to detail is simply unmatched in the industry."</p>
                     <div class="client-info">
-                        <img src="https://i.pravatar.cc/100?u=1" alt="Client 1">
+                        <img src="https://i.pravatar.cc/100?u=1" alt="Client 1 — Alexandra Montgomery, Business Executive">
                         <div>
                             <h4>Alexandra Montgomery</h4>
                             <span>Business Executive</span>
@@ -933,6 +1065,68 @@
                         <div>
                             <h4>Eleanor Rothschild</h4>
                             <span>Interior Enthusiast</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section Accordion -->
+    <section id="faq" class="faq section bg-light" style="border-top: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03);">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">Got Questions?</span>
+                <h2>Frequently Answered Queries</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 0.95rem;">Everything you need to know about our visualizer sandbox, estimate invoicing, and premium physical swatches.</p>
+            </div>
+            
+            <div class="faq-grid">
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does the AI Room Designer visualizer work?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Upload a JPEG/PNG picture of your space in the AI Studio dashboard. Our depth-mapping boundary engine identifies walls, windows, ceilings, and existing parameters. You can overlay styles, drop resizable elements, and trigger luxury finishes renders in under 24 hours.
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Are the cost estimations and materials billing ledger accurate?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes. All price rates for Carrara marble, German oak, acoustic panels, and lighting fixtures are synchronized in real time with global luxury vendor indexes. Complex labor multipliers and taxes are pre-calculated to avoid hidden charges.
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I request real-world material swatches for my project?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely. Sourcing high-end materials can be challenging online. Under our Material Library page, click "Quick Preview" on any stone or wood item and submit your address to get premium swatch packets delivered directly to your doorstep.
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can we integrate Valure's estimators into our company developer systems?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes. Under our Developer tier and Enterprise options, we provide standard API access keys and full Web3D engine packages, allowing developers to embed interactive room design ledger frameworks into internal platforms.
                         </div>
                     </div>
                 </div>
@@ -1014,11 +1208,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="#" class="logo">VALUE <span>PLATFORM</span></a>
-                <p>Empowering digital presence with modern web technologies and professional platform solutions.</p>
+                <a href="#" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Empowering interior visualizations with proprietary Web3D interfaces and high-fidelity AI render engines.</p>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
@@ -1033,9 +1227,9 @@
             <div class="footer-newsletter">
                 <h4>Newsletter</h4>
                 <p>Join our elite list for interior inspiration.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email">
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                <form class="newsletter-form" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your email" required aria-label="Email Address">
+                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
@@ -1046,11 +1240,16 @@
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
                 </div>
                 <div class="project-info" style="text-align: right;">
-                    <p style="margin: 0; font-weight: 600;">Project: Value Website Platform</p>
+                    <p style="margin: 0; font-weight: 600;">Project: Valure Studio Platform</p>
                     <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
                 </div>
             </div>
-            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem;">&copy; 2026 Value Website Platform. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
+                &copy; 2026 Valure Studio Platform. All rights reserved. | 
+                <a href="#" id="privacy-link" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="#" id="terms-link" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
+                <a href="#" id="cookie-policy-link" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
+            </p>
         </div>
     </footer>
 
@@ -1105,11 +1304,11 @@
                 <div class="chat-header-info">
                     <div class="chat-avatar">V</div>
                     <div>
-                        <h4>Value 001 Concierge</h4>
-                        <p><span class="online-status"></span> Online</p>
+                        <h4>Valure Studio Concierge</h4>
+                        <p><span class="online-status"></span> Online — AI Assist</p>
                     </div>
                 </div>
-                <button id="close-chat" class="close-chat"><i class="fas fa-times"></i></button>
+                <button id="close-chat" class="close-chat" aria-label="Close Chat"><i class="fas fa-times"></i></button>
             </div>
             <div class="chat-body">
                 <iframe
@@ -1118,8 +1317,170 @@
                     height="100%"
                     frameborder="0"
                     allow="microphone"
+                    title="Valure Studio AI Concierge Chatbot"
+                    aria-label="Valure Studio AI Concierge Chat"
                 ></iframe>
             </div>
+        </div>
+    </div>
+
+    <!-- Style Archetype Quiz Modal -->
+    <div id="quiz-modal" class="modal">
+        <div class="quiz-modal-content">
+            <span id="close-quiz-modal" class="close-modal">&times;</span>
+            <div class="quiz-progress-bar">
+                <div id="quiz-progress" class="quiz-progress-fill"></div>
+            </div>
+
+            <!-- Quiz Step 1: Core Color Palette -->
+            <div class="quiz-step active" data-step="1">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: var(--primary-blue); margin-bottom: 8px;">What color palette grounds you?</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Select the primary tone you visualize for your living canvas.</p>
+                <div class="quiz-options-grid">
+                    <div class="quiz-option" data-key="color" data-value="white">
+                        <i class="fas fa-circle" style="color: #f8fafc; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));"></i>
+                        <span>Pearl White</span>
+                    </div>
+                    <div class="quiz-option" data-key="color" data-value="gold">
+                        <i class="fas fa-circle" style="color: #c5a059;"></i>
+                        <span>Luxury Gold</span>
+                    </div>
+                    <div class="quiz-option" data-key="color" data-value="blue">
+                        <i class="fas fa-circle" style="color: #0f172a;"></i>
+                        <span>Deep Navy</span>
+                    </div>
+                    <div class="quiz-option" data-key="color" data-value="green">
+                        <i class="fas fa-circle" style="color: #7a9e85;"></i>
+                        <span>Sage Green</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Step 2: Primary Flooring Material -->
+            <div class="quiz-step" data-step="2">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: var(--primary-blue); margin-bottom: 8px;">Select your underfoot texture</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">The foundation material that grounds your interior layout.</p>
+                <div class="quiz-options-grid">
+                    <div class="quiz-option" data-key="floor" data-value="marble">
+                        <i class="fas fa-gem"></i>
+                        <span>Italian Marble</span>
+                    </div>
+                    <div class="quiz-option" data-key="floor" data-value="wood">
+                        <i class="fas fa-tree"></i>
+                        <span>Bavarian Oak</span>
+                    </div>
+                    <div class="quiz-option" data-key="floor" data-value="concrete">
+                        <i class="fas fa-cubes"></i>
+                        <span>Polished Concrete</span>
+                    </div>
+                    <div class="quiz-option" data-key="floor" data-value="epoxy">
+                        <i class="fas fa-tint"></i>
+                        <span>Gold Epoxy</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Step 3: Ceiling / Architecture Finish -->
+            <div class="quiz-step" data-step="3">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: var(--primary-blue); margin-bottom: 8px;">Choose your architectural overhead finish</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">How you prefer to structure overhead light and height perspectives.</p>
+                <div class="quiz-options-grid">
+                    <div class="quiz-option" data-key="ceil" data-value="flat">
+                        <i class="fas fa-square"></i>
+                        <span>Flat Plaster</span>
+                    </div>
+                    <div class="quiz-option" data-key="ceil" data-value="coffered">
+                        <i class="fas fa-th"></i>
+                        <span>Coffered Wood Grid</span>
+                    </div>
+                    <div class="quiz-option" data-key="ceil" data-value="beams">
+                        <i class="fas fa-bars"></i>
+                        <span>Exposed Timber Beams</span>
+                    </div>
+                    <div class="quiz-option" data-key="ceil" data-value="hotel">
+                        <i class="fas fa-hotel"></i>
+                        <span>Luxury Hotel False Ceil</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-footer">
+                <button id="quiz-back-btn" class="btn btn-outline" style="visibility: hidden; padding: 10px 24px; font-size: 0.75rem;">Back</button>
+                <span id="quiz-step-indicator" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Step 1 of 3</span>
+                <button id="quiz-next-btn" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px; padding: 40px; max-height: 80vh; overflow-y: auto;">
+            <span id="close-privacy-modal" class="close-modal">&times;</span>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: var(--primary-blue); margin-bottom: 20px; border-bottom: 2px solid var(--light-beige); padding-bottom: 10px;">Privacy Policy</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-dark);">
+                Your privacy is extremely important to us. At Valure Studio, we only collect data that helps pre-populate your design parameters (such as quiz selections and room dimensions).
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">1. Information Collection</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                We do not upload or store user-uploaded room snapshots to remote servers. All image rendering is processed locally or simulated dynamically on the client side.
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">2. Sourcing & Estimates</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                Estimated invoicing rates represent industry averages and do not represent legally binding contracts until validated by our certified concierge teams.
+            </p>
+            <button class="btn btn-primary close-modal-btn" style="float: right; padding: 10px 24px; font-size: 0.75rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px; padding: 40px; max-height: 80vh; overflow-y: auto;">
+            <span id="close-terms-modal" class="close-modal">&times;</span>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: var(--primary-blue); margin-bottom: 20px; border-bottom: 2px solid var(--light-beige); padding-bottom: 10px;">Terms of Service</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-dark);">
+                By accessing or using the Valure Studio platform, you agree to be bound by these Terms of Service.
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">1. Use of AI Visualizers</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                The visual renders, before/after comparisons, and 3D mockups generated represent design references. Final construction plans must be verified by licensed structural engineers.
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">2. Sourcing Quotations</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                Concierge quotes depend on fluctuating supplier listings and location variables. Real-time prices are estimates and subject to modification.
+            </p>
+            <button class="btn btn-primary close-modal-btn" style="float: right; padding: 10px 24px; font-size: 0.75rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Cookie Policy Modal -->
+    <div id="cookie-policy-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px; padding: 40px; max-height: 80vh; overflow-y: auto;">
+            <span id="close-cookie-policy-modal" class="close-modal">&times;</span>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: var(--primary-blue); margin-bottom: 20px; border-bottom: 2px solid var(--light-beige); padding-bottom: 10px;">Cookie Policy</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-dark);">
+                We use cookies to enhance your experience, store favorite materials, and remember your style match presets.
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">1. Functional Cookies</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                LocalStorage is used to maintain favorites listings in the Material Library, so you do not lose data across visits.
+            </p>
+            <h4 style="font-size: 1.05rem; margin-bottom: 8px;">2. Opt-Out</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                You can opt-out or decline cookies at any time via the consent banner or by clearing your browser cache.
+            </p>
+            <button class="btn btn-primary close-modal-btn" style="float: right; padding: 10px 24px; font-size: 0.75rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner" role="status" aria-live="polite">
+        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; color: var(--accent-gold); margin: 0;">Cookie Sourcing Consent</h4>
+        <p>
+            We use essential cookies and local storage tokens to store your material favorites and remember visualizer settings. Review our <a href="#" id="cookie-policy-banner-link">Cookie Policy</a>.
+        </p>
+        <div class="cookie-btns">
+            <button id="decline-cookies" class="btn btn-outline" style="border-color: var(--white); color: var(--white); padding: 8px 18px;">Decline</button>
+            <button id="accept-cookies" class="btn btn-primary" style="background: var(--accent-gold); border-color: var(--accent-gold); color: var(--primary-blue); padding: 8px 18px;">Accept All</button>
         </div>
     </div>
 
