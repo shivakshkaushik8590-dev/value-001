@@ -20,19 +20,21 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="designer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Load Three.js and OrbitControls CDNs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <!-- Navigation -->
-    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation"> <!-- Force scrolled layout to match dark theme header -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation">
         <div class="container nav-content">
             <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
             <ul class="nav-links">
                 <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-                <li><a href="#" id="dashboard-nav-link" class="nav-designer-link">Designer Dashboard</a></li>
-                <li><a href="#" id="workspace-nav-link">AI Studio Workspace</a></li>
+                <li><a href="materials.html">Material Library</a></li>
+                <li><a href="designer.html" class="nav-designer-link">3D Design Studio</a></li>
+                <li><a href="calculator.html">Project Estimator</a></li>
+                <li><a href="index.html#why-us">Why Us</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
@@ -183,9 +185,9 @@
                                         <i class="fas fa-bed"></i>
                                         <span>Bedroom</span>
                                     </div>
-                                    <div class="select-card" data-group="room-type" data-value="dining">
-                                        <i class="fas fa-utensils"></i>
-                                        <span>Dining</span>
+                                    <div class="select-card" data-group="room-type" data-value="kitchen">
+                                        <i class="fas fa-sink"></i>
+                                        <span>Kitchen</span>
                                     </div>
                                 </div>
                                 <div class="grid-select-2">
@@ -193,9 +195,9 @@
                                         <i class="fas fa-briefcase"></i>
                                         <span>Office</span>
                                     </div>
-                                    <div class="select-card" data-group="room-type" data-value="kitchen">
-                                        <i class="fas fa-sink"></i>
-                                        <span>Kitchen</span>
+                                    <div class="select-card" data-group="room-type" data-value="bathroom">
+                                        <i class="fas fa-bath"></i>
+                                        <span>Bathroom</span>
                                     </div>
                                 </div>
 
@@ -292,18 +294,23 @@
                             </div>
                             <div class="accordion-content">
                                 <label class="input-label">Select Floor Material</label>
-                                <div class="texture-grid">
-                                    <div class="texture-card selected" data-group="floor" data-value="hardwood">
-                                        <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=150" alt="Oak Hardwood">
-                                        <span>Oak Hardwood</span>
+                                <div class="grid-select-3" style="grid-column: 1 / -1; gap: 8px;">
+                                    <div class="select-card selected" data-group="floor" data-value="wood">
+                                        <span>Oak Wood</span>
                                     </div>
-                                    <div class="texture-card" data-group="floor" data-value="marble">
-                                        <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=150" alt="Calacatta Marble">
+                                    <div class="select-card" data-group="floor" data-value="marble">
                                         <span>Marble Slab</span>
                                     </div>
-                                    <div class="texture-card" data-group="floor" data-value="concrete">
-                                        <img src="https://images.unsplash.com/photo-1544078751-58feb2dcbda2?auto=format&fit=crop&q=80&w=150" alt="Polished Concrete">
+                                    <div class="select-card" data-group="floor" data-value="concrete">
                                         <span>Concrete</span>
+                                    </div>
+                                </div>
+                                <div class="grid-select-2" style="grid-column: 1 / -1; gap: 8px;">
+                                    <div class="select-card" data-group="floor" data-value="tiles">
+                                        <span>Floor Tiles</span>
+                                    </div>
+                                    <div class="select-card" data-group="floor" data-value="epoxy">
+                                        <span>Epoxy Gloss</span>
                                     </div>
                                 </div>
                             </div>
@@ -387,21 +394,28 @@
                                 <div class="toggle-group">
                                     <span class="input-label" style="margin-bottom:0;">Include Foliage & Plants</span>
                                     <label class="toggle-switch">
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" id="decor-plants" checked>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
                                 <div class="toggle-group">
                                     <span class="input-label" style="margin-bottom:0;">Abstract Framed Art</span>
                                     <label class="toggle-switch">
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" id="decor-art" checked>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
                                 <div class="toggle-group">
                                     <span class="input-label" style="margin-bottom:0;">Plush Floor Rugs</span>
                                     <label class="toggle-switch">
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" id="decor-rugs" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-group">
+                                    <span class="input-label" style="margin-bottom:0;">Modern Doors & Windows</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="decor-doors" checked>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -458,28 +472,18 @@
 
                     <!-- Sidebar actions -->
                     <div class="sidebar-actions">
-                        <button id="generate-btn" class="btn btn-primary btn-full">Generate Luxury Design <i class="fas fa-magic" style="margin-left: 8px;"></i></button>
-                        <button id="reset-btn" class="btn btn-outline btn-full">Reset Space</button>
+                        <button id="generate-btn" class="btn btn-primary btn-full">Recalculate Estimate <i class="fas fa-calculator" style="margin-left: 8px;"></i></button>
+                        <button id="reset-btn" class="btn btn-outline btn-full">Reset Studio</button>
                     </div>
                 </aside>
 
                 <!-- Right Visual Rendering Panel -->
                 <section class="canvas-panel">
                     
-                    <!-- Rendering Canvas Area -->
-                    <div id="slider-container" class="slider-container">
+                    <!-- WebGL 3D Canvas Area -->
+                    <div id="threejs-canvas-container" class="threejs-canvas-container" style="position:relative;width:100%;aspect-ratio:16/10;background:var(--primary-blue);border-radius:12px;overflow:hidden;border:2px solid var(--white);box-shadow:var(--shadow-premium);">
+                        <canvas id="threejs-canvas" style="width:100%;height:100%;display:block;outline:none;"></canvas>
                         
-                        <!-- Upload Overlay State -->
-                        <div id="upload-overlay" class="upload-canvas-overlay">
-                            <div id="upload-box" class="upload-box">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <h4>Upload Room Photography</h4>
-                                <p>Drag and drop your files here or click to browse. Max size 8MB.</p>
-                                <button class="btn btn-outline-white">Browse Files</button>
-                                <input type="file" id="file-input" class="file-input" accept="image/*">
-                            </div>
-                        </div>
-
                         <!-- AI Processing Stages Overlay -->
                         <div id="render-loading-overlay" class="render-loading-overlay">
                             <div class="luxury-spinner">
@@ -487,90 +491,87 @@
                                 <div class="spinner-ring-inner"></div>
                                 <div class="luxury-spinner-logo">V</div>
                             </div>
-                            <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 25px; letter-spacing: 1px;">Generating Luxury Interior</h4>
-                            
+                            <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 25px; letter-spacing: 1px;">Loading 3D Visualizer</h4>
                             <div class="loading-timeline">
-                                <div class="loading-phase active">
-                                    <i class="status-icon fas fa-circle-notch fa-spin"></i>
-                                    <span>Analyzing Room Geometry</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Depth-Mapping & Structural Lock</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Slicing Material Boundaries</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Generating Photorealistic Textures</span>
-                                </div>
+                                <div class="loading-phase active"><i class="status-icon fas fa-circle-notch fa-spin"></i> <span>Initializing WebGL Scene</span></div>
+                                <div class="loading-phase"><i class="status-icon far fa-circle"></i> <span>Loading Materials & Shaders</span></div>
+                                <div class="loading-phase"><i class="status-icon far fa-circle"></i> <span>Constructing Architectural Meshes</span></div>
                             </div>
                         </div>
 
-                        <!-- Before / After Images -->
-                        <div class="slider-img slider-img-after" id="slider-img-after">
-                            <img id="after-img" src="" alt="AI Redesigned Interior View">
-                        </div>
-                        <div class="slider-img slider-img-before">
-                            <img id="before-img" src="" alt="Original User Room View">
-                        </div>
-
-                        <!-- Interactive Drag overlay stamp target -->
-                        <div id="canvas-interactive-overlay" class="canvas-interactive-overlay"></div>
-
-                        <!-- Sliding Handle Divider -->
-                        <div id="slider-handle" class="slider-handle">
-                            <div class="slider-handle-button"><i class="fas fa-arrows-alt-h"></i></div>
+                        <!-- 3D Scene Controls Overlay -->
+                        <div class="canvas-3d-controls" style="position:absolute;bottom:20px;left:20px;display:flex;gap:8px;z-index:99;">
+                            <button id="btn-camera-reset" class="btn btn-outline-white btn-mini" title="Reset Camera View"><i class="fas fa-sync-alt"></i> Reset Camera</button>
+                            <button id="btn-compare-toggle" class="btn btn-outline-white btn-mini" title="Toggle Comparison State"><i class="fas fa-columns"></i> Before/After</button>
                         </div>
                     </div>
 
                     <!-- Canvas Metadata Toolbar -->
                     <div class="canvas-toolbar">
                         <div class="active-design-info">
-                            <h4>Interactive Sandbox View</h4>
-                            <p>Drag the center divider handle to examine the before/after structural modifications.</p>
+                            <h4>3D Design Studio Canvas</h4>
+                            <p>Left-drag to Rotate room. Mouse wheel to Zoom. Right-drag to Pan camera.</p>
                         </div>
                         <div class="canvas-actions">
-                            <button class="btn btn-outline" onclick="alert('Exporting project packages...')"><i class="fas fa-download"></i> Export Pack</button>
-                            <a href="#contact-ledger" class="btn btn-primary"><i class="fas fa-handshake"></i> Lock In Sourcing</a>
+                            <button class="btn btn-primary" id="btn-instant-quote"><i class="fas fa-paper-plane"></i> Request Instant Quote</button>
                         </div>
                     </div>
 
-                    <!-- AI Suggestions suggestions-box -->
-                    <div class="suggestions-box">
-                        <h3><i class="fas fa-lightbulb"></i> Designer Recommendations</h3>
-                        <ul class="suggestions-list">
-                            <li><i class="fas fa-magic"></i> <span>Ready to render. Select a room type and style from the left controls, click Generate, or drop styling stamp elements to begin.</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Sourcing Ledger -->
+                    <!-- Smart Renovation Cost Estimator in INR -->
                     <div id="contact-ledger" class="sourcing-ledger">
                         <div class="sourcing-header">
-                            <h3>Bespoke Sourcing Ledger</h3>
-                            <button class="btn btn-outline btn-mini" onclick="alert('Inquiry sent to design concierge team!')"><i class="fas fa-paper-plane"></i> Request Batch Quote</button>
+                            <h3>Smart Renovation Cost Estimator</h3>
+                            <div style="display:flex;gap:10px;">
+                                <button id="btn-save-design" class="btn btn-outline btn-mini" title="Save Design"><i class="fas fa-save"></i> Save</button>
+                                <button id="btn-share-design" class="btn btn-outline btn-mini" title="Share"><i class="fas fa-share-alt"></i> Share</button>
+                                <button id="btn-download-preview" class="btn btn-outline btn-mini" title="Download PNG"><i class="fas fa-download"></i> Screenshot</button>
+                            </div>
                         </div>
+                        
+                        <div class="estimator-summary-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px,1fr));gap:15px;margin-bottom:20px;">
+                            <div class="estimator-summary-card" style="background:var(--light-beige);padding:15px;border-radius:8px;border:1px solid rgba(0,0,0,0.03);">
+                                <span style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Material Cost</span>
+                                <h3 id="est-material-cost" style="font-size:1.35rem;color:var(--primary-blue);margin-top:5px;font-family:'Outfit',sans-serif;font-weight:700;">₹0</h3>
+                            </div>
+                            <div class="estimator-summary-card" style="background:var(--light-beige);padding:15px;border-radius:8px;border:1px solid rgba(0,0,0,0.03);">
+                                <span style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Labor Cost</span>
+                                <h3 id="est-labor-cost" style="font-size:1.35rem;color:var(--primary-blue);margin-top:5px;font-family:'Outfit',sans-serif;font-weight:700;">₹0</h3>
+                            </div>
+                            <div class="estimator-summary-card" style="background:var(--light-beige);padding:15px;border-radius:8px;border:1px solid rgba(0,0,0,0.03);">
+                                <span style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Installation Cost</span>
+                                <h3 id="est-installation-cost" style="font-size:1.35rem;color:var(--primary-blue);margin-top:5px;font-family:'Outfit',sans-serif;font-weight:700;">₹0</h3>
+                            </div>
+                            <div class="estimator-summary-card" style="background:var(--primary-blue);padding:15px;border-radius:8px;border:1px solid var(--accent-gold);">
+                                <span style="font-size:0.7rem;color:rgba(255,255,255,0.7);text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Total Project (INR)</span>
+                                <h3 id="est-grand-total" style="font-size:1.35rem;color:var(--accent-gold);margin-top:5px;font-family:'Outfit',sans-serif;font-weight:700;">₹0</h3>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--light-beige);padding:12px 20px;border-radius:8px;margin-bottom:20px;border-left:4px solid var(--accent-gold);font-size:0.85rem;">
+                            <span style="font-weight:700;color:var(--primary-blue);"><i class="fas fa-hourglass-half" style="margin-right:8px;color:var(--accent-gold);"></i> Estimated Completion Time:</span>
+                            <span id="est-completion-time" style="font-weight:700;color:var(--primary-blue);">12 - 15 Days</span>
+                        </div>
+
                         <div class="ledger-wrapper">
                             <table class="ledger-table">
                                 <thead>
                                     <tr>
-                                        <th>Identified Element</th>
-                                        <th>Category</th>
-                                        <th>Estimated Cost</th>
-                                        <th>Concierge Sourcing</th>
+                                        <th>Renovation Item</th>
+                                        <th>Specification / Style</th>
+                                        <th>Quantity Required</th>
+                                        <th>Estimated Cost (₹)</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="estimator-ledger-rows">
                                     <!-- Dynamic rows loaded here -->
-                                    <tr>
-                                        <td colspan="4" style="text-align: center; color: var(--text-muted); font-style: italic; padding: 20px;">
-                                            No materials sourced yet. Render a design or drop decor stamps onto the canvas to populate.
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="conversion-actions-row" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;justify-content:center;">
+                            <button id="btn-book-consultation" class="btn btn-primary" style="padding:10px 18px;font-size:0.8rem;"><i class="fas fa-calendar-check" style="margin-right:8px;"></i> Book Consultation</button>
+                            <button id="btn-request-site-visit" class="btn btn-outline" style="padding:10px 18px;font-size:0.8rem;"><i class="fas fa-map-marked-alt" style="margin-right:8px;"></i> Request Site Visit</button>
+                            <a id="btn-whatsapp-share" href="#" target="_blank" class="btn btn-outline" style="padding:10px 18px;font-size:0.8rem;border-color:#25D366;color:#25D366;text-decoration:none;display:inline-flex;align-items:center;gap:6px;"><i class="fab fa-whatsapp"></i> WhatsApp Sourcing</a>
                         </div>
                     </div>
                 </section>

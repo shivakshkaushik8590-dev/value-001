@@ -28,14 +28,10 @@
             <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
             <ul class="nav-links">
                 <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#ecosystem">Gallery</a></li>
-                <li><a href="index.html#designer-studio">AI Room Designer</a></li>
-                <li><a href="#" class="nav-designer-link">Material Library</a></li>
+                <li><a href="materials.html" class="nav-designer-link">Material Library</a></li>
+                <li><a href="designer.html">3D Design Studio</a></li>
                 <li><a href="calculator.html">Project Estimator</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-                <li><a href="index.html#srs-docs">Project SRS</a></li>
+                <li><a href="index.html#why-us">Why Us</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
@@ -52,13 +48,10 @@
         <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
         <ul class="mobile-links">
             <li><a href="index.html#home">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#ecosystem">Gallery</a></li>
-            <li><a href="index.html#designer-studio" style="color: var(--accent-gold); font-weight: 700;">AI Room Designer</a></li>
-            <li><a href="#">Material Library</a></li>
+            <li><a href="materials.html" style="color: var(--accent-gold); font-weight: 700;">Material Library</a></li>
+            <li><a href="designer.html">3D Design Studio</a></li>
             <li><a href="calculator.html">Project Estimator</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
     </div>
@@ -88,13 +81,16 @@
             <!-- Categories horizontal scroll -->
             <div class="mat-tabs-row">
                 <button class="mat-tab active" data-category="all">All Finishes</button>
-                <button class="mat-tab" data-category="marble">Marble Series</button>
-                <button class="mat-tab" data-category="tiles">Tile Series</button>
+                <button class="mat-tab" data-category="marble">Marble Collection</button>
+                <button class="mat-tab" data-category="granite">Granite</button>
+                <button class="mat-tab" data-category="tiles">Floor Tiles</button>
                 <button class="mat-tab" data-category="wood">Wooden Flooring</button>
-                <button class="mat-tab" data-category="epoxy">Epoxy Series</button>
-                <button class="mat-tab" data-category="wallpapers">Wallpapers</button>
-                <button class="mat-tab" data-category="ceiling">Ceiling Materials</button>
-                <button class="mat-tab" data-category="paint">Paint Colors</button>
+                <button class="mat-tab" data-category="panels">Wall Panels</button>
+                <button class="mat-tab" data-category="paint">Paint Collections</button>
+                <button class="mat-tab" data-category="kitchen">Kitchen Materials</button>
+                <button class="mat-tab" data-category="bathroom">Bathroom Materials</button>
+                <button class="mat-tab" data-category="ceiling">Ceiling Designs</button>
+                <button class="mat-tab" data-category="doors">Doors & Windows</button>
             </div>
         </section>
 
@@ -185,22 +181,46 @@
                             <span id="spec-thick" class="val">20mm</span>
                         </div>
                         <div class="spec-row">
-                            <span class="label">Traffic Durability</span>
+                            <span class="label">Durability Standard</span>
                             <span id="spec-durability" class="val">High</span>
                         </div>
                         <div class="spec-row">
-                            <span class="label">Sustainability Eco Rating</span>
+                            <span class="label">Maintenance Level</span>
+                            <span id="spec-maintenance" class="val">Medium</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Eco Sustainability</span>
                             <span id="spec-eco" class="val" style="color: #10b981;">A</span>
                         </div>
                         <div class="spec-row">
-                            <span class="label">Sourcing Tier Cost</span>
-                            <span id="spec-price" class="val" style="color: var(--accent-gold);">$$$$$</span>
+                            <span class="label">Recommended Use</span>
+                            <span id="spec-application" class="val">Indoors</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Sourcing Price (INR)</span>
+                            <span id="spec-price" class="val" style="color: var(--accent-gold);">₹650 / Sq. Ft.</span>
+                        </div>
+                    </div>
+
+                    <!-- Client reviews -->
+                    <div class="modal-reviews-section" style="margin-top: 25px;">
+                        <h4 style="font-family:'Outfit',sans-serif;font-size:1rem;color:var(--primary-blue);border-bottom:2px solid var(--light-beige);padding-bottom:8px;margin-bottom:12px;">Client Feedback</h4>
+                        <div id="modal-reviews-list" class="modal-reviews-list">
+                            <!-- Dynamic reviews rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Related products drawer -->
+                    <div class="modal-related-section" style="margin-top: 25px;">
+                        <h4 style="font-family:'Outfit',sans-serif;font-size:1rem;color:var(--primary-blue);border-bottom:2px solid var(--light-beige);padding-bottom:8px;margin-bottom:12px;">Related Finishes</h4>
+                        <div id="modal-related-grid" class="modal-related-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                            <!-- Dynamic items rendered by JS -->
                         </div>
                     </div>
 
                     <!-- Sample request form -->
-                    <div class="modal-request-box">
-                        <h4>Request Material Sample</h4>
+                    <div class="modal-request-box" style="margin-top: 25px;">
+                        <h4>Request Material Quote & Consultation</h4>
                         <form id="sample-request-form" class="sample-form">
                             <input type="hidden" id="sample-item-name" value="">
                             <div class="form-group">
@@ -208,13 +228,52 @@
                                 <input type="text" id="client-name" placeholder="John Doe" required style="padding: 10px;">
                             </div>
                             <div class="form-group">
-                                <label for="client-addr" style="font-size: 0.8rem;">Shipping Address</label>
-                                <input type="text" id="client-addr" placeholder="123 Design District, NY" required style="padding: 10px;">
+                                <label for="client-addr" style="font-size: 0.8rem;">Site Sourcing Address / Delivery City</label>
+                                <input type="text" id="client-addr" placeholder="e.g. New Delhi, Delhi" required style="padding: 10px;">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0; font-size: 0.8rem;">Request Concierge Sample</button>
+                            <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0; font-size: 0.8rem;">Request Instant Quote</button>
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         FLOATING COMPARE BAR
+         ========================================================================== -->
+    <div id="compare-bar" class="compare-bar">
+        <div class="compare-bar-content" style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;">
+            <div class="compare-info" style="display:flex;align-items:center;color:var(--white);">
+                <i class="fas fa-columns" style="color:var(--accent-gold);margin-right:12px;font-size:1.2rem;"></i>
+                <span style="font-family:'Outfit',sans-serif;font-weight:600;">Compare Materials (<strong id="compare-count" style="color:var(--accent-gold);">0</strong>/3 selected)</span>
+            </div>
+            <div class="compare-actions" style="display:flex;gap:12px;">
+                <button id="compare-clear-btn" class="btn btn-outline-white btn-mini">Clear All</button>
+                <button id="compare-trigger-btn" class="btn btn-primary btn-mini" style="background:var(--accent-gold);color:var(--primary-blue);border-color:var(--accent-gold);">Compare Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         COMPARE MODAL OVERLAY
+         ========================================================================== -->
+    <div id="compare-modal" class="modal">
+        <div class="compare-modal-content" style="background:var(--white);border-radius:12px;width:100%;max-width:1000px;padding:40px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto;border: 1px solid rgba(197,160,89,0.2);">
+            <span id="close-compare-modal" class="close-modal" style="position:absolute;top:20px;right:25px;font-size:2rem;cursor:pointer;color:var(--text-muted);">&times;</span>
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.8rem;color:var(--primary-blue);margin-bottom:25px;border-bottom:2px solid var(--light-beige);padding-bottom:10px;">Compare Premium Finishes</h3>
+            <div class="compare-table-wrapper" style="overflow-x:auto;">
+                <table class="compare-table" style="width:100%;border-collapse:collapse;text-align:left;">
+                    <thead>
+                        <tr id="compare-header-row" style="background:var(--light-beige);">
+                            <th style="padding:15px;border-bottom:2px solid #ddd;font-family:'Outfit',sans-serif;font-weight:700;">Specification</th>
+                            <!-- Dynamic columns -->
+                        </tr>
+                    </thead>
+                    <tbody id="compare-body-rows">
+                        <!-- Dynamic rows -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
