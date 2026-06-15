@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Cost Calculator | Valure Luxury Interior Studio</title>
-    <meta name="description" content="Calculate custom room flooring, walls, lighting, and labor installation costs instantly. Generate custom AI recommendations based on budget levels.">
+    <title>Smart Project Estimator | Valure Studio — Marble & Stone</title>
+    <meta name="description" content="Use the Valure Project Estimator to calculate marble flooring, wall finishes, ceiling, lighting and labor costs instantly. Get AI-powered design recommendations for your premium interior project.">
     <link rel="canonical" href="https://valure.designdistrict.com/calculator.html" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Smart Cost Calculator | Valure Luxury Interior Studio" />
+    <meta property="og:title" content="Smart Project Estimator | Valure Studio — Marble & Stone" />
     <meta property="og:description" content="Calculate custom room flooring, walls, lighting, and labor installation costs instantly. Generate custom AI recommendations based on budget levels." />
-    <meta property="og:image" content="assets/images/hero.png" />
+    <meta property="og:image" content="assets/images/project-estimator-hero.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="assets/images/project-estimator-hero.png" />
     <meta property="og:url" content="https://valure.designdistrict.com/calculator.html" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +35,7 @@
                 <li><a href="index.html#ecosystem">Gallery</a></li>
                 <li><a href="index.html#designer-studio">AI Room Designer</a></li>
                 <li><a href="materials.html">Material Library</a></li>
-                <li><a href="#" class="nav-designer-link">Cost Calculator</a></li>
+                <li><a href="#" class="nav-designer-link">Project Estimator</a></li>
                 <li><a href="index.html#pricing">Pricing</a></li>
                 <li><a href="index.html#srs-docs">Project SRS</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
@@ -57,18 +59,64 @@
             <li><a href="index.html#ecosystem">Gallery</a></li>
             <li><a href="index.html#designer-studio" style="color: var(--accent-gold); font-weight: 700;">AI Room Designer</a></li>
             <li><a href="materials.html">Material Library</a></li>
-            <li><a href="#">Calculator</a></li>
+            <li><a href="#">Project Estimator</a></li>
             <li><a href="index.html#pricing">Pricing</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
     </div>
 
+    <!-- ================================================================
+         CALCULATOR HERO BANNER
+         ================================================================ -->
+    <section class="calc-hero-banner" aria-label="Project Estimator Hero">
+        <div class="calc-hero-bg">
+            <img
+                src="assets/images/project-estimator-hero.png"
+                alt="Valure Project Estimator — Before and after home renovation with marble flooring, premium finishes, and instant cost estimation"
+                loading="eager"
+                fetchpriority="high"
+                width="1024"
+                height="1024"
+            >
+            <div class="calc-hero-overlay"></div>
+        </div>
+        <div class="calc-hero-content container">
+            <span class="calc-hero-label">Smart Project Estimator</span>
+            <h1 class="calc-hero-title">Marble Project <span class="calc-hero-accent">Estimator</span></h1>
+            <p class="calc-hero-desc">Enter your room dimensions, choose premium flooring and finishes, and get an instant, accurate cost estimate — powered by real material pricing.</p>
+            <div class="calc-hero-actions">
+                <a href="#calc-workspace" class="btn btn-primary calc-hero-btn">
+                    <i class="fas fa-calculator" aria-hidden="true"></i> Start Calculating
+                </a>
+                <a href="index.html" class="btn btn-outline-white calc-hero-btn">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home
+                </a>
+            </div>
+            <div class="calc-hero-stats">
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">6+</span>
+                    <span class="calc-hero-stat-label">Design Models</span>
+                </div>
+                <div class="calc-hero-stat-divider"></div>
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">Real‑Time</span>
+                    <span class="calc-hero-stat-label">Cost Estimates</span>
+                </div>
+                <div class="calc-hero-stat-divider"></div>
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">AI</span>
+                    <span class="calc-hero-stat-label">Recommendations</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Main Container -->
-    <main class="calc-container">
+    <main class="calc-container" id="calc-workspace">
         <!-- Section Header -->
         <div class="section-header center" style="margin-top: 30px; margin-bottom: 40px;">
-            <span class="subtitle">Budget Estimator</span>
-            <h2>Smart Cost Calculator</h2>
+            <span class="subtitle">Project Estimator</span>
+            <h2>Smart Project Estimator</h2>
             <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 1rem; line-height: 1.6;">
                 Input your custom room dimensions, select high-end flooring, wall, and ceiling finishes, configure lighting counts, and review real-time budget estimates.
             </p>
@@ -82,7 +130,7 @@
                 <div>
                     <span class="dm-label">Visual Style Selector</span>
                     <h2 class="dm-title">Choose Your Design Model</h2>
-                    <p class="dm-subtitle">Browse our premium interior design themes — click any style to instantly load it into the cost calculator below.</p>
+                    <p class="dm-subtitle">Browse our premium interior design themes — click any style to instantly load it into the project estimator below.</p>
                 </div>
                 <div class="dm-filter-row" id="dm-filters">
                     <button class="dm-filter-btn active" data-filter="all">All Styles</button>
@@ -382,7 +430,7 @@
                             <div id="rec-report-ceil" class="rec-detail-item"></div>
                             <div id="rec-report-light" class="rec-detail-item"></div>
                         </div>
-                        <button id="calc-apply-rec-btn" class="btn btn-outline btn-full hidden" style="margin-top: 15px; border-color: var(--accent-gold); color: var(--accent-gold);">Apply Settings to Calculator</button>
+                        <button id="calc-apply-rec-btn" class="btn btn-outline btn-full hidden" style="margin-top: 15px; border-color: var(--accent-gold); color: var(--accent-gold);">Apply Settings to Estimator</button>
                     </div>
                 </section>
 

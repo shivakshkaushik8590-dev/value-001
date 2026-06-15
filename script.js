@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 quizModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
 
-                alert('Style Match Calculated! Redirecting you to the Cost Calculator with your preset loaded.');
+                alert('Style Match Calculated! Redirecting you to the Project Estimator with your preset loaded.');
                 window.location.href = 'calculator.html?preset=quiz';
             }
         });

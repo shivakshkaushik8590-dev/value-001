@@ -1966,4 +1966,189 @@ h2 {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ================================================================
+   WHATSAPP FLOATING BUTTON — All Pages
+   ================================================================ */
+.whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 8px 25px rgba(37,211,102,0.4);
+    z-index: 9999;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: whatsappPulse 2s infinite;
+}
+.whatsapp-float:hover {
+    transform: scale(1.12);
+    box-shadow: 0 12px 35px rgba(37,211,102,0.5);
+}
+@keyframes whatsappPulse {
+    0%   { box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
+    50%  { box-shadow: 0 8px 35px rgba(37,211,102,0.6); }
+    100% { box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
+}
+
+/* ================================================================
+   TOP CONTACT BAR — Header Strip
+   ================================================================ */
+.top-contact-bar {
+    background: var(--primary-blue);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    z-index: 1001;
+}
+
+/* ================================================================
+   HOMEPAGE — MARBLE CATEGORIES SHOWCASE
+   ================================================================ */
+.marble-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.marble-cat-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    border: 1.5px solid #f0f0f0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+.marble-cat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    border-color: var(--accent-gold);
+}
+.marble-cat-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--light-beige);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 1.4rem;
+    color: var(--accent-gold);
+    transition: all 0.3s;
+}
+.marble-cat-card:hover .marble-cat-icon {
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+}
+.marble-cat-card h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    font-family: 'Outfit', sans-serif;
+}
+.marble-cat-card p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* ================================================================
+   HOMEPAGE — FEATURED PRODUCTS ROW
+   ================================================================ */
+.featured-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* ================================================================
+   HOMEPAGE — WHY CHOOSE US
+   ================================================================ */
+.why-us-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.why-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 36px 24px;
+    text-align: center;
+    border: 1.5px solid #f0f0f0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.why-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.06);
+    border-color: var(--accent-gold);
+}
+.why-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--light-beige);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+}
+.why-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    font-family: 'Outfit', sans-serif;
+}
+.why-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ================================================================
+   HOMEPAGE — TRUST STATS BAR
+   ================================================================ */
+.trust-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+.trust-stat {
+    padding: 15px;
+}
+.trust-stat .stat-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.trust-stat .stat-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .why-us-grid { grid-template-columns: 1fr 1fr; }
+    .trust-stats-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .marble-categories-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+}
+@media (max-width: 480px) {
+    .why-us-grid { grid-template-columns: 1fr; }
+    .trust-stats-grid { grid-template-columns: 1fr 1fr; }
+}
 
