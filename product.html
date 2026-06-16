@@ -114,13 +114,24 @@
                 <div class="enquiry-form-box">
                     <h3><i class="fas fa-paper-plane" style="margin-right:8px;color:var(--accent-gold);"></i> Request Free Quote</h3>
                     <form class="enquiry-form" id="product-enquiry-form">
-                        <div class="form-group"><input type="text" placeholder="Your Name *" required></div>
-                        <div class="form-group"><input type="tel" placeholder="Phone Number *" required></div>
-                        <div class="form-group"><input type="email" placeholder="Email Address"></div>
+                        <div style="display:none;">
+                            <input type="text" id="prod-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
+                        <div class="form-group"><input type="text" id="prod-name" placeholder="Your Name *" required></div>
+                        <div class="form-group"><input type="tel" id="prod-phone" placeholder="Phone Number *" required></div>
+                        <div class="form-group"><input type="email" id="prod-email" placeholder="Email Address *" required></div>
                         <div class="form-group"><input type="text" id="enquiry-product-name" placeholder="Product Interest" readonly></div>
-                        <div class="form-group"><textarea placeholder="Your Message (quantity, size, etc.)" rows="3"></textarea></div>
+                        <div class="form-group"><textarea id="prod-message" placeholder="Your Message * (quantity, size, etc.)" rows="3" required></textarea></div>
                         <button type="submit" class="btn-submit-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
                     </form>
+                    <div class="form-success-toast" id="prod-enquiry-success" style="margin-top: 16px;">
+                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
+                        <span>Thank you! Your quote request has been received and sent successfully. Our team will contact you within 2 hours.</span>
+                    </div>
+                    <div class="form-error-toast" id="prod-enquiry-error" style="margin-top: 16px;">
+                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                        <span id="prod-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -324,31 +335,97 @@
         }
 
         // Enquiry form
-        document.getElementById('product-enquiry-form').addEventListener('submit', (e) => {
+        document.getElementById('product-enquiry-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nameVal = e.target.querySelector('input[placeholder*="Name"]').value;
-            const phoneVal = e.target.querySelector('input[type="tel"]').value;
-            const emailVal = e.target.querySelector('input[type="email"]').value || 'N/A';
-            const messageVal = e.target.querySelector('textarea').value || 'N/A';
             
+            const successToast = document.getElementById('prod-enquiry-success');
+            const errorToast = document.getElementById('prod-enquiry-error');
+            const errorText = document.getElementById('prod-enquiry-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
+
+            const nameVal = document.getElementById('prod-name').value.trim();
+            const phoneVal = document.getElementById('prod-phone').value.trim();
+            const emailVal = document.getElementById('prod-email').value.trim();
+            const productVal = document.getElementById('enquiry-product-name').value || (product ? product.name : 'Unknown Product');
+            const messageVal = document.getElementById('prod-message').value.trim();
+            const honeypotVal = document.getElementById('prod-honeypot').value;
+
+            // Local duplicate protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === nameVal && inq.phone === phoneVal && inq.message === messageVal
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already submitted this enquiry request.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const originalBtnContent = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending...';
+
             const newInquiry = {
                 id: 'inq_' + Date.now(),
                 name: nameVal,
                 phone: phoneVal,
                 email: emailVal,
-                product: product.name,
+                product: productVal,
                 message: messageVal,
                 date: new Date().toLocaleDateString('en-IN'),
                 status: 'New'
             };
-            
-            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-            inquiries.unshift(newInquiry);
-            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
-            
-            alert('Thank you for your enquiry! We will contact you within 2 hours with pricing details for ' + product.name + '.');
-            e.target.reset();
-            document.getElementById('enquiry-product-name').value = product.name;
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        product: productVal,
+                        message: messageVal,
+                        honeypot: honeypotVal
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(newInquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    e.target.reset();
+                    document.getElementById('enquiry-product-name').value = productVal;
+                } else {
+                    throw new Error(data.error || 'Server failed to submit enquiry.');
+                }
+            } catch (err) {
+                console.error("Product contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(newInquiry);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
+                e.target.reset();
+                document.getElementById('enquiry-product-name').value = productVal;
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            }
         });
 
         // Mobile menu

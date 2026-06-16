@@ -133,6 +133,9 @@
                     <p>Fill in your details and we'll get back to you with the best pricing.</p>
                     
                     <form class="full-enquiry-form" id="contact-enquiry-form">
+                        <div style="display:none;">
+                            <input type="text" id="contact-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="contact-name">Full Name *</label>
@@ -144,12 +147,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="contact-email">Email Address</label>
-                            <input type="email" id="contact-email" placeholder="your@email.com">
+                            <label for="contact-email">Email Address *</label>
+                            <input type="email" id="contact-email" placeholder="your@email.com" required>
                         </div>
                         <div class="form-group">
-                            <label for="contact-product">Product Interest</label>
-                            <select id="contact-product">
+                            <label for="contact-product">Product Interest *</label>
+                            <select id="contact-product" required>
                                 <option value="">Select a category...</option>
                                 <option value="Italian Marble">Italian Marble</option>
                                 <option value="Indian Marble">Indian Marble</option>
@@ -162,8 +165,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="contact-message">Message</label>
-                            <textarea id="contact-message" placeholder="Tell us what you're looking for — marble type, quantity, size, etc."></textarea>
+                            <label for="contact-message">Message *</label>
+                            <textarea id="contact-message" placeholder="Tell us what you're looking for — marble type, quantity, size, etc." required></textarea>
                         </div>
                         <button type="submit" class="btn-send-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
                     </form>
@@ -171,6 +174,10 @@
                     <div class="form-success-toast" id="contact-success">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
                         <span>Thank you! We've received your enquiry and will contact you within 2 hours.</span>
+                    </div>
+                    <div class="form-error-toast" id="contact-error">
+                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                        <span id="contact-error-text">An error occurred while sending your request. Please try again.</span>
                     </div>
                 </div>
             </div>
@@ -231,27 +238,97 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Form submission
-        document.getElementById('contact-enquiry-form').addEventListener('submit', (e) => {
+        document.getElementById('contact-enquiry-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const successToast = document.getElementById('contact-success');
+            const errorToast = document.getElementById('contact-error');
+            const errorText = document.getElementById('contact-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
+
+            const nameVal = document.getElementById('contact-name').value.trim();
+            const phoneVal = document.getElementById('contact-phone').value.trim();
+            const emailVal = document.getElementById('contact-email').value.trim();
+            const productVal = document.getElementById('contact-product').value || 'General Sourcing Inquiry';
+            const messageVal = document.getElementById('contact-message').value.trim();
+            const honeypotVal = document.getElementById('contact-honeypot').value;
+
+            // Local duplicate protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === nameVal && inq.phone === phoneVal && inq.message === messageVal
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already submitted this enquiry request.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const originalBtnContent = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending...';
+
             const inquiry = {
                 id: 'inq_' + Date.now(),
-                name: document.getElementById('contact-name').value,
-                phone: document.getElementById('contact-phone').value,
-                email: document.getElementById('contact-email').value || 'N/A',
-                product: document.getElementById('contact-product').value || 'General Sourcing Inquiry',
-                message: document.getElementById('contact-message').value || 'N/A',
+                name: nameVal,
+                phone: phoneVal,
+                email: emailVal,
+                product: productVal,
+                message: messageVal,
                 date: new Date().toLocaleDateString('en-IN'),
                 status: 'New'
             };
             
-            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-            inquiries.unshift(inquiry);
-            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
-            
-            document.getElementById('contact-success').classList.add('show');
-            e.target.reset();
-            setTimeout(() => document.getElementById('contact-success').classList.remove('show'), 5000);
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        product: productVal,
+                        message: messageVal,
+                        honeypot: honeypotVal
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(inquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    e.target.reset();
+                    setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 5000);
+                } else {
+                    throw new Error(data.error || 'Server failed to submit enquiry.');
+                }
+            } catch (err) {
+                console.error("Contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(inquiry);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
+                e.target.reset();
+                setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 5000);
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            }
         });
 
         // Mobile menu

@@ -675,6 +675,9 @@
             <h3 style="font-family: 'Outfit', sans-serif; color: var(--primary-blue); margin-bottom: 10px;">Email Your Design Proposal</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Send this customized room visual and spec ledger directly to your email or share it with our design concierge team.</p>
             <form id="email-design-form" style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display:none;">
+                    <input type="text" id="design-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="form-group">
                     <label class="input-label" style="margin-bottom: 5px;">Client Name *</label>
                     <input type="text" id="email-client-name" placeholder="E.g. Shivaksh Kaushik" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
@@ -689,6 +692,14 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-full" style="margin-top: 10px;">Send Design Proposal</button>
             </form>
+            <div class="form-success-toast" id="design-success" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                <i class="fas fa-check-circle" style="font-size:1rem;"></i>
+                <span>Design proposal sent successfully!</span>
+            </div>
+            <div class="form-error-toast" id="design-error" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                <i class="fas fa-exclamation-circle" style="font-size:1rem;"></i>
+                <span id="design-error-text">Failed to send proposal.</span>
+            </div>
         </div>
     </div>
 

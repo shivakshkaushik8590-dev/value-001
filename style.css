@@ -2518,5 +2518,21 @@ h2 {
 }
 .form-error-toast.show { display: flex; }
 
+/* Success Toast style */
+.form-success-toast {
+  display: none;
+  background: #10B981;
+  color: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.form-success-toast.show { display: flex; }
+
+
 
 

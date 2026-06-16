@@ -346,15 +346,100 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sample Request Form Handler
     const requestForm = document.getElementById('sample-request-form');
     if (requestForm) {
-        requestForm.addEventListener('submit', (e) => {
+        requestForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = requestForm.querySelector('button');
-            const originalText = btn.textContent;
             
+            const successToast = document.getElementById('materials-success');
+            const errorToast = document.getElementById('materials-error');
+            const errorText = document.getElementById('materials-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
+            
+            const clientName = document.getElementById('client-name').value.trim();
+            const clientPhone = document.getElementById('client-phone').value.trim();
+            const clientEmail = document.getElementById('client-email').value.trim();
+            const clientAddr = document.getElementById('client-addr').value.trim();
+            const sampleItemName = document.getElementById('sample-item-name').value || 'Unknown Material';
+            const honeypotVal = document.getElementById('materials-honeypot').value;
+
+            // Local duplicate protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === clientName && inq.phone === clientPhone && inq.product === `Sample: ${sampleItemName}`
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already requested a sample of this material.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btn = requestForm.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
             btn.textContent = 'Requesting Sample...';
             btn.disabled = true;
 
-            setTimeout(() => {
+            const inquiry = {
+                id: 'inq_' + Date.now(),
+                name: clientName,
+                phone: clientPhone,
+                email: clientEmail,
+                product: `Sample: ${sampleItemName}`,
+                message: `Concierge sample request. Delivery address: ${clientAddr}`,
+                date: new Date().toLocaleDateString('en-IN'),
+                status: 'New'
+            };
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: clientName,
+                        phone: clientPhone,
+                        email: clientEmail,
+                        product: `Sample: ${sampleItemName}`,
+                        message: `Concierge sample request. Delivery address: ${clientAddr}`,
+                        honeypot: honeypotVal
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(inquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    btn.textContent = 'Sample Requested Successfully!';
+                    btn.style.backgroundColor = '#10b981';
+                    requestForm.reset();
+
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.backgroundColor = '';
+                        btn.disabled = false;
+                        if (successToast) successToast.classList.remove('show');
+                        closeQuickPreviewModal();
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || 'Server failed to request sample.');
+                }
+            } catch (err) {
+                console.error("Materials contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(inquiry);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
                 btn.textContent = 'Sample Requested Successfully!';
                 btn.style.backgroundColor = '#10b981';
                 requestForm.reset();
@@ -363,11 +448,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.textContent = originalText;
                     btn.style.backgroundColor = '';
                     btn.disabled = false;
+                    if (successToast) successToast.classList.remove('show');
                     closeQuickPreviewModal();
                 }, 2000);
-            }, 1200);
+            }
         });
-    }
+    });
 
 
     // ==========================================================================

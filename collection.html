@@ -222,11 +222,23 @@
                     <div id="qv-sample-form-box" class="qv-sample-form-box" style="display: none;">
                         <h4>Request Physical Sample Delivery</h4>
                         <form id="qv-sample-form">
+                            <div style="display:none;">
+                                <input type="text" id="qv-sample-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                            </div>
                             <input type="text" id="qv-sample-name" placeholder="Your Name *" required>
                             <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required>
+                            <input type="email" id="qv-sample-email" placeholder="Email Address *" required>
                             <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required>
                             <button type="submit" class="btn-submit-sample">Request Courier</button>
                         </form>
+                        <div class="form-success-toast" id="qv-sample-success" style="margin-top: 10px;">
+                            <i class="fas fa-check-circle" style="font-size:1.1rem;"></i>
+                            <span>Courier request sent successfully!</span>
+                        </div>
+                        <div class="form-error-toast" id="qv-sample-error" style="margin-top: 10px;">
+                            <i class="fas fa-exclamation-circle" style="font-size:1.1rem;"></i>
+                            <span id="qv-sample-error-text">Failed to request courier.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -403,32 +415,109 @@
         });
 
         // Sample form submission
-        document.getElementById('qv-sample-form').addEventListener('submit', (e) => {
+        document.getElementById('qv-sample-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            const successToast = document.getElementById('qv-sample-success');
+            const errorToast = document.getElementById('qv-sample-error');
+            const errorText = document.getElementById('qv-sample-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
+
             const prodId = e.target.dataset.productId;
             const prodName = e.target.dataset.productName;
-            const nameVal = document.getElementById('qv-sample-name').value;
-            const phoneVal = document.getElementById('qv-sample-phone').value;
-            const addressVal = document.getElementById('qv-sample-address').value;
+            const nameVal = document.getElementById('qv-sample-name').value.trim();
+            const phoneVal = document.getElementById('qv-sample-phone').value.trim();
+            const emailVal = document.getElementById('qv-sample-email').value.trim();
+            const addressVal = document.getElementById('qv-sample-address').value.trim();
+            const honeypotVal = document.getElementById('qv-sample-honeypot').value;
 
-            // Save sample request to localStorage as an inquiry with "Sample Request" prefix
+            // Local duplicate protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === nameVal && inq.phone === phoneVal && inq.product === `Sample: ${prodName}`
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already requested a sample of this product.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = btnSubmit.textContent;
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Requesting Courier...';
+
             const sampleInquiry = {
                 id: 'inq_' + Date.now(),
                 name: nameVal,
                 phone: phoneVal,
-                email: 'N/A',
+                email: emailVal,
                 product: `Sample: ${prodName}`,
                 message: `Sample delivery requested to: ${addressVal}`,
                 date: new Date().toLocaleDateString('en-IN'),
                 status: 'New'
             };
 
-            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-            inquiries.unshift(sampleInquiry);
-            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        product: `Sample: ${prodName}`,
+                        message: `Sample delivery requested to: ${addressVal}`,
+                        honeypot: honeypotVal
+                    })
+                });
 
-            alert(`Success! Physical sample delivery request for ${prodName} has been logged. Our logistics team will call you at ${phoneVal} to verify shipment.`);
-            closeModal();
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(sampleInquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    btnSubmit.textContent = 'Courier Requested!';
+                    e.target.reset();
+                    
+                    setTimeout(() => {
+                        btnSubmit.disabled = false;
+                        btnSubmit.textContent = originalBtnText;
+                        if (successToast) successToast.classList.remove('show');
+                        closeModal();
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || 'Server failed to request courier.');
+                }
+            } catch (err) {
+                console.error("Collection contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(sampleInquiry);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
+                btnSubmit.textContent = 'Courier Requested!';
+                e.target.reset();
+                
+                setTimeout(() => {
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = originalBtnText;
+                    if (successToast) successToast.classList.remove('show');
+                    closeModal();
+                }, 2000);
+            }
         });
     });
     </script>

@@ -203,16 +203,35 @@
                         <h4>Request Material Sample</h4>
                         <form id="sample-request-form" class="sample-form">
                             <input type="hidden" id="sample-item-name" value="">
+                            <div style="display:none;">
+                                <input type="text" id="materials-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                            </div>
                             <div class="form-group">
-                                <label for="client-name" style="font-size: 0.8rem;">Full Name</label>
+                                <label for="client-name" style="font-size: 0.8rem;">Full Name *</label>
                                 <input type="text" id="client-name" placeholder="John Doe" required style="padding: 10px;">
                             </div>
                             <div class="form-group">
-                                <label for="client-addr" style="font-size: 0.8rem;">Shipping Address</label>
+                                <label for="client-phone" style="font-size: 0.8rem;">Phone Number *</label>
+                                <input type="tel" id="client-phone" placeholder="+91 XXXXX XXXXX" required style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-email" style="font-size: 0.8rem;">Email Address *</label>
+                                <input type="email" id="client-email" placeholder="your@email.com" required style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-addr" style="font-size: 0.8rem;">Shipping Address *</label>
                                 <input type="text" id="client-addr" placeholder="123 Design District, NY" required style="padding: 10px;">
                             </div>
                             <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0; font-size: 0.8rem;">Request Concierge Sample</button>
                         </form>
+                        <div class="form-success-toast" id="materials-success" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                            <i class="fas fa-check-circle" style="font-size:1rem;"></i>
+                            <span>Sample requested successfully!</span>
+                        </div>
+                        <div class="form-error-toast" id="materials-error" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                            <i class="fas fa-exclamation-circle" style="font-size:1rem;"></i>
+                            <span id="materials-error-text">Failed to request sample.</span>
+                        </div>
                     </div>
                 </div>
             </div>

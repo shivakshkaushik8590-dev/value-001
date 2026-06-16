@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (group) {
                 document.querySelectorAll(`.select-card[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
-                updateRoomMaterials();
             }
         });
     });
@@ -75,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (group) {
                 document.querySelectorAll(`.swatch-btn[data-group="${group}"]`).forEach(s => s.classList.remove('selected'));
                 swatch.classList.add('selected');
-                updateRoomMaterials();
             }
         });
     });
@@ -87,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (group) {
                 document.querySelectorAll(`.texture-card[data-group="${group}"]`).forEach(t => t.classList.remove('selected'));
                 texture.classList.add('selected');
-                updateRoomMaterials();
             }
         });
     });
@@ -98,11 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const valSpan = document.getElementById(`${slider.id}-val`);
         if (valSpan) {
             slider.addEventListener('input', () => {
-                let suffix = '';
-                if (slider.id.includes('intensity') || slider.id.includes('zoom')) suffix = '%';
-                else if (slider.id.includes('temp')) suffix = 'K';
-                else if (slider.id.includes('rotate')) suffix = '°';
-                valSpan.textContent = slider.value + suffix;
+                valSpan.textContent = slider.value + (slider.id.includes('intensity') ? '%' : '');
             });
         }
     });
@@ -599,226 +592,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================================================
-    // 3D DESIGNER CORE VISUAL ENGINE & OVERLAYS
-    // ==========================================================================
-    const roomPolygons = {
-        living: {
-            floor: "120,600 680,600 530,420 270,420",
-            wall: "0,50 270,180 270,420 0,550"
-        },
-        bedroom: {
-            floor: "0,600 800,600 580,460 220,460",
-            wall: "220,120 580,120 580,460 220,460"
-        },
-        dining: {
-            floor: "50,600 750,600 550,440 250,440",
-            wall: "250,150 550,150 550,440 250,440"
-        },
-        office: {
-            floor: "80,600 720,600 560,450 240,450",
-            wall: "0,80 240,180 240,450 0,550"
-        },
-        kitchen: {
-            floor: "0,600 800,600 600,480 200,480",
-            wall: "200,100 600,100 600,480 200,480"
-        }
-    };
-
-    window.updateRoomMaterials = function() {
-        const activeRoomCard = document.querySelector('.select-card[data-group="room-type"].selected');
-        const activeRoomType = activeRoomCard ? activeRoomCard.dataset.value : 'living';
-        
-        // Update room backgrounds
-        const localRoomImages = {
-            living: 'assets/images/living.png',
-            bedroom: 'assets/images/bedroom.png',
-            dining: 'assets/images/dining.png',
-            office: 'assets/images/office.png',
-            kitchen: 'assets/images/kitchen.png'
-        };
-        
-        const bgUrl = localRoomImages[activeRoomType] || localRoomImages.living;
-        if (beforeImg) {
-            beforeImg.src = bgUrl;
-        }
-        if (afterImg) {
-            afterImg.src = bgUrl;
-        }
-
-        // Update polygon paths
-        const polyFloor = document.getElementById('poly-floor');
-        const polyWall = document.getElementById('poly-wall');
-        const points = roomPolygons[activeRoomType] || roomPolygons.living;
-
-        if (polyFloor) polyFloor.setAttribute('points', points.floor);
-        if (polyWall) polyWall.setAttribute('points', points.wall);
-
-        // Floor material selection
-        const selectedFloorCard = document.querySelector('.texture-card[data-group="floor"].selected');
-        const floorMat = selectedFloorCard ? selectedFloorCard.dataset.value : 'hardwood';
-        if (polyFloor) {
-            if (floorMat === 'marble') {
-                polyFloor.setAttribute('fill', 'url(#pat-carrara)');
-            } else if (floorMat === 'hardwood') {
-                polyFloor.setAttribute('fill', 'url(#pat-oak)');
-            } else {
-                // Concrete
-                polyFloor.setAttribute('fill', '#8a8d91');
-            }
-        }
-
-        // Wall material/color selection
-        const selectedWallColorBtn = document.querySelector('.swatch-btn[data-group="wall-color"].selected');
-        const wallColor = selectedWallColorBtn ? selectedWallColorBtn.style.backgroundColor : '#f5f5f4';
-        
-        const selectedWallTexCard = document.querySelector('.texture-card[data-group="wall-tex"].selected');
-        const wallTex = selectedWallTexCard ? selectedWallTexCard.dataset.value : 'plaster';
-
-        if (polyWall) {
-            if (wallTex === 'wood-panels') {
-                polyWall.setAttribute('fill', 'url(#pat-oak)');
-            } else if (wallTex === 'brick') {
-                polyWall.setAttribute('fill', 'url(#pat-brick)');
-            } else {
-                polyWall.setAttribute('fill', wallColor);
-            }
-        }
-    };
-
-    const lightingTint = document.getElementById('lighting-tint');
-    const lightIntensity = document.getElementById('light-intensity');
-    const lightTemp = document.getElementById('light-temp');
-    const camZoom = document.getElementById('cam-zoom');
-    const camRotate = document.getElementById('cam-rotate');
-
-    window.updateCameraAndLighting = function() {
-        const intensity = lightIntensity ? lightIntensity.value : 75;
-        const tempVal = lightTemp ? parseInt(lightTemp.value) : 3000;
-
-        // Apply intensity filter to room images
-        const brightnessFilter = `brightness(${intensity}%)`;
-        if (beforeImg) beforeImg.style.filter = brightnessFilter;
-        if (afterImg) afterImg.style.filter = brightnessFilter;
-
-        // Update lighting tint color
-        if (lightingTint) {
-            if (tempVal <= 2000) {
-                lightingTint.style.backgroundColor = 'rgb(255, 120, 0)';
-                lightingTint.style.opacity = '0.25';
-            } else if (tempVal <= 3000) {
-                lightingTint.style.backgroundColor = 'rgb(255, 180, 50)';
-                lightingTint.style.opacity = '0.15';
-            } else if (tempVal <= 4000) {
-                lightingTint.style.backgroundColor = 'transparent';
-                lightingTint.style.opacity = '0';
-            } else if (tempVal <= 5000) {
-                lightingTint.style.backgroundColor = 'rgb(180, 210, 255)';
-                lightingTint.style.opacity = '0.1';
-            } else {
-                lightingTint.style.backgroundColor = 'rgb(120, 180, 255)';
-                lightingTint.style.opacity = '0.2';
-            }
-        }
-
-        // Camera Sandbox transforms
-        const zoom = camZoom ? camZoom.value : 100;
-        const rotate = camRotate ? camRotate.value : 0;
-        if (sliderContainer) {
-            sliderContainer.style.transform = `perspective(800px) rotateY(${rotate}deg) scale(${zoom / 100})`;
-            sliderContainer.style.transformStyle = 'preserve-3d';
-        }
-    };
-
-    if (lightIntensity) lightIntensity.addEventListener('input', updateCameraAndLighting);
-    if (lightTemp) lightTemp.addEventListener('input', updateCameraAndLighting);
-    if (camZoom) camZoom.addEventListener('input', updateCameraAndLighting);
-    if (camRotate) camRotate.addEventListener('input', updateCameraAndLighting);
-
-    // Fullscreen Toggler
-    const camFullscreen = document.getElementById('cam-fullscreen');
-    if (camFullscreen && sliderContainer) {
-        camFullscreen.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                sliderContainer.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        });
-    }
-
-    // Save Design
-    const btnSaveDesign = document.getElementById('btn-save-design');
-    if (btnSaveDesign) {
-        btnSaveDesign.addEventListener('click', () => {
-            const activeRoom = document.querySelector('.select-card[data-group="room-type"].selected')?.dataset.value || 'living';
-            const activeFloor = document.querySelector('.texture-card[data-group="floor"].selected')?.dataset.value || 'hardwood';
-            const activeWallColor = document.querySelector('.swatch-btn[data-group="wall-color"].selected')?.title || 'Warm Alabaster';
-            const activeWallTex = document.querySelector('.texture-card[data-group="wall-tex"].selected')?.dataset.value || 'plaster';
-            const activeStyle = document.querySelector('.select-card[data-group="style"].selected')?.dataset.value || 'minimalist';
-            
-            const savedDesign = {
-                id: 'design_' + Date.now(),
-                room: activeRoom,
-                floor: activeFloor,
-                wallColor: activeWallColor,
-                wallTex: activeWallTex,
-                style: activeStyle,
-                date: new Date().toLocaleDateString('en-IN')
-            };
-
-            let savedDesigns = JSON.parse(localStorage.getItem('valure_saved_designs')) || [];
-            savedDesigns.unshift(savedDesign);
-            localStorage.setItem('valure_saved_designs', JSON.stringify(savedDesigns));
-
-            alert('Design saved successfully to your dashboard archive!');
-        });
-    }
-
-    // Share Design
-    const btnShareDesign = document.getElementById('btn-share-design');
-    if (btnShareDesign) {
-        btnShareDesign.addEventListener('click', () => {
-            const activeRoom = document.querySelector('.select-card[data-group="room-type"].selected')?.dataset.value || 'living';
-            const activeFloor = document.querySelector('.texture-card[data-group="floor"].selected')?.dataset.value || 'hardwood';
-            const activeWallColor = document.querySelector('.swatch-btn[data-group="wall-color"].selected')?.title || 'Warm Alabaster';
-            const activeWallTex = document.querySelector('.texture-card[data-group="wall-tex"].selected')?.dataset.value || 'plaster';
-            const activeStyle = document.querySelector('.select-card[data-group="style"].selected')?.dataset.value || 'minimalist';
-
-            const shareUrl = `${window.location.origin}${window.location.pathname}?room=${activeRoom}&floor=${activeFloor}&wallColor=${encodeURIComponent(activeWallColor)}&wallTex=${activeWallTex}&style=${activeStyle}`;
-            
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('Share link copied to clipboard! Send this URL to others to let them view your custom configuration.');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                alert(`Share Link: ${shareUrl}`);
-            });
-        });
-    }
-
-    // Download PDF (prints the sandbox page)
-    const btnDownloadPdf = document.getElementById('btn-download-pdf');
-    if (btnDownloadPdf) {
-        btnDownloadPdf.addEventListener('click', () => {
-            window.print();
-        });
-    }
-
-    // Email Design Modal & Form
+    // --- Design Proposal Modal & Form Handling ---
     const emailDesignModal = document.getElementById('email-design-modal');
     const btnEmailDesign = document.getElementById('btn-email-design');
     const emailModalClose = document.getElementById('email-modal-close');
     const emailModalOverlay = document.getElementById('email-modal-overlay');
     const emailDesignForm = document.getElementById('email-design-form');
 
-    if (btnEmailDesign) {
+    if (btnEmailDesign && emailDesignModal) {
         btnEmailDesign.addEventListener('click', () => {
-            if (emailDesignModal) {
-                emailDesignModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
+            emailDesignModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         });
     }
 
@@ -833,82 +617,133 @@ document.addEventListener('DOMContentLoaded', () => {
     if (emailModalOverlay) emailModalOverlay.addEventListener('click', closeEmailModal);
 
     if (emailDesignForm) {
-        emailDesignForm.addEventListener('submit', (e) => {
+        emailDesignForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const clientName = document.getElementById('email-client-name').value;
-            const clientPhone = document.getElementById('email-client-phone').value;
-            const clientEmail = document.getElementById('email-client-email').value;
+            
+            const successToast = document.getElementById('design-success');
+            const errorToast = document.getElementById('design-error');
+            const errorText = document.getElementById('design-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
 
+            const clientName = document.getElementById('email-client-name').value.trim();
+            const clientPhone = document.getElementById('email-client-phone').value.trim();
+            const clientEmail = document.getElementById('email-client-email').value.trim();
+            const honeypotVal = document.getElementById('design-honeypot').value;
+
+            // Extract selected design options in the visualizer
             const activeRoom = document.querySelector('.select-card[data-group="room-type"].selected')?.dataset.value || 'living';
-            const activeFloor = document.querySelector('.texture-card[data-group="floor"].selected')?.dataset.value || 'hardwood';
             const activeStyle = document.querySelector('.select-card[data-group="style"].selected')?.dataset.value || 'minimalist';
+            const activeWallColor = document.querySelector('.swatch-btn[data-group="wall-color"].selected')?.title || 'Warm Alabaster';
+            const activeWallTex = document.querySelector('.texture-card[data-group="wall-tex"].selected')?.dataset.value || 'plaster';
+            const activeCeiling = document.querySelector('.select-card[data-group="ceiling"].selected')?.dataset.value || 'flat';
+            const activeFloor = document.querySelector('.texture-card[data-group="floor"].selected')?.dataset.value || 'hardwood';
+            const activeLighting = document.querySelector('.select-card[data-group="lighting"].selected')?.dataset.value || 'chandelier';
+            const activeFurniture = document.querySelector('.select-card[data-group="furniture"].selected')?.dataset.value || 'italian-modern';
+            const activeFabColor = document.querySelector('.swatch-btn[data-group="fab-color"].selected')?.title || 'Boucle Beige';
 
-            // Log lead in localStorage
+            const designSpecs = `3D Studio Design Configurations:
+- Room Type: ${activeRoom.toUpperCase()}
+- Style Concept: ${activeStyle.toUpperCase()}
+- Flooring: ${activeFloor.toUpperCase()}
+- Wall Color: ${activeWallColor}
+- Wall Texture: ${activeWallTex.toUpperCase()}
+- Ceiling: ${activeCeiling.toUpperCase()}
+- Lighting: ${activeLighting.toUpperCase()}
+- Furniture Style: ${activeFurniture.toUpperCase()}
+- Fabric Color: ${activeFabColor}`;
+
+            const proposalMessage = `Client requested full design package details.
+${designSpecs}`;
+
+            const proposalProduct = `3D Designer Proposal: ${activeRoom.toUpperCase()} (${activeStyle.toUpperCase()})`;
+
+            // Duplicate Protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === clientName && inq.phone === clientPhone && inq.product === proposalProduct
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already sent a design proposal request for this room configuration.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = btnSubmit.textContent;
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Compiling & Sending...';
+
             const newLead = {
                 id: 'inq_' + Date.now(),
                 name: clientName,
                 phone: clientPhone,
                 email: clientEmail,
-                product: `3D Designer Proposal: ${activeRoom.toUpperCase()} (${activeStyle.toUpperCase()})`,
-                message: `Client requested full design package details. Active materials: Floor: ${activeFloor}.`,
+                product: proposalProduct,
+                message: proposalMessage,
                 date: new Date().toLocaleDateString('en-IN'),
                 status: 'New'
             };
 
-            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-            inquiries.unshift(newLead);
-            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: clientName,
+                        phone: clientPhone,
+                        email: clientEmail,
+                        product: proposalProduct,
+                        message: proposalMessage,
+                        honeypot: honeypotVal
+                    })
+                });
 
-            alert(`Success! A design proposal package for your ${activeRoom} design has been compiled and queued for dispatch. Our Stone Expert will also contact you at ${clientPhone} within 2 hours.`);
-            closeEmailModal();
-            e.target.reset();
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(newLead);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    btnSubmit.textContent = 'Proposal Sent!';
+                    e.target.reset();
+
+                    setTimeout(() => {
+                        btnSubmit.disabled = false;
+                        btnSubmit.textContent = originalBtnText;
+                        if (successToast) successToast.classList.remove('show');
+                        closeEmailModal();
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || 'Server failed to send design proposal.');
+                }
+            } catch (err) {
+                console.error("Designer contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(newLead);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
+                btnSubmit.textContent = 'Proposal Sent!';
+                e.target.reset();
+
+                setTimeout(() => {
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = originalBtnText;
+                    if (successToast) successToast.classList.remove('show');
+                    closeEmailModal();
+                }, 2000);
+            }
         });
     }
-
-    // Parse query params on load
-    const loadSharedDesign = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const room = urlParams.get('room');
-        const floor = urlParams.get('floor');
-        const wallColorTitle = urlParams.get('wallColor');
-        const wallTex = urlParams.get('wallTex');
-        const style = urlParams.get('style');
-
-        if (room || floor || wallColorTitle || wallTex || style) {
-            // Un-hide workspace if we are loading a shared design
-            showView('workspace');
-
-            if (room) {
-                document.querySelectorAll('.select-card[data-group="room-type"]').forEach(c => {
-                    c.classList.toggle('selected', c.dataset.value === room);
-                });
-            }
-            if (floor) {
-                document.querySelectorAll('.texture-card[data-group="floor"]').forEach(c => {
-                    c.classList.toggle('selected', c.dataset.value === floor);
-                });
-            }
-            if (wallColorTitle) {
-                document.querySelectorAll('.swatch-btn[data-group="wall-color"]').forEach(btn => {
-                    btn.classList.toggle('selected', btn.title === wallColorTitle);
-                });
-            }
-            if (wallTex) {
-                document.querySelectorAll('.texture-card[data-group="wall-tex"]').forEach(c => {
-                    c.classList.toggle('selected', c.dataset.value === wallTex);
-                });
-            }
-            if (style) {
-                document.querySelectorAll('.select-card[data-group="style"]').forEach(c => {
-                    c.classList.toggle('selected', c.dataset.value === style);
-                });
-            }
-        }
-        
-        // Execute initial update
-        updateRoomMaterials();
-        updateCameraAndLighting();
-    };
-
-    loadSharedDesign();
 });

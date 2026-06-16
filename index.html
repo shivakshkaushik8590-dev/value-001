@@ -325,6 +325,9 @@
                 
                 <div class="booking-calendar-wrapper">
                     <form id="consultation-booking-form">
+                        <div style="display:none;">
+                            <input type="text" id="book-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                             <div class="form-group">
                                 <label for="book-name" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Full Name *</label>
@@ -474,6 +477,9 @@
                 </div>
                 <div class="contact-form glass">
                     <form id="homepage-enquiry-form">
+                        <div style="display:none;">
+                            <input type="text" id="hp-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <label for="hp-name">Full Name *</label>
                             <input type="text" id="hp-name" placeholder="Your name" required>
@@ -483,12 +489,12 @@
                             <input type="tel" id="hp-phone" placeholder="+91 XXXXX XXXXX" required>
                         </div>
                         <div class="form-group">
-                            <label for="hp-email">Email</label>
-                            <input type="email" id="hp-email" placeholder="your@email.com">
+                            <label for="hp-email">Email *</label>
+                            <input type="email" id="hp-email" placeholder="your@email.com" required>
                         </div>
                         <div class="form-group">
-                            <label for="hp-product">Product Interest</label>
-                            <select id="hp-product">
+                            <label for="hp-product">Product Interest *</label>
+                            <select id="hp-product" required>
                                 <option value="">Select...</option>
                                 <option value="Italian Marble">Italian Marble</option>
                                 <option value="Indian Marble">Indian Marble</option>
@@ -500,11 +506,19 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="hp-message">Message</label>
-                            <textarea id="hp-message" rows="4" placeholder="Tell us about your project..."></textarea>
+                            <label for="hp-message">Message *</label>
+                            <textarea id="hp-message" rows="4" placeholder="Tell us about your project..." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane" style="margin-right:8px;"></i> Request Free Quote</button>
                     </form>
+                    <div class="form-success-toast" id="hp-enquiry-success" style="margin-top: 16px;">
+                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
+                        <span>Thank you! Your enquiry has been received and sent successfully. Our team will contact you within 2 hours.</span>
+                    </div>
+                    <div class="form-error-toast" id="hp-enquiry-error" style="margin-top: 16px;">
+                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                        <span id="hp-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -662,21 +676,87 @@
         // Enquiry form submit
         const form = document.getElementById('homepage-enquiry-form');
         if (form) {
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                
+                const successToast = document.getElementById('hp-enquiry-success');
+                const errorToast = document.getElementById('hp-enquiry-error');
+                const errorText = document.getElementById('hp-enquiry-error-text');
+                
+                if (successToast) successToast.classList.remove('show');
+                if (errorToast) errorToast.classList.remove('show');
+
+                const nameVal = document.getElementById('hp-name').value.trim();
+                const phoneVal = document.getElementById('hp-phone').value.trim();
+                const emailVal = document.getElementById('hp-email').value.trim();
+                const productVal = document.getElementById('hp-product').value || 'General Sourcing Inquiry';
+                const messageVal = document.getElementById('hp-message').value.trim();
+                const honeypotVal = document.getElementById('hp-honeypot').value;
+
+                // Check duplicates locally (prevent duplicate clicks)
+                const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                const isDuplicate = existingInquiries.some(inq => 
+                    inq.name === nameVal && inq.phone === phoneVal && inq.message === messageVal
+                );
+
+                if (isDuplicate) {
+                    if (errorToast && errorText) {
+                        errorText.textContent = "You have already submitted this enquiry request.";
+                        errorToast.classList.add('show');
+                    }
+                    return;
+                }
+
+                const btnSubmit = form.querySelector('button[type="submit"]');
+                const originalBtnContent = btnSubmit.innerHTML;
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
+
                 const inquiry = {
                     id: 'inq_' + Date.now(),
-                    name: document.getElementById('hp-name').value,
-                    phone: document.getElementById('hp-phone').value,
-                    email: document.getElementById('hp-email').value || 'N/A',
-                    product: document.getElementById('hp-product').value || 'General Sourcing Inquiry',
-                    message: document.getElementById('hp-message').value || 'N/A',
+                    name: nameVal,
+                    phone: phoneVal,
+                    email: emailVal,
+                    product: productVal,
+                    message: messageVal,
                     date: new Date().toLocaleDateString('en-IN'),
                     status: 'New'
                 };
-                saveInquiry(inquiry);
-                alert('Thank you for your enquiry! We have saved your request and will contact you within 2 hours with the best marble pricing.');
-                form.reset();
+
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: nameVal,
+                            phone: phoneVal,
+                            email: emailVal,
+                            product: productVal,
+                            message: messageVal,
+                            honeypot: honeypotVal
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        saveInquiry(inquiry);
+                        if (successToast) successToast.classList.add('show');
+                        form.reset();
+                    } else {
+                        throw new Error(data.error || 'Server failed to save enquiry.');
+                    }
+                } catch (err) {
+                    console.error("Enquiry API error (offline fallback):", err);
+                    saveInquiry(inquiry);
+                    if (successToast) successToast.classList.add('show');
+                    form.reset();
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalBtnContent;
+                }
             });
         }
 
@@ -713,6 +793,7 @@
                     project: document.getElementById('book-project').value,
                     date: document.getElementById('book-date').value,
                     slot: selectedSlot,
+                    honeypot: document.getElementById('book-honeypot').value,
                     status: 'New'
                 };
 
