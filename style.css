@@ -2503,4 +2503,20 @@ h2 {
 .ba-badge-before { right: 20px; }
 .ba-badge-after { left: 20px; }
 
+/* Error Toast style */
+.form-error-toast {
+  display: none;
+  background: #EF4444;
+  color: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.form-error-toast.show { display: flex; }
+
+
 

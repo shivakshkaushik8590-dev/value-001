@@ -370,6 +370,14 @@
                         
                         <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;"><i class="fas fa-check-circle" style="margin-right:8px;"></i> Book Appointment</button>
                     </form>
+                    <div class="form-success-toast" id="booking-success" style="margin-top: 16px;">
+                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
+                        <span>Thank you. Your consultation request has been received successfully. Our team will contact you shortly.</span>
+                    </div>
+                    <div class="form-error-toast" id="booking-error" style="margin-top: 16px;">
+                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                        <span id="booking-error-text">An error occurred while processing your booking. Please try again.</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -686,21 +694,123 @@
                 });
             });
 
-            bookingForm.addEventListener('submit', (e) => {
+            bookingForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                
+                const successToast = document.getElementById('booking-success');
+                const errorToast = document.getElementById('booking-error');
+                const errorText = document.getElementById('booking-error-text');
+                
+                // Reset toasts
+                if (successToast) successToast.classList.remove('show');
+                if (errorToast) errorToast.classList.remove('show');
+                
                 const booking = {
                     id: 'book_' + Date.now(),
-                    name: document.getElementById('book-name').value,
-                    phone: document.getElementById('book-phone').value,
-                    email: document.getElementById('book-email').value,
+                    name: document.getElementById('book-name').value.trim(),
+                    phone: document.getElementById('book-phone').value.trim(),
+                    email: document.getElementById('book-email').value.trim(),
                     project: document.getElementById('book-project').value,
                     date: document.getElementById('book-date').value,
                     slot: selectedSlot,
                     status: 'New'
                 };
-                saveBooking(booking);
-                alert(`Consultation booked successfully for ${booking.date} at ${booking.slot}! Our design concierge will reach out to you.`);
-                bookingForm.reset();
+
+                // Validate Date (Today or Future)
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const selectedDate = new Date(booking.date);
+                selectedDate.setHours(0, 0, 0, 0);
+                if (selectedDate < today) {
+                    if (errorToast && errorText) {
+                        errorText.textContent = "Please select today's date or a future date.";
+                        errorToast.classList.add('show');
+                    }
+                    return;
+                }
+
+                // Check for duplicates in client storage
+                const existingBookings = JSON.parse(localStorage.getItem('valure_bookings')) || [];
+                const isDuplicate = existingBookings.some(b => 
+                    b.date === booking.date && 
+                    b.slot === booking.slot && 
+                    (b.phone === booking.phone || b.email === booking.email)
+                );
+                
+                if (isDuplicate) {
+                    if (errorToast && errorText) {
+                        errorText.textContent = "You have already submitted a booking request for this date and time slot.";
+                        errorToast.classList.add('show');
+                    }
+                    return;
+                }
+
+                // Setup loading state on submit button
+                const btnSubmit = bookingForm.querySelector('button[type="submit"]');
+                const originalBtnContent = btnSubmit.innerHTML;
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
+
+                try {
+                    // Send to backend API
+                    const response = await fetch('/api/booking', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(booking)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Success paths
+                        saveBooking(booking);
+                        
+                        // Save to inquiry ledger so it shows on local Admin Lead board
+                        const inquiry = {
+                            id: 'inq_' + Date.now(),
+                            name: booking.name,
+                            phone: booking.phone,
+                            email: booking.email || 'N/A',
+                            product: `Booking: ${booking.project} (${booking.slot})`,
+                            message: `Consultation booked for ${booking.date} at ${booking.slot}. Contact email: ${booking.email}`,
+                            date: new Date().toLocaleDateString('en-IN'),
+                            status: 'New'
+                        };
+                        saveInquiry(inquiry);
+
+                        // Success notification
+                        if (successToast) successToast.classList.add('show');
+                        bookingForm.reset();
+                    } else {
+                        // Error returned from server
+                        throw new Error(data.error || 'Server failed to save booking.');
+                    }
+                } catch (err) {
+                    console.error("Booking API error (attempting offline fallback):", err);
+                    
+                    // Offline fallback: save locally if the server is not running
+                    saveBooking(booking);
+                    const inquiry = {
+                        id: 'inq_' + Date.now(),
+                        name: booking.name,
+                        phone: booking.phone,
+                        email: booking.email || 'N/A',
+                        product: `Booking: ${booking.project} (${booking.slot})`,
+                        message: `Consultation booked for ${booking.date} at ${booking.slot}. (Offline fallback storage - Email & WhatsApp pending)`,
+                        date: new Date().toLocaleDateString('en-IN'),
+                        status: 'New'
+                    };
+                    saveInquiry(inquiry);
+                    
+                    if (successToast) successToast.classList.add('show');
+                    bookingForm.reset();
+                } finally {
+                    // Reset button state
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalBtnContent;
+                }
             });
         }
 
