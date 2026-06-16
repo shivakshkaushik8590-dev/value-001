@@ -888,3 +888,148 @@ body {
     }
 }
 
+/* ==========================================================================
+   PRINT MEDIA STYLES (Print Billing PDF)
+   ========================================================================== */
+@media print {
+    /* Set page settings */
+    @page {
+        margin: 1.5cm;
+        size: A4 portrait;
+    }
+
+    /* General typography and backgrounds */
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Hide non-printable items */
+    nav, #navbar, .mobile-menu, .calc-hero-banner, .section-header, 
+    .ai-rec-card, .calc-card-panel, .invoice-footer-actions, 
+    .design-models-section, footer, .footer, .footer-bottom, 
+    .floating-whatsapp, .student-info {
+        display: none !important;
+    }
+
+    /* Expand workspace and grid to full width */
+    .calc-container, main {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .calc-grid {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .calc-grid > div {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Format Invoice Card as a corporate sheet */
+    .invoice-card {
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        color: #000000 !important;
+    }
+
+    /* Show print header */
+    .invoice-card .print-header {
+        display: block !important;
+    }
+
+    /* Adjust Ledger Heading */
+    .invoice-card h3 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 16pt !important;
+        color: #0E1629 !important;
+        border-bottom: 2px solid #D4AF37 !important;
+        padding-bottom: 8px !important;
+        margin-top: 25px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .invoice-card h3 span.invoice-tag {
+        border: 1px solid #D4AF37 !important;
+        background: transparent !important;
+        color: #0E1629 !important;
+        font-size: 9pt !important;
+        padding: 3px 10px !important;
+    }
+
+    /* Invoice list items */
+    .invoice-item {
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 10px 0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        font-size: 10pt !important;
+        color: #1a202c !important;
+    }
+
+    .invoice-item span.item-cost {
+        font-weight: 600 !important;
+    }
+
+    /* Grand Total Row */
+    .invoice-item.total {
+        border-top: 2px solid #0E1629 !important;
+        border-bottom: 2px solid #0E1629 !important;
+        padding: 15px 0 !important;
+        margin-top: 15px !important;
+        font-size: 14pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+    }
+
+    /* Budget allocation bars */
+    .budget-meter-group {
+        page-break-inside: avoid !important;
+        margin-top: 30px !important;
+        padding-top: 20px !important;
+        border-top: 1px solid #e2e8f0 !important;
+    }
+
+    .calc-section-title {
+        font-size: 11pt !important;
+        font-weight: 700 !important;
+        color: #0E1629 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    .budget-meter-label {
+        font-size: 9pt !important;
+        margin-bottom: 4px !important;
+    }
+
+    .budget-meter-container {
+        height: 10px !important;
+        border: 1px solid #cbd5e0 !important;
+        background: #f7fafc !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+
+    .budget-meter-fill {
+        background: #0E1629 !important;
+        height: 100% !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise CRM Dashboard | Valure Partner Portal</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ChartJS for Lead Metrics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-portal">
+
+    <!-- Passcode Lock Screen Overlay -->
+    <div id="admin-lockscreen" class="lock-screen-overlay">
+        <div class="lock-card">
+            <div class="lock-icon"><i class="fas fa-lock"></i></div>
+            <h2>Partner Portal Secure Login</h2>
+            <p>Access is restricted to Valure Stone Concierge Admins. Enter credentials below.</p>
+            <form id="lockscreen-form">
+                <div class="form-group">
+                    <input type="password" id="lock-passcode" placeholder="Enter Secure Passcode (Default: 1234)" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Unlock Dashboard</button>
+                <div class="lock-error" id="lock-error-msg">Incorrect Passcode. Access Denied.</div>
+            </form>
+            <a href="index.html" class="back-home-link"><i class="fas fa-arrow-left"></i> Return to Main Website</a>
+        </div>
+    </div>
+
+    <!-- Admin Panel Container (Unlocked) -->
+    <div class="admin-wrapper" id="admin-dashboard-container" style="display: none;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="index.html">VALURE <span>CRM</span></a>
+            </div>
+            
+            <nav class="admin-nav">
+                <button class="admin-nav-btn active" data-tab="dashboard"><i class="fas fa-chart-line"></i> Dashboard</button>
+                <button class="admin-nav-btn" data-tab="leads"><i class="fas fa-users-cog"></i> Sourcing Leads</button>
+                <button class="admin-nav-btn" data-tab="materials"><i class="fas fa-gem"></i> Materials CRUD</button>
+                <button class="admin-nav-btn" data-tab="pricing"><i class="fas fa-sliders-h"></i> Rates Manager</button>
+                <button class="admin-nav-btn" data-tab="followups"><i class="fas fa-envelope-open-text"></i> Followups Workspace</button>
+            </nav>
+
+            <div class="admin-user-info">
+                <div class="user-avatar">AD</div>
+                <div class="user-details">
+                    <h4>Concierge Admin</h4>
+                    <p>Session ID: <span id="admin-session-id">Active</span></p>
+                </div>
+                <button id="btn-admin-logout" title="Log Out" aria-label="Log Out"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="admin-main">
+            <!-- Header Bar -->
+            <header class="admin-header">
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-admin-search" placeholder="Search inquiries, materials, rates...">
+                </div>
+                <div class="header-actions">
+                    <span class="system-time" id="system-time"></span>
+                    <button class="header-notification-btn" aria-label="Notifications"><i class="fas fa-bell"></i><span class="badge"></span></button>
+                </div>
+            </header>
+
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="admin-tab-content active">
+                <div class="tab-title-row">
+                    <h2>CRM & Lead Insights</h2>
+                    <button class="btn btn-outline btn-mini" onclick="resetDemoData()"><i class="fas fa-sync-alt"></i> Reload Demo Leads</button>
+                </div>
+
+                <!-- Metrics KPIs -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">Total Sourcing Leads</span>
+                        <h3 class="metric-val" id="kpi-total-leads">0</h3>
+                        <span class="metric-trend positive"><i class="fas fa-arrow-up"></i> +12% this week</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Estimated Pipeline Value</span>
+                        <h3 class="metric-val" id="kpi-pipeline-value">₹0</h3>
+                        <span class="metric-trend positive"><i class="fas fa-arrow-up"></i> Premium tier focus</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Sample Dispatches</span>
+                        <h3 class="metric-val" id="kpi-sample-requests">0</h3>
+                        <span class="metric-trend neutral">Logistics pending</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Conversion Rate</span>
+                        <h3 class="metric-val" id="kpi-conversion">24%</h3>
+                        <span class="metric-trend positive"><i class="fas fa-check"></i> High-conversion copy</span>
+                    </div>
+                </div>
+
+                <!-- Charts Display Grid -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Pipeline Share by Material</h3>
+                        <div class="chart-container">
+                            <canvas id="materialsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Lead Categories Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="leadsCategoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: LEADS TABLE -->
+            <section id="tab-leads" class="admin-tab-content">
+                <div class="tab-title-row">
+                    <h2>Inquiries & Consultations Ledger</h2>
+                </div>
+
+                <div class="filters-row">
+                    <div style="display:flex; gap:10px;">
+                        <select id="lead-filter-status" class="admin-select">
+                            <option value="all">All Statuses</option>
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="Quoted">Quoted</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <select id="lead-filter-type" class="admin-select">
+                            <option value="all">All Project Types</option>
+                            <option value="3d_visualizer">3D Visualizer Leads</option>
+                            <option value="sample_request">Sample Requests</option>
+                            <option value="contact_form">General Inquiries</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportLeadsCSV()"><i class="fas fa-file-export"></i> Export CSV</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="admin-table" id="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Lead Info</th>
+                                <th>Contact details</th>
+                                <th>Product Interest</th>
+                                <th>Enquiry Date</th>
+                                <th>Project details / Message</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-table-body">
+                            <!-- Dynamic leads row -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 3: MATERIALS CRUD -->
+            <section id="tab-materials" class="admin-tab-content">
+                <div class="tab-title-row">
+                    <h2>Base Materials Catalog CRUD</h2>
+                    <button class="btn btn-primary" onclick="openAddMaterialModal()"><i class="fas fa-plus"></i> Add New Material</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="admin-table" id="materials-table">
+                        <thead>
+                            <tr>
+                                <th>Material Name</th>
+                                <th>Category</th>
+                                <th>Color</th>
+                                <th>Finish Type</th>
+                                <th>Origin</th>
+                                <th>Price per Sq Ft (₹)</th>
+                                <th>Availability</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materials-table-body">
+                            <!-- Dynamic materials row -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: PRICING SLIDERS -->
+            <section id="tab-pricing" class="admin-tab-content">
+                <div class="tab-title-row">
+                    <h2>Global Pricing Rates Manager</h2>
+                </div>
+
+                <div class="rates-manager-grid">
+                    <!-- Calculator surcharge rates editor card -->
+                    <div class="rate-editor-card">
+                        <h3>Calculator Cost Modifiers</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 25px;">Adjust the global base surcharge pricing variables. These immediately update the live cost estimator calculators for all customers.</p>
+                        
+                        <form id="global-rates-form">
+                            <div class="admin-slider-group">
+                                <div class="slider-info">
+                                    <span>Royal Palace Surcharge (Multiplier)</span>
+                                    <span id="rate-palace-val" class="rate-val">0.35</span>
+                                </div>
+                                <input type="range" id="rate-palace" min="0.10" max="0.60" step="0.05" value="0.35">
+                            </div>
+
+                            <div class="admin-slider-group">
+                                <div class="slider-info">
+                                    <span>Base Sourcing GST Surcharge (%)</span>
+                                    <span id="rate-gst-val" class="rate-val">18%</span>
+                                </div>
+                                <input type="range" id="rate-gst" min="5" max="28" step="1" value="18">
+                            </div>
+
+                            <div class="admin-slider-group">
+                                <div class="slider-info">
+                                    <span>Luxury Architect Surcharge (%)</span>
+                                    <span id="rate-fee-val" class="rate-val">15%</span>
+                                </div>
+                                <input type="range" id="rate-fee" min="5" max="30" step="1" value="15">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save Surcharge Rates</button>
+                        </form>
+                    </div>
+
+                    <!-- Informational status card -->
+                    <div class="rate-editor-card info-card-gold">
+                        <h3>Currency Lock Context</h3>
+                        <p>All calculations are synchronized in <strong>Indian Rupees (₹)</strong> using premium local sourcing digit guidelines (en-IN formatting).</p>
+                        <ul style="font-size:0.85rem; line-height:1.8; margin-top:15px; padding-left:20px;">
+                            <li>GST tax is fixed at 18% by default unless overwritten.</li>
+                            <li>Slabs represent high-end quarries in Italy, Greece, and Makrana India.</li>
+                            <li>Average labor rates are calculated with a surcharge percentage multiplier matching the selected luxury architecture style archetype.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: FOLLOWUPS WORKSPACE -->
+            <section id="tab-followups" class="admin-tab-content">
+                <div class="tab-title-row">
+                    <h2>Followups Workspace</h2>
+                </div>
+
+                <div class="followups-workspace-layout">
+                    <!-- Left side list of leads -->
+                    <div class="followups-list-side">
+                        <h3>Leads Awaiting Followup</h3>
+                        <div class="followup-list-container" id="followup-list-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Right side template email editor -->
+                    <div class="followups-editor-side">
+                        <h3>Draft Quick Follow-up Email</h3>
+                        <div class="followup-form-box">
+                            <form id="followup-email-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="input-label">To Email</label>
+                                        <input type="email" id="followup-to" placeholder="client@example.com" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label">Client Name</label>
+                                        <input type="text" id="followup-name" placeholder="Client Name" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="input-label">Email Subject</label>
+                                    <input type="text" id="followup-subject" placeholder="Subject">
+                                </div>
+                                <div class="form-group">
+                                    <label class="input-label">Email Body Template</label>
+                                    <textarea id="followup-body" rows="10" placeholder="Select a lead to draft a follow-up email..."></textarea>
+                                </div>
+                                <div class="form-actions-row" style="display:flex; justify-content:space-between; align-items:center;">
+                                    <select id="email-template-selector" class="admin-select" style="width: 200px;">
+                                        <option value="intro">Intro Sourcing Invitation</option>
+                                        <option value="quote">Price Estimate Sourcing Quote</option>
+                                        <option value="sample">Sample Ship Confirmation</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Email (Simulate)</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit/Add Material Modal -->
+    <div id="material-modal" class="qv-modal" style="display: none;" role="dialog" aria-modal="true">
+        <div class="qv-modal-overlay" onclick="closeMaterialModal()"></div>
+        <div class="qv-modal-content" style="max-width: 600px; padding: 30px;">
+            <button class="qv-close-btn" onclick="closeMaterialModal()">&times;</button>
+            <h3 id="material-modal-title" style="font-family: 'Outfit', sans-serif; color: var(--primary-blue); margin-bottom: 20px;">Edit Material</h3>
+            
+            <form id="material-crud-form">
+                <input type="hidden" id="crud-material-id">
+                
+                <div class="grid-select-2">
+                    <div class="form-group">
+                        <label class="input-label">Material Name *</label>
+                        <input type="text" id="crud-material-name" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Category *</label>
+                        <select id="crud-material-category" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                            <option value="italian">Italian Marble</option>
+                            <option value="white">White Marble</option>
+                            <option value="black">Black Marble</option>
+                            <option value="granite">Granite</option>
+                            <option value="onyx">Onyx</option>
+                            <option value="quartz">Quartz</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-select-2">
+                    <div class="form-group">
+                        <label class="input-label">Color *</label>
+                        <input type="text" id="crud-material-color" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Finish *</label>
+                        <input type="text" id="crud-material-finish" placeholder="E.g. Polished / Honed" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                    </div>
+                </div>
+
+                <div class="grid-select-2">
+                    <div class="form-group">
+                        <label class="input-label">Origin *</label>
+                        <input type="text" id="crud-material-origin" placeholder="E.g. Carrara, Italy" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Price per Sq Ft (₹) *</label>
+                        <input type="number" id="crud-material-price" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                    </div>
+                </div>
+
+                <div class="grid-select-2">
+                    <div class="form-group">
+                        <label class="input-label">Availability *</label>
+                        <select id="crud-material-avail" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; background:white; color:var(--text-dark);">
+                            <option value="in-stock">In Stock</option>
+                            <option value="limited">Limited</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" style="margin-top: 20px;">Save Material</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Author Metadata Signature Footer -->
+    <footer style="background: #080D1A; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; font-size: 0.8rem;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <p style="margin:0; opacity:0.6;">&copy; 2026 Valure Premium CRM Dashboard. Partner Portal Sourcing.</p>
+            <p style="margin:0; font-weight:600; color:var(--accent-gold);">Prepared By: Shivaksh Kaushik | Geeta University</p>
+        </div>
+    </footer>
+
+    <!-- Admin Logic -->
+    <script src="marble-data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

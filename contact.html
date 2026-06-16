@@ -233,6 +233,22 @@
         // Form submission
         document.getElementById('contact-enquiry-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const inquiry = {
+                id: 'inq_' + Date.now(),
+                name: document.getElementById('contact-name').value,
+                phone: document.getElementById('contact-phone').value,
+                email: document.getElementById('contact-email').value || 'N/A',
+                product: document.getElementById('contact-product').value || 'General Sourcing Inquiry',
+                message: document.getElementById('contact-message').value || 'N/A',
+                date: new Date().toLocaleDateString('en-IN'),
+                status: 'New'
+            };
+            
+            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            inquiries.unshift(inquiry);
+            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+            
             document.getElementById('contact-success').classList.add('show');
             e.target.reset();
             setTimeout(() => document.getElementById('contact-success').classList.remove('show'), 5000);

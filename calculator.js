@@ -8,108 +8,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. DATA DICTIONARIES
     const floorRates = {
-        oak: 18,
-        walnut: 22,
-        teak: 24,
-        ash: 16,
-        italian_white: 45,
-        black_galaxy: 38,
-        statuario: 50,
-        carrara: 40,
-        glossy: 12,
-        matte: 10,
-        wooden_tile: 14,
-        metallic_epoxy: 18,
-        marble_epoxy: 20,
-        ocean_epoxy: 24,
-        galaxy_epoxy: 22
+        oak: 220,
+        walnut: 280,
+        teak: 320,
+        ash: 180,
+        italian_white: 450,
+        black_galaxy: 380,
+        statuario: 500,
+        carrara: 400,
+        glossy: 120,
+        matte: 100,
+        wooden_tile: 140,
+        metallic_epoxy: 180,
+        marble_epoxy: 220,
+        ocean_epoxy: 260,
+        galaxy_epoxy: 240
     };
 
     const wallRates = {
-        pearl_white: 6,
-        ivory_cream: 7,
-        champagne_gold: 12,
-        royal_beige: 8,
-        slate_grey: 7,
-        charcoal_black: 9,
-        graphite_grey: 8,
-        silver_mist: 10,
-        sage_green: 8,
-        olive_green: 9,
-        forest_green: 10,
-        earth_brown: 8,
-        navy_blue: 9,
-        emerald_green: 11,
-        burgundy: 12,
-        deep_purple: 12,
+        pearl_white: 15,
+        ivory_cream: 18,
+        champagne_gold: 35,
+        royal_beige: 22,
+        slate_grey: 20,
+        charcoal_black: 25,
+        graphite_grey: 22,
+        silver_mist: 28,
+        sage_green: 24,
+        olive_green: 26,
+        forest_green: 28,
+        earth_brown: 22,
+        navy_blue: 25,
+        emerald_green: 32,
+        burgundy: 35,
+        deep_purple: 35,
         // Materials
         plaster: 0, // base paint
-        marble_panel: 25,
-        wood_panel: 20,
-        stone_cladding: 28,
-        wallpaper: 15,
-        textured_paint: 8,
-        metallic_finish: 12,
-        concrete_finish: 10
+        marble_panel: 450,
+        wood_panel: 250,
+        stone_cladding: 320,
+        wallpaper: 120,
+        textured_paint: 60,
+        metallic_finish: 90,
+        concrete_finish: 75
     };
 
     const ceilRates = {
-        white: 5,
-        beige: 6,
-        gold: 14,
-        grey: 8,
-        black: 10,
-        wood: 18,
+        white: 15,
+        beige: 18,
+        gold: 45,
+        grey: 22,
+        black: 28,
+        wood: 55,
         // Types
         flat: 0,
-        pop: 12,
-        false: 15,
-        wooden: 22,
-        geometric: 18,
-        cove: 15,
-        hotel: 25,
-        floating: 20,
-        multi: 28
+        pop: 90,
+        false: 120,
+        wooden: 180,
+        geometric: 150,
+        cove: 110,
+        hotel: 220,
+        floating: 160,
+        multi: 240
     };
 
     const productPrices = {
         // Lighting
-        chandelier: 1800,
-        pendant: 450,
-        spotlight: 120,
-        sconce: 350,
+        chandelier: 45000,
+        pendant: 3500,
+        spotlight: 450,
+        sconce: 1500,
         // Furniture
-        sofa: 4200,
-        bed: 3900,
-        dining: 5400,
-        desk: 3600,
-        wardrobe: 7200,
-        bookshelf: 2400,
-        coffee: 1200,
-        chair: 1450,
+        sofa: 85000,
+        bed: 75000,
+        dining: 95000,
+        desk: 45000,
+        wardrobe: 120000,
+        bookshelf: 35000,
+        coffee: 25000,
+        chair: 18000,
         // Decoration
-        plant: 250,
-        painting: 1200,
-        mirror: 850,
-        curtain: 950,
-        rug: 1450,
-        sculpture: 1800
+        plant: 2500,
+        painting: 12000,
+        mirror: 6500,
+        curtain: 7500,
+        rug: 15000,
+        sculpture: 22000
     };
 
     // Style labor multipliers
     const styleLaborRates = {
         modern: 0.25,
-        minimalist: 0.20,
-        scandinavian: 0.22,
-        contemporary: 0.24,
-        industrial: 0.24,
-        bohemian: 0.22,
-        traditional: 0.30,
-        zen: 0.28,
-        mediterranean: 0.28,
-        smarthome: 0.32,
-        palace: 0.40,
-        hotel: 0.35
+        minimalist: 0.15,
+        scandinavian: 0.20,
+        contemporary: 0.22,
+        industrial: 0.22,
+        bohemian: 0.20,
+        traditional: 0.28,
+        zen: 0.25,
+        mediterranean: 0.25,
+        smarthome: 0.30,
+        palace: 0.35,
+        hotel: 0.30
     };
 
     // 2. DYNAMIC CALCULATION ENGINE
@@ -138,9 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const styleSelect = document.getElementById('calc-style').value;
 
         // Base costs
-        const floorRate = floorRates[floorMat] || 15;
-        const wallRate = (wallRates[wallColor] || 6) + (wallRates[wallMat] || 0);
-        const ceilRate = (ceilRates[ceilColor] || 5) + (ceilRates[ceilType] || 0);
+        const floorRate = floorRates[floorMat] || 150;
+        const wallRate = (wallRates[wallColor] || 15) + (wallRates[wallMat] || 0);
+        const ceilRate = (ceilRates[ceilColor] || 15) + (ceilRates[ceilType] || 0);
 
         const floorCost = floorArea * floorRate;
         const wallCost = wallArea * wallRate;
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Surcharge coves
         const includeLED = document.getElementById('calc-led').checked;
-        const ledCost = includeLED ? perimeter * 12 : 0;
+        const ledCost = includeLED ? perimeter * 120 : 0;
         const ceilingTotalCost = ceilCost + ledCost;
 
         // Product counts
@@ -174,28 +174,47 @@ document.addEventListener('DOMContentLoaded', () => {
             decorationCost += productPrices[cb.value] || 0;
         });
 
+        // Retrieve global rates overrides from admin dashboard
+        let ratesOverride = { palace: 0.35, gst: 18, fee: 15 };
+        const savedRates = localStorage.getItem('valure_rates_override');
+        if (savedRates) {
+            try {
+                ratesOverride = JSON.parse(savedRates);
+            } catch (e) {
+                console.error('Error loading rates override:', e);
+            }
+        }
+        
+        styleLaborRates.palace = ratesOverride.palace;
+
         // Labor cost based on complexity
         const laborRate = styleLaborRates[styleSelect] || 0.25;
         const materialsSubtotal = floorCost + wallCost + ceilingTotalCost + lightingCost + furnitureCost + decorationCost;
         const laborCost = materialsSubtotal * laborRate;
 
         const subtotal = materialsSubtotal + laborCost;
-        const designFee = subtotal * 0.15; // 15% VIP concierge
-        const tax = subtotal * 0.08; // 8% delivery
+        const designFee = subtotal * (ratesOverride.fee / 100);
+        const tax = subtotal * (ratesOverride.gst / 100);
         const grandTotal = subtotal + designFee + tax;
 
+        // Update labels dynamically on invoice card
+        const taxLabel = document.getElementById('bill-tax').previousElementSibling;
+        const feeLabel = document.getElementById('bill-fee').previousElementSibling;
+        if (taxLabel) taxLabel.textContent = `Shipping, Packing & GST (${ratesOverride.gst}%)`;
+        if (feeLabel) feeLabel.textContent = `Luxury Architecture Consulting Fee (${ratesOverride.fee}%)`;
+
         // Update bills on interface
-        document.getElementById('bill-floor').textContent = `$${Math.round(floorCost).toLocaleString()}`;
-        document.getElementById('bill-wall').textContent = `$${Math.round(wallCost).toLocaleString()}`;
-        document.getElementById('bill-ceil').textContent = `$${Math.round(ceilingTotalCost).toLocaleString()}`;
-        document.getElementById('bill-light').textContent = `$${Math.round(lightingCost).toLocaleString()}`;
-        document.getElementById('bill-furn').textContent = `$${Math.round(furnitureCost).toLocaleString()}`;
-        document.getElementById('bill-decor').textContent = `$${Math.round(decorationCost).toLocaleString()}`;
-        document.getElementById('bill-labor').textContent = `$${Math.round(laborCost).toLocaleString()}`;
+        document.getElementById('bill-floor').textContent = `₹${Math.round(floorCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-wall').textContent = `₹${Math.round(wallCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-ceil').textContent = `₹${Math.round(ceilingTotalCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-light').textContent = `₹${Math.round(lightingCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-furn').textContent = `₹${Math.round(furnitureCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-decor').textContent = `₹${Math.round(decorationCost).toLocaleString('en-IN')}`;
+        document.getElementById('bill-labor').textContent = `₹${Math.round(laborCost).toLocaleString('en-IN')}`;
         
-        document.getElementById('bill-tax').textContent = `$${Math.round(tax).toLocaleString()}`;
-        document.getElementById('bill-fee').textContent = `$${Math.round(designFee).toLocaleString()}`;
-        document.getElementById('bill-total').textContent = `$${Math.round(grandTotal).toLocaleString()}`;
+        document.getElementById('bill-tax').textContent = `₹${Math.round(tax).toLocaleString('en-IN')}`;
+        document.getElementById('bill-fee').textContent = `₹${Math.round(designFee).toLocaleString('en-IN')}`;
+        document.getElementById('bill-total').textContent = `₹${Math.round(grandTotal).toLocaleString('en-IN')}`;
 
         // Dynamic budget allocation bars
         updateBudgetFillBars(floorCost, wallCost, ceilingTotalCost, lightingCost, furnitureCost, decorationCost, laborCost, grandTotal);
@@ -597,6 +616,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error loading quiz selections:', err);
             }
         }
+    }
+
+    const printDateEl = document.getElementById('print-date');
+    if (printDateEl) {
+        printDateEl.textContent = 'Date: ' + new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 });
 

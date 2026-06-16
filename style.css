@@ -2152,3 +2152,355 @@ h2 {
     .trust-stats-grid { grid-template-columns: 1fr 1fr; }
 }
 
+/* ================================================================
+   VALURE LUXURY UPGRADES (AUTH MODAL, BOOKING, WHATSAPP WIDGETS)
+   ================================================================ */
+
+/* --- WhatsApp Premium Float --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+}
+.whatsapp-float:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 12px 40px rgba(37, 211, 102, 0.6);
+}
+.whatsapp-tooltip {
+    position: absolute;
+    right: 80px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: 1px solid var(--accent-gold);
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-family: 'Outfit', sans-serif;
+    white-space: nowrap;
+    box-shadow: var(--shadow-premium);
+    opacity: 0;
+    transform: translateX(10px);
+    transition: var(--transition-smooth);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.whatsapp-float:hover .whatsapp-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+.typing-dots {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+}
+.typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    animation: typing 1.4s infinite both;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1.2); opacity: 1; }
+}
+
+/* --- Auth Modal --- */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 13, 26, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content-card {
+    background: var(--secondary-blue);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 480px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transform: translateY(30px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--white);
+}
+.modal.active .modal-content-card {
+    transform: translateY(0);
+}
+.close-modal-icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+.close-modal-icon:hover {
+    color: var(--accent-gold);
+}
+.auth-tabs-header {
+    display: flex;
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 25px;
+    gap: 20px;
+}
+.auth-tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding-bottom: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+.auth-tab-btn.active {
+    color: var(--accent-gold);
+}
+.auth-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-gold);
+}
+.auth-form-group {
+    margin-bottom: 20px;
+}
+.auth-form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.8);
+}
+.auth-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+.auth-input:focus {
+    border-color: var(--accent-gold);
+    background: rgba(255,255,255,0.1);
+}
+
+/* --- Consultation Schedulers --- */
+.booking-section {
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+    position: relative;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+}
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 60px;
+    align-items: center;
+}
+.booking-calendar-wrapper {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 30px;
+}
+.booking-title {
+    font-family: 'Outfit', sans-serif;
+    color: var(--white);
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+.booking-desc {
+    color: rgba(255,255,255,0.75);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+.slot-chip {
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+.slot-chip:hover {
+    border-color: var(--accent-gold);
+    color: var(--white);
+}
+.slot-chip.selected {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--primary-blue);
+}
+
+/* --- Achievements Bar --- */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+}
+.achievement-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 30px 20px;
+    transition: var(--transition-smooth);
+}
+.achievement-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+}
+.achievement-icon {
+    font-size: 2rem;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+}
+.achievement-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+    margin-bottom: 4px;
+}
+.achievement-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* --- Before/After Gallery Slider --- */
+.before-after-showcase {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    box-shadow: var(--shadow-premium);
+}
+.ba-img-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.ba-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.ba-img-after {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+    border-right: 2px solid var(--accent-gold);
+}
+.ba-img-after img {
+    width: 100%;
+    max-width: none;
+}
+.ba-divider-bar {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent-gold);
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    z-index: 10;
+}
+.ba-divider-handle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+    cursor: ew-resize;
+    transition: transform 0.2s;
+}
+.ba-divider-bar:hover .ba-divider-handle {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+.ba-badge {
+    position: absolute;
+    top: 20px;
+    background: rgba(8, 13, 26, 0.7);
+    backdrop-filter: blur(4px);
+    color: var(--white);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--glass-border);
+    z-index: 5;
+}
+.ba-badge-before { right: 20px; }
+.ba-badge-after { left: 20px; }
+
+

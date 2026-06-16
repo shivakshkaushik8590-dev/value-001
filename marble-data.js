@@ -866,6 +866,20 @@ const marbleProducts = [
 
 ];
 
+// Synchronize with CRM Admin database if exists
+const localCustomMarbles = localStorage.getItem('valure_custom_marbles');
+if (localCustomMarbles) {
+    try {
+        const parsed = JSON.parse(localCustomMarbles);
+        marbleProducts.length = 0;
+        parsed.forEach(p => marbleProducts.push(p));
+    } catch (e) {
+        console.error('Error synchronizing local custom marbles:', e);
+    }
+} else {
+    localStorage.setItem('valure_custom_marbles', JSON.stringify(marbleProducts));
+}
+
 // Helper functions
 function getProductById(id) {
   return marbleProducts.find(p => p.id === id);

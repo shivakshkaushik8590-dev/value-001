@@ -350,6 +350,31 @@
                             </div>
                         </div>
 
+                        <!-- Accordion 5.5: Camera Sandbox -->
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span>Camera Sandbox</span>
+                                <i class="fas fa-chevron-down chevron"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="slider-group">
+                                    <div class="slider-labels">
+                                        <span>Camera Zoom</span>
+                                        <span id="cam-zoom-val" class="slider-val">100%</span>
+                                    </div>
+                                    <input type="range" id="cam-zoom" class="designer-range" min="50" max="200" value="100">
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-labels">
+                                        <span>3D Orbit Rotate</span>
+                                        <span id="cam-rotate-val" class="slider-val">0°</span>
+                                    </div>
+                                    <input type="range" id="cam-rotate" class="designer-range" min="-45" max="45" value="0">
+                                </div>
+                                <button id="cam-fullscreen" class="btn btn-outline btn-full" style="margin-top: 15px;"><i class="fas fa-expand"></i> Enter Fullscreen Sandbox</button>
+                            </div>
+                        </div>
+
                         <!-- Accordion 6: Furniture Designer -->
                         <div class="accordion-item">
                             <div class="accordion-header">
@@ -511,10 +536,26 @@
 
                         <!-- Before / After Images -->
                         <div class="slider-img slider-img-after" id="slider-img-after">
-                            <img id="after-img" src="" alt="AI Redesigned Interior View">
+                            <img id="after-img" src="assets/images/living.png" alt="AI Redesigned Interior View">
+                            <div id="lighting-tint" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 15; mix-blend-mode: color; opacity: 0; transition: background-color 0.2s, opacity 0.2s;"></div>
+                            <svg id="room-svg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;" viewBox="0 0 800 600" preserveAspectRatio="none">
+                                <defs>
+                                    <pattern id="pat-carrara" width="120" height="120" patternUnits="userSpaceOnUse">
+                                        <image href="assets/images/mat-carrara.png" x="0" y="0" width="120" height="120"></image>
+                                    </pattern>
+                                    <pattern id="pat-oak" width="120" height="120" patternUnits="userSpaceOnUse">
+                                        <image href="assets/images/mat-oak.png" x="0" y="0" width="120" height="120"></image>
+                                    </pattern>
+                                    <pattern id="pat-brick" width="120" height="120" patternUnits="userSpaceOnUse">
+                                        <image href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" x="0" y="0" width="120" height="120"></image>
+                                    </pattern>
+                                </defs>
+                                <polygon id="poly-wall" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
+                                <polygon id="poly-floor" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
+                            </svg>
                         </div>
                         <div class="slider-img slider-img-before">
-                            <img id="before-img" src="" alt="Original User Room View">
+                            <img id="before-img" src="assets/images/living.png" alt="Original User Room View">
                         </div>
 
                         <!-- Interactive Drag overlay stamp target -->
@@ -533,8 +574,10 @@
                             <p>Drag the center divider handle to examine the before/after structural modifications.</p>
                         </div>
                         <div class="canvas-actions">
-                            <button class="btn btn-outline" onclick="alert('Exporting project packages...')"><i class="fas fa-download"></i> Export Pack</button>
-                            <a href="#contact-ledger" class="btn btn-primary"><i class="fas fa-handshake"></i> Lock In Sourcing</a>
+                            <button id="btn-save-design" class="btn btn-outline"><i class="fas fa-save"></i> Save Design</button>
+                            <button id="btn-share-design" class="btn btn-outline"><i class="fas fa-share-alt"></i> Share Link</button>
+                            <button id="btn-download-pdf" class="btn btn-outline"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                            <button id="btn-email-design" class="btn btn-primary"><i class="fas fa-envelope"></i> Email Proposal</button>
                         </div>
                     </div>
 
@@ -623,6 +666,31 @@
             </p>
         </div>
     </footer>
+
+    <!-- Email Design Modal -->
+    <div id="email-design-modal" class="qv-modal" style="display: none;" role="dialog" aria-modal="true">
+        <div class="qv-modal-overlay" id="email-modal-overlay"></div>
+        <div class="qv-modal-content" style="max-width: 500px; padding: 30px;">
+            <button class="qv-close-btn" id="email-modal-close" aria-label="Close">&times;</button>
+            <h3 style="font-family: 'Outfit', sans-serif; color: var(--primary-blue); margin-bottom: 10px;">Email Your Design Proposal</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Send this customized room visual and spec ledger directly to your email or share it with our design concierge team.</p>
+            <form id="email-design-form" style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="form-group">
+                    <label class="input-label" style="margin-bottom: 5px;">Client Name *</label>
+                    <input type="text" id="email-client-name" placeholder="E.g. Shivaksh Kaushik" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
+                </div>
+                <div class="form-group">
+                    <label class="input-label" style="margin-bottom: 5px;">Phone Number *</label>
+                    <input type="tel" id="email-client-phone" placeholder="E.g. 7454853045" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
+                </div>
+                <div class="form-group">
+                    <label class="input-label" style="margin-bottom: 5px;">Email Address *</label>
+                    <input type="email" id="email-client-email" placeholder="E.g. client@example.com" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" style="margin-top: 10px;">Send Design Proposal</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Interactive script bindings -->
     <script src="designer.js"></script>

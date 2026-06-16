@@ -326,6 +326,26 @@
         // Enquiry form
         document.getElementById('product-enquiry-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            const nameVal = e.target.querySelector('input[placeholder*="Name"]').value;
+            const phoneVal = e.target.querySelector('input[type="tel"]').value;
+            const emailVal = e.target.querySelector('input[type="email"]').value || 'N/A';
+            const messageVal = e.target.querySelector('textarea').value || 'N/A';
+            
+            const newInquiry = {
+                id: 'inq_' + Date.now(),
+                name: nameVal,
+                phone: phoneVal,
+                email: emailVal,
+                product: product.name,
+                message: messageVal,
+                date: new Date().toLocaleDateString('en-IN'),
+                status: 'New'
+            };
+            
+            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            inquiries.unshift(newInquiry);
+            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+            
             alert('Thank you for your enquiry! We will contact you within 2 hours with pricing details for ' + product.name + '.');
             e.target.reset();
             document.getElementById('enquiry-product-name').value = product.name;

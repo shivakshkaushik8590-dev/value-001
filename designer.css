@@ -1240,3 +1240,154 @@ body {
         align-items: flex-start;
     }
 }
+
+/* ==========================================================================
+   3D CANVAS SANDBOX VISUAL ENHANCEMENTS & TRANSFORMS
+   ========================================================================== */
+#slider-container {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+/* Fullscreen mode centering */
+#slider-container:fullscreen {
+    background: #080D1A !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+}
+
+#slider-container:fullscreen img {
+    object-fit: contain !important;
+}
+
+/* Modal structure for design email */
+.qv-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.qv-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 13, 26, 0.85);
+    backdrop-filter: blur(8px);
+}
+.qv-modal-content {
+    position: relative;
+    background: var(--white);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 16px;
+    overflow-y: auto;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    animation: qvFadeUp 0.4s ease forwards;
+    z-index: 2001;
+}
+
+@keyframes qvFadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.qv-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: var(--primary-blue);
+    cursor: pointer;
+    z-index: 10;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.qv-close-btn:hover {
+    color: var(--accent-gold);
+}
+
+/* ==========================================================================
+   VISUALIZER PRINT MEDIA STYLES
+   ========================================================================== */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    header, footer, nav, #navbar, .workspace-sidebar, .canvas-toolbar, 
+    .suggestions-box, .mobile-menu, .active-design-info, .dashboard-view, 
+    .stats-grid, .start-project-banner, .recent-projects-header, 
+    .projects-grid, .sourcing-header button, .floating-whatsapp {
+        display: none !important;
+    }
+
+    .designer-container, main {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .workspace-grid {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .canvas-panel {
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .slider-container {
+        width: 100% !important;
+        aspect-ratio: 16 / 10 !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: none !important;
+        margin-bottom: 30px !important;
+        page-break-inside: avoid !important;
+        transform: none !important; /* Disable orbit tilt on printed pages */
+    }
+
+    .sourcing-ledger {
+        width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        page-break-inside: avoid !important;
+    }
+
+    .sourcing-ledger h3 {
+        border-bottom: 2px solid #D4AF37 !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .ledger-table th {
+        background: #f5f4f0 !important;
+        color: #0E1629 !important;
+        border-bottom: 2px solid #0E1629 !important;
+    }
+
+    .ledger-table td {
+        border-bottom: 1px solid #e2e8f0 !important;
+        color: #000000 !important;
+    }
+}
+

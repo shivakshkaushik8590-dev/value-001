@@ -189,6 +189,50 @@
         </div>
     </footer>
 
+    <!-- Quick View / Slab Preview Modal -->
+    <div id="quick-view-modal" class="qv-modal" role="dialog" aria-modal="true" style="display: none;">
+        <div class="qv-modal-overlay" id="qv-overlay"></div>
+        <div class="qv-modal-content">
+            <button class="qv-close-btn" id="qv-close" aria-label="Close Preview">&times;</button>
+            <div class="qv-grid">
+                <div class="qv-gallery-side">
+                    <div class="qv-main-img-wrap">
+                        <img id="qv-main-img" src="" alt="">
+                    </div>
+                </div>
+                <div class="qv-info-side">
+                    <span class="qv-category" id="qv-category"></span>
+                    <h2 class="qv-title" id="qv-title"></h2>
+                    <div class="qv-price-row">
+                        <span class="qv-price" id="qv-price"></span>
+                        <span class="qv-unit">/ sq.ft.</span>
+                    </div>
+                    <p class="qv-desc" id="qv-desc"></p>
+                    <div class="qv-specs-grid">
+                        <div class="qv-spec-item"><strong>Origin:</strong> <span id="qv-spec-origin"></span></div>
+                        <div class="qv-spec-item"><strong>Finish:</strong> <span id="qv-spec-finish"></span></div>
+                        <div class="qv-spec-item"><strong>Thickness:</strong> <span id="qv-spec-thickness"></span></div>
+                        <div class="qv-spec-item"><strong>Availability:</strong> <span id="qv-spec-avail"></span></div>
+                    </div>
+                    <div class="qv-actions-row">
+                        <a id="qv-whatsapp-btn" href="" target="_blank" class="btn btn-whatsapp-modal"><i class="fab fa-whatsapp"></i> Chat with Expert</a>
+                        <button id="qv-sample-btn" class="btn btn-primary-modal"><i class="fas fa-gift"></i> Request Sample</button>
+                    </div>
+                    <!-- Mini sample request form -->
+                    <div id="qv-sample-form-box" class="qv-sample-form-box" style="display: none;">
+                        <h4>Request Physical Sample Delivery</h4>
+                        <form id="qv-sample-form">
+                            <input type="text" id="qv-sample-name" placeholder="Your Name *" required>
+                            <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required>
+                            <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required>
+                            <button type="submit" class="btn-submit-sample">Request Courier</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- WhatsApp Float -->
     <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
@@ -261,7 +305,7 @@
                             ${p.isPopular ? '<span class="badge-popular">Popular</span>' : ''}
                         </div>
                         <span class="avail-badge ${availClass}">${availText}</span>
-                        <div class="card-quick-view"><i class="fas fa-eye" style="margin-right:6px;"></i> View Details</div>
+                        <div class="card-quick-view" onclick="event.stopPropagation(); openQuickView('${p.id}')"><i class="fas fa-eye" style="margin-right:6px;"></i> Quick View</div>
                     </div>
                     <div class="card-body">
                         <span class="card-category">${catLabel}</span>
@@ -278,7 +322,7 @@
                             ${p.originalPrice ? `<span class="price-original">₹${p.originalPrice}</span>` : ''}
                         </div>
                         <div class="card-actions" onclick="event.stopPropagation();">
-                            <a href="product.html?id=${p.id}" class="btn-enquire"><i class="fas fa-paper-plane"></i> Enquire</a>
+                            <a href="product.html?id=${p.id}" class="btn-enquire"><i class="fas fa-paper-plane"></i> Details</a>
                             <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20(₹${p.price}/sq.ft.)" target="_blank" class="btn-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
@@ -303,6 +347,89 @@
             closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
             document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
         }
+
+        // Quick view modal functionality
+        window.openQuickView = function(productId) {
+            const product = getProductById(productId);
+            if (!product) return;
+
+            document.getElementById('qv-main-img').src = product.images[0];
+            document.getElementById('qv-main-img').alt = product.name;
+            document.getElementById('qv-category').textContent = categoryInfo[product.category]?.label || product.category;
+            document.getElementById('qv-title').textContent = product.name;
+            document.getElementById('qv-price').textContent = '₹' + product.price;
+            document.getElementById('qv-desc').textContent = product.description;
+            document.getElementById('qv-spec-origin').textContent = product.origin;
+            document.getElementById('qv-spec-finish').textContent = product.finish;
+            document.getElementById('qv-spec-thickness').textContent = product.thickness;
+            document.getElementById('qv-spec-avail').textContent = product.availability === 'in-stock' ? 'In Stock' : 'Limited Stock';
+            
+            // Set up WhatsApp link
+            const waText = `Hi, I'm interested in ${encodeURIComponent(product.name)} (₹${product.price}/sq.ft.) shown in the preview catalog. Please share details.`;
+            document.getElementById('qv-whatsapp-btn').href = `https://wa.me/917454853045?text=${waText}`;
+
+            // Reset sample request form
+            document.getElementById('qv-sample-form-box').style.display = 'none';
+            document.getElementById('qv-sample-form').reset();
+
+            // Store active product ID in form submit context
+            document.getElementById('qv-sample-form').dataset.productId = product.id;
+            document.getElementById('qv-sample-form').dataset.productName = product.name;
+
+            // Show modal
+            const modal = document.getElementById('quick-view-modal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            const modal = document.getElementById('quick-view-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        document.getElementById('qv-close').addEventListener('click', closeModal);
+        document.getElementById('qv-overlay').addEventListener('click', closeModal);
+
+        // Request Sample toggle
+        document.getElementById('qv-sample-btn').addEventListener('click', () => {
+            const box = document.getElementById('qv-sample-form-box');
+            if (box.style.display === 'none') {
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                box.style.display = 'none';
+            }
+        });
+
+        // Sample form submission
+        document.getElementById('qv-sample-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const prodId = e.target.dataset.productId;
+            const prodName = e.target.dataset.productName;
+            const nameVal = document.getElementById('qv-sample-name').value;
+            const phoneVal = document.getElementById('qv-sample-phone').value;
+            const addressVal = document.getElementById('qv-sample-address').value;
+
+            // Save sample request to localStorage as an inquiry with "Sample Request" prefix
+            const sampleInquiry = {
+                id: 'inq_' + Date.now(),
+                name: nameVal,
+                phone: phoneVal,
+                email: 'N/A',
+                product: `Sample: ${prodName}`,
+                message: `Sample delivery requested to: ${addressVal}`,
+                date: new Date().toLocaleDateString('en-IN'),
+                status: 'New'
+            };
+
+            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            inquiries.unshift(sampleInquiry);
+            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+
+            alert(`Success! Physical sample delivery request for ${prodName} has been logged. Our logistics team will call you at ${phoneVal} to verify shipment.`);
+            closeModal();
+        });
     });
     </script>
 </body>
