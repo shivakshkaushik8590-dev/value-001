@@ -9,7 +9,7 @@ body {
 }
 
 .materials-container {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 90px auto 0;
     padding: 40px 20px;
     min-height: calc(100vh - 90px);
@@ -126,7 +126,7 @@ body {
    ========================================================================== */
 .materials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 30px;
 }
 
@@ -146,11 +146,15 @@ body {
 
 .material-img-wrapper {
     position: relative;
+    height: 180px;
     overflow: hidden;
     background-color: var(--primary-blue);
 }
 
 .material-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: var(--transition-smooth);
 }
 
@@ -166,7 +170,7 @@ body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     cursor: pointer;
     display: flex;
@@ -196,7 +200,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(8, 13, 26, 0.5);
+    background: rgba(15, 23, 42, 0.45);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,23 +212,53 @@ body {
     opacity: 1;
 }
 
+.material-card-info {
+    padding: 20px;
+}
+
 .mat-category-label {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--accent-gold);
     letter-spacing: 1.5px;
     display: block;
+    margin-bottom: 5px;
+}
+
+.material-card-info h4 {
+    font-size: 1.1rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.mat-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.mat-card-footer span i {
+    color: var(--accent-gold);
+    margin-right: 5px;
+}
+
+.mat-price-tag {
+    font-weight: 700;
+    color: var(--primary-blue);
 }
 
 /* ==========================================================================
-   QUICK PREVIEW SPEC MODAL & COMPARE OVERLAYS
+   QUICK PREVIEW SPEC MODAL
    ========================================================================== */
 .mat-modal-content {
     background: var(--white);
     border-radius: 12px;
     width: 100%;
-    max-width: 900px;
+    max-width: 900px; /* Expanded width for split layout */
     overflow: hidden;
     position: relative;
     box-shadow: 0 25px 60px rgba(0,0,0,0.3);
@@ -240,7 +274,7 @@ body {
 .modal-left-visual {
     position: relative;
     height: 100%;
-    min-height: 520px;
+    min-height: 480px;
     background: var(--primary-blue);
 }
 
@@ -253,7 +287,7 @@ body {
 
 .modal-right-specs {
     padding: 40px;
-    max-height: 85vh;
+    max-height: 80vh;
     overflow-y: auto;
 }
 
@@ -265,7 +299,7 @@ body {
 }
 
 .modal-desc-text {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     color: var(--text-dark);
     margin-bottom: 25px;
@@ -307,60 +341,19 @@ body {
     color: var(--primary-blue);
 }
 
+/* Request Sample Form */
+.modal-request-box h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-blue);
+    margin-bottom: 12px;
+}
+
 /* Form layouts */
 .sample-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-/* ==========================================================================
-   FLOATING COMPARE BAR
-   ========================================================================== */
-.compare-bar {
-    position: fixed;
-    bottom: -100px;
-    left: 0;
-    width: 100%;
-    background: rgba(8, 13, 26, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 2px solid var(--accent-gold);
-    padding: 18px 30px;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
-    z-index: 999;
-    transition: bottom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.compare-bar.active {
-    bottom: 0;
-}
-
-/* Comparison Sheet Tables */
-.compare-table th {
-    padding: 15px;
-    border-bottom: 2px solid #eee;
-    color: var(--primary-blue);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-}
-
-.compare-table td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-}
-
-.compare-table tr:hover td {
-    background-color: var(--light-beige);
-}
-
-/* Buttons in Compare mode */
-.compare-toggle-btn.active {
-    border-color: var(--accent-gold) !important;
-    background: rgba(197, 160, 89, 0.08) !important;
-}
-
-.project-add-btn.active {
-    background: #10b981 !important;
 }
 
 /* Responsive Adaptive */
