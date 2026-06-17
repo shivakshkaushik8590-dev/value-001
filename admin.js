@@ -128,11 +128,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadLocalStorageData = () => {
+        const APP_VERSION = '2.0.0';
+        const localVersion = localStorage.getItem('valure_custom_marbles_version');
+        
         // Load Materials
-        materialsData = JSON.parse(localStorage.getItem('valure_custom_marbles')) || [];
-        if (materialsData.length === 0) {
-            // Seed from hardcoded database
+        if (localVersion !== APP_VERSION) {
             if (typeof marbleProducts !== 'undefined') {
+                materialsData = [...marbleProducts];
+                localStorage.setItem('valure_custom_marbles', JSON.stringify(materialsData));
+                localStorage.setItem('valure_custom_marbles_version', APP_VERSION);
+            } else {
+                materialsData = JSON.parse(localStorage.getItem('valure_custom_marbles')) || [];
+            }
+        } else {
+            materialsData = JSON.parse(localStorage.getItem('valure_custom_marbles')) || [];
+            if (materialsData.length === 0 && typeof marbleProducts !== 'undefined') {
                 materialsData = [...marbleProducts];
                 localStorage.setItem('valure_custom_marbles', JSON.stringify(materialsData));
             }
@@ -429,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             tr.innerHTML = `
                 <td><strong>${mat.name}</strong></td>
-                <td style="text-transform: capitalize;">${mat.category} Marble</td>
+                <td style="text-transform: capitalize;">${mat.category}</td>
                 <td>${mat.color}</td>
                 <td>${mat.finish}</td>
                 <td>${mat.origin}</td>
@@ -526,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     isPopular: false,
                     description: `${nameVal} is a premium luxury selection sourced from ${originVal}. Offers a sophisticated polished finish.`,
                     shortDesc: `Premium ${colorVal} finish sourced from ${originVal.split(',')[0]} quarries.`,
-                    images: ["https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800"],
+                    images: ["assets/images/italian_statuario.png"],
                     specs: {
                         "Water Absorption": "< 0.25%",
                         "Hardness (Mohs)": "3–4",

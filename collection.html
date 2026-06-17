@@ -311,17 +311,18 @@
                 return;
             }
 
-            grid.innerHTML = products.map(p => {
+            grid.innerHTML = products.map((p, index) => {
                 const catLabel = categoryInfo[p.category]?.label || p.category;
                 const availClass = p.availability === 'in-stock' ? 'in-stock' : p.availability === 'limited' ? 'limited' : 'out-of-stock';
                 const availText = p.availability === 'in-stock' ? 'In Stock' : p.availability === 'limited' ? 'Limited' : 'Out of Stock';
                 return `
-                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'">
+                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="animation-delay: ${index * 0.05}s;">
                     <div class="card-img-wrap">
                         <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
                         <div class="card-badges">
                             ${p.isNew ? '<span class="badge-new">New</span>' : ''}
-                            ${p.isPopular ? '<span class="badge-popular">Popular</span>' : ''}
+                            ${p.isPopular ? '<span class="badge-popular">Most Popular</span>' : ''}
+                            ${p.isPremium ? '<span class="badge-premium">Premium Selection</span>' : ''}
                         </div>
                         <span class="avail-badge ${availClass}">${availText}</span>
                         <div class="card-quick-view" onclick="event.stopPropagation(); openQuickView('${p.id}')"><i class="fas fa-eye" style="margin-right:6px;"></i> Quick View</div>
@@ -398,12 +399,18 @@
             // Show modal
             const modal = document.getElementById('quick-view-modal');
             modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
             document.body.style.overflow = 'hidden';
         };
 
         const closeModal = () => {
             const modal = document.getElementById('quick-view-modal');
-            modal.style.display = 'none';
+            modal.classList.remove('active');
+            setTimeout(() => {
+                if (!modal.classList.contains('active')) {
+                    modal.style.display = 'none';
+                }
+            }, 400);
             document.body.style.overflow = 'auto';
         };
 

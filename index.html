@@ -652,15 +652,16 @@
         const featured = getFeaturedProducts(6);
         const grid = document.getElementById('featured-products');
         if (grid && featured.length) {
-            grid.innerHTML = featured.map(p => {
+            grid.innerHTML = featured.map((p, index) => {
                 const catLabel = categoryInfo[p.category]?.label || p.category;
                 return `
-                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer;">
+                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer; animation-delay: ${index * 0.05}s;">
                     <div class="card-img-wrap">
                         <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
                         <div class="card-badges">
                             ${p.isNew ? '<span class="badge-new">New</span>' : ''}
-                            ${p.isPopular ? '<span class="badge-popular">Popular</span>' : ''}
+                            ${p.isPopular ? '<span class="badge-popular">Most Popular</span>' : ''}
+                            ${p.isPremium ? '<span class="badge-premium">Premium Selection</span>' : ''}
                         </div>
                         <div class="card-quick-view"><i class="fas fa-eye" style="margin-right:6px;"></i> View Details</div>
                     </div>
