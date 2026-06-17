@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Project Estimator | Valure Studio — Marble & Stone</title>
+    <meta name="description" content="Use the Valure Project Estimator to calculate marble flooring, wall finishes, ceiling, lighting and labor costs instantly. Get AI-powered design recommendations for your premium interior project.">
+    <link rel="canonical" href="https://valure.designdistrict.com/calculator.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Smart Project Estimator | Valure Studio — Marble & Stone" />
+    <meta property="og:description" content="Calculate custom room flooring, walls, lighting, and labor installation costs instantly. Generate custom AI recommendations based on budget levels." />
+    <meta property="og:image" content="assets/images/project-estimator-hero.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="assets/images/project-estimator-hero.png" />
+    <meta property="og:url" content="https://valure.designdistrict.com/calculator.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation"> <!-- Force dark sticky header nav -->
+        <div class="container nav-content">
+            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#ecosystem">Gallery</a></li>
+                <li><a href="index.html#designer-studio">AI Room Designer</a></li>
+                <li><a href="materials.html">Material Library</a></li>
+                <li><a href="#" class="nav-designer-link">Project Estimator</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="index.html#srs-docs">Project SRS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#contact" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Book Consultation</a>
+                <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+        <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
+        <ul class="mobile-links">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#ecosystem">Gallery</a></li>
+            <li><a href="index.html#designer-studio" style="color: var(--accent-gold); font-weight: 700;">AI Room Designer</a></li>
+            <li><a href="materials.html">Material Library</a></li>
+            <li><a href="#">Project Estimator</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- ================================================================
+         CALCULATOR HERO BANNER
+         ================================================================ -->
+    <section class="calc-hero-banner" aria-label="Project Estimator Hero">
+        <div class="calc-hero-bg">
+            <img
+                src="assets/images/project-estimator-hero.png"
+                alt="Valure Project Estimator — Before and after home renovation with marble flooring, premium finishes, and instant cost estimation"
+                loading="eager"
+                fetchpriority="high"
+                width="1024"
+                height="1024"
+            >
+            <div class="calc-hero-overlay"></div>
+        </div>
+        <div class="calc-hero-content container">
+            <span class="calc-hero-label">Smart Project Estimator</span>
+            <h1 class="calc-hero-title">Marble Project <span class="calc-hero-accent">Estimator</span></h1>
+            <p class="calc-hero-desc">Enter your room dimensions, choose premium flooring and finishes, and get an instant, accurate cost estimate — powered by real material pricing.</p>
+            <div class="calc-hero-actions">
+                <a href="#calc-workspace" class="btn btn-primary calc-hero-btn">
+                    <i class="fas fa-calculator" aria-hidden="true"></i> Start Calculating
+                </a>
+                <a href="index.html" class="btn btn-outline-white calc-hero-btn">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home
+                </a>
+            </div>
+            <div class="calc-hero-stats">
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">6+</span>
+                    <span class="calc-hero-stat-label">Design Models</span>
+                </div>
+                <div class="calc-hero-stat-divider"></div>
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">Real‑Time</span>
+                    <span class="calc-hero-stat-label">Cost Estimates</span>
+                </div>
+                <div class="calc-hero-stat-divider"></div>
+                <div class="calc-hero-stat">
+                    <span class="calc-hero-stat-num">AI</span>
+                    <span class="calc-hero-stat-label">Recommendations</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <main class="calc-container" id="calc-workspace">
+        <!-- Section Header -->
+        <div class="section-header center" style="margin-top: 30px; margin-bottom: 40px;">
+            <span class="subtitle">Project Estimator</span>
+            <h2>Smart Project Estimator</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 1rem; line-height: 1.6;">
+                Input your custom room dimensions, select high-end flooring, wall, and ceiling finishes, configure lighting counts, and review real-time budget estimates.
+            </p>
+        </div>
+
+        <!-- ================================================================
+             DESIGN MODELS GALLERY
+             ================================================================ -->
+        <section id="design-models-gallery" class="design-models-section">
+            <div class="dm-section-header">
+                <div>
+                    <span class="dm-label">Visual Style Selector</span>
+                    <h2 class="dm-title">Choose Your Design Model</h2>
+                    <p class="dm-subtitle">Browse our premium interior design themes — click any style to instantly load it into the project estimator below.</p>
+                </div>
+                <div class="dm-filter-row" id="dm-filters">
+                    <button class="dm-filter-btn active" data-filter="all">All Styles</button>
+                    <button class="dm-filter-btn" data-filter="luxury">Luxury</button>
+                    <button class="dm-filter-btn" data-filter="minimal">Minimal</button>
+                    <button class="dm-filter-btn" data-filter="nature">Nature</button>
+                    <button class="dm-filter-btn" data-filter="bold">Bold</button>
+                </div>
+            </div>
+
+            <div class="dm-grid" id="dm-grid">
+
+                <!-- Card 1: Modern Luxury -->
+                <div class="dm-card" data-tags="luxury" data-style="modern" data-floor="statuario" data-wall="pearl_white" data-wall-mat="marble_panel" data-ceil="hotel" data-ceil-color="gold">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/living.png" alt="Modern Luxury Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Marble</span>
+                                <span class="dm-tag">Gold Accents</span>
+                                <span class="dm-tag">Crystal Chandelier</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Modern Luxury</h4>
+                                <p class="dm-desc">Italian marble floors, floor-to-ceiling windows, gold hardware and crystal chandeliers define this ultra-premium look.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#f8fafc;" title="Pearl White"></span>
+                                <span class="dm-swatch" style="background:#c5a059;" title="Champagne Gold"></span>
+                                <span class="dm-swatch" style="background:#1e293b;" title="Navy Slate"></span>
+                                <span class="dm-swatch" style="background:#e2d0ae;" title="Ivory Cream"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> Statuario Gold Marble Flooring</li>
+                            <li><i class="fas fa-check"></i> Marble Wall Panels + Gold Cove LED</li>
+                            <li><i class="fas fa-check"></i> Luxury Hotel Ceiling Structure</li>
+                            <li><i class="fas fa-check"></i> Gold Accent Ceiling Paint</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="modern">
+                            <i class="fas fa-magic"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Royal Palace -->
+                <div class="dm-card" data-tags="luxury bold" data-style="palace" data-floor="black_galaxy" data-wall="champagne_gold" data-wall-mat="stone_cladding" data-ceil="coffered" data-ceil-color="gold">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/dining.png" alt="Royal Palace Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$$$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Stone Cladding</span>
+                                <span class="dm-tag">Coffered Ceiling</span>
+                                <span class="dm-tag">Royal Gold</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Royal Palace</h4>
+                                <p class="dm-desc">Inspired by grand European palaces — champagne gold walls, decorative coffered ceilings and regal stone cladding.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#c5a059;" title="Champagne Gold"></span>
+                                <span class="dm-swatch" style="background:#f5f0e8;" title="Palace Cream"></span>
+                                <span class="dm-swatch" style="background:#1a0a0a;" title="Deep Black"></span>
+                                <span class="dm-swatch" style="background:#8b6914;" title="Antique Gold"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> Black Galaxy Marble Flooring</li>
+                            <li><i class="fas fa-check"></i> Stone Cladding Feature Wall</li>
+                            <li><i class="fas fa-check"></i> Coffered Grid Wood Ceiling</li>
+                            <li><i class="fas fa-check"></i> Royal Palace Labor Complexity</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="palace">
+                            <i class="fas fa-crown"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Scandinavian Nordic -->
+                <div class="dm-card" data-tags="minimal nature" data-style="scandinavian" data-floor="oak" data-wall="pearl_white" data-wall-mat="plaster" data-ceil="flat" data-ceil-color="white">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/bedroom.png" alt="Scandinavian Nordic Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Oak Wood</span>
+                                <span class="dm-tag">Natural Light</span>
+                                <span class="dm-tag">Minimal</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Scandinavian Nordic</h4>
+                                <p class="dm-desc">Soft whites, light European oak floors, clean lines and natural daylight. Functional minimalism at its finest.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#f8fafc;" title="Pure White"></span>
+                                <span class="dm-swatch" style="background:#d4b896;" title="Oak Beige"></span>
+                                <span class="dm-swatch" style="background:#aabfb0;" title="Sage Mist"></span>
+                                <span class="dm-swatch" style="background:#e8e0d0;" title="Linen Cream"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> European Oak Herringbone Flooring</li>
+                            <li><i class="fas fa-check"></i> Standard Pearl White Paint Walls</li>
+                            <li><i class="fas fa-check"></i> Flat Plaster Ceiling + Recessed LEDs</li>
+                            <li><i class="fas fa-check"></i> Scandinavian Labor (Medium Cost)</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="scandinavian">
+                            <i class="fas fa-snowflake"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Japanese Zen -->
+                <div class="dm-card" data-tags="minimal nature" data-style="zen" data-floor="teak" data-wall="sage_green" data-wall-mat="wood_panel" data-ceil="beams" data-ceil-color="wood">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/office.png" alt="Japanese Zen Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Teak Wood</span>
+                                <span class="dm-tag">Exposed Beams</span>
+                                <span class="dm-tag">Zen Serenity</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Japanese Zen</h4>
+                                <p class="dm-desc">Natural teak wood floors, sage green walls, wooden wall panels, exposed timber ceiling beams for deep calm.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#7a9e85;" title="Sage Green"></span>
+                                <span class="dm-swatch" style="background:#8b5e3c;" title="Teak Brown"></span>
+                                <span class="dm-swatch" style="background:#f0ebe0;" title="Washi White"></span>
+                                <span class="dm-swatch" style="background:#3d3022;" title="Dark Bamboo"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> Teak Wood Flooring</li>
+                            <li><i class="fas fa-check"></i> Sage Green Walls + Wood Panels</li>
+                            <li><i class="fas fa-check"></i> Exposed Wooden Beam Ceiling</li>
+                            <li><i class="fas fa-check"></i> Wood Finish Ceiling Color</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="zen">
+                            <i class="fas fa-leaf"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Contemporary Spa -->
+                <div class="dm-card" data-tags="luxury minimal" data-style="modern" data-floor="carrara" data-wall="pearl_white" data-wall-mat="marble_panel" data-ceil="pop" data-ceil-color="white">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/bathroom.png" alt="Contemporary Spa Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Carrara Marble</span>
+                                <span class="dm-tag">Spa Retreat</span>
+                                <span class="dm-tag">POP Ceiling</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Contemporary Spa</h4>
+                                <p class="dm-desc">Carrara marble floors and walls, sleek POP false ceiling, warm recessed lighting for a 5-star spa atmosphere.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#f5f0f0;" title="Carrara White"></span>
+                                <span class="dm-swatch" style="background:#c8bab0;" title="Warm Stone"></span>
+                                <span class="dm-swatch" style="background:#b8a898;" title="Grey Vein"></span>
+                                <span class="dm-swatch" style="background:#ffffff;" title="Pure White"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> Carrara White Marble Flooring</li>
+                            <li><i class="fas fa-check"></i> Marble Wall Panel Accents</li>
+                            <li><i class="fas fa-check"></i> POP False Ceiling with LED Cove</li>
+                            <li><i class="fas fa-check"></i> Modern Luxury Labor Grade</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="spa">
+                            <i class="fas fa-spa"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: Industrial Urban -->
+                <div class="dm-card" data-tags="bold" data-style="minimalist" data-floor="metallic_epoxy" data-wall="charcoal_black" data-wall-mat="stone_cladding" data-ceil="beams" data-ceil-color="black">
+                    <div class="dm-img-wrapper">
+                        <img src="assets/images/kitchen.png" alt="Industrial Urban Interior" loading="lazy">
+                        <div class="dm-img-overlay">
+                            <span class="dm-price-badge">$$$</span>
+                            <div class="dm-tag-row">
+                                <span class="dm-tag">Epoxy Floor</span>
+                                <span class="dm-tag">Stone Cladding</span>
+                                <span class="dm-tag">Dark Metal</span>
+                            </div>
+                        </div>
+                        <div class="dm-active-badge hidden"><i class="fas fa-check-circle"></i> Active</div>
+                    </div>
+                    <div class="dm-card-body">
+                        <div class="dm-card-top">
+                            <div>
+                                <h4 class="dm-name">Industrial Urban</h4>
+                                <p class="dm-desc">Metallic gold epoxy floors, dark charcoal stone walls, exposed beams and matte black ceiling for urban edge.</p>
+                            </div>
+                            <div class="dm-palette">
+                                <span class="dm-swatch" style="background:#1e293b;" title="Charcoal Black"></span>
+                                <span class="dm-swatch" style="background:#c5a059;" title="Metallic Gold"></span>
+                                <span class="dm-swatch" style="background:#4a4a4a;" title="Urban Grey"></span>
+                                <span class="dm-swatch" style="background:#2d2d2d;" title="Dark Slate"></span>
+                            </div>
+                        </div>
+                        <ul class="dm-features">
+                            <li><i class="fas fa-check"></i> Metallic Gold Epoxy Flooring</li>
+                            <li><i class="fas fa-check"></i> Stone Cladding + Charcoal Paint</li>
+                            <li><i class="fas fa-check"></i> Exposed Wooden Beam Ceiling</li>
+                            <li><i class="fas fa-check"></i> Matte Black Ceiling Finish</li>
+                        </ul>
+                        <button class="dm-apply-btn btn btn-primary" data-card="industrial">
+                            <i class="fas fa-industry"></i> Use This Style
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Calculator Workspace Grid -->
+        <div class="calc-grid">
+            
+            <!-- Left Side: Inputs & AI Recommendations -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                
+                <!-- AI Recommendation Engine Form -->
+                <section class="ai-rec-card reveal">
+                    <h3><i class="fas fa-brain"></i> AI Recommendation Engine</h3>
+                    <div class="grid-select-3">
+                        <div class="qty-group">
+                            <label class="input-label">Room Size</label>
+                            <select id="rec-size" class="calc-select">
+                                <option value="small">Small (< 200 sqft)</option>
+                                <option value="medium" selected>Medium (200-400)</option>
+                                <option value="large">Large (> 400 sqft)</option>
+                            </select>
+                        </div>
+                        <div class="qty-group">
+                            <label class="input-label">Budget Tier</label>
+                            <select id="rec-budget" class="calc-select">
+                                <option value="basic">Basic Cozy</option>
+                                <option value="premium" selected>Premium</option>
+                                <option value="luxury">Luxury Elite</option>
+                                <option value="ultra">Ultra-Luxury</option>
+                            </select>
+                        </div>
+                        <div class="qty-group">
+                            <label class="input-label">Design Style</label>
+                            <select id="rec-style" class="calc-select">
+                                <option value="modern" selected>Modern Luxury</option>
+                                <option value="minimalist">Minimalist</option>
+                                <option value="scandinavian">Nordic Style</option>
+                                <option value="zen">Japanese Zen</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="calc-get-rec-btn" class="btn btn-primary btn-full" style="margin-top: 20px;">Generate AI Recommendation</button>
+
+                    <!-- Hidden AI Proposal Report Card -->
+                    <div id="calc-rec-report" class="rec-report-box hidden">
+                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: var(--primary-blue); margin-bottom: 8px;">AI Recommendation Proposal</h4>
+                        <p id="rec-report-text">Recommended configurations based on selections.</p>
+                        <div class="rec-details-grid">
+                            <div id="rec-report-wall" class="rec-detail-item"></div>
+                            <div id="rec-report-floor" class="rec-detail-item"></div>
+                            <div id="rec-report-ceil" class="rec-detail-item"></div>
+                            <div id="rec-report-light" class="rec-detail-item"></div>
+                        </div>
+                        <button id="calc-apply-rec-btn" class="btn btn-outline btn-full hidden" style="margin-top: 15px; border-color: var(--accent-gold); color: var(--accent-gold);">Apply Settings to Estimator</button>
+                    </div>
+                </section>
+
+                <!-- Parameter Configurations Panel -->
+                <section class="calc-card-panel reveal">
+                    <h3><i class="fas fa-sliders-h"></i> Room Parameters</h3>
+
+                    <!-- Part 1: Dimensions Sliders -->
+                    <div>
+                        <span class="calc-section-title">1. Room Dimensions</span>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Room Length (ft)</span>
+                                <span id="room-length-val" class="slider-val">18 ft</span>
+                            </div>
+                            <input type="range" id="room-length" class="designer-range" min="8" max="40" value="18">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Room Width (ft)</span>
+                                <span id="room-width-val" class="slider-val">14 ft</span>
+                            </div>
+                            <input type="range" id="room-width" class="designer-range" min="8" max="40" value="14">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <span>Wall Height (ft)</span>
+                                <span id="room-height-val" class="slider-val">10 ft</span>
+                            </div>
+                            <input type="range" id="room-height" class="designer-range" min="8" max="15" value="10">
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Material Swaps -->
+                    <div>
+                        <span class="calc-section-title">2. Surface Selections</span>
+                        <div class="grid-select-2">
+                            <div class="qty-group">
+                                <label class="input-label">Flooring Material</label>
+                                <select id="calc-floor" class="calc-select">
+                                    <optgroup label="Hardwoods">
+                                        <option value="oak" selected>European Oak</option>
+                                        <option value="walnut">Smoked Walnut</option>
+                                        <option value="teak">Teak Wood</option>
+                                    </optgroup>
+                                    <optgroup label="Marbles">
+                                        <option value="statuario">Statuario Gold</option>
+                                        <option value="carrara">Carrara White</option>
+                                        <option value="black_galaxy">Black Galaxy</option>
+                                    </optgroup>
+                                    <optgroup label="Epoxy & Resin">
+                                        <option value="metallic_epoxy">Metallic Gold Epoxy</option>
+                                        <option value="ocean_epoxy">Ocean Reef Epoxy</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Wall Paint Color</label>
+                                <select id="calc-wall-color" class="calc-select">
+                                    <optgroup label="Luxury Colors">
+                                        <option value="pearl_white">Pearl White</option>
+                                        <option value="ivory_cream" selected>Ivory Cream</option>
+                                        <option value="champagne_gold">Champagne Gold</option>
+                                    </optgroup>
+                                    <optgroup label="Modern Slate">
+                                        <option value="slate_grey">Slate Grey</option>
+                                        <option value="charcoal_black">Charcoal Black</option>
+                                    </optgroup>
+                                    <optgroup label="Earthy Tones">
+                                        <option value="sage_green">Sage Green</option>
+                                        <option value="earth_brown">Earth Brown</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-select-2" style="margin-top: 15px;">
+                            <div class="qty-group">
+                                <label class="input-label">Wall Accent Material</label>
+                                <select id="calc-wall-mat" class="calc-select">
+                                    <option value="plaster" selected>None (Standard Paint)</option>
+                                    <option value="marble_panel">Marble Wall Panels</option>
+                                    <option value="wood_panel">Wooden Wall Panels</option>
+                                    <option value="stone_cladding">Stone Cladding</option>
+                                    <option value="wallpaper">Luxury Wallpaper</option>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Ceiling Structure</label>
+                                <select id="calc-ceil-type" class="calc-select">
+                                    <option value="flat" selected>Flat Plaster</option>
+                                    <option value="pop">POP false ceiling</option>
+                                    <option value="coffered">Coffered grid wood</option>
+                                    <option value="beams">Exposed wooden beams</option>
+                                    <option value="hotel">Luxury Hotel Ceiling</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-select-2" style="margin-top: 15px;">
+                            <div class="qty-group">
+                                <label class="input-label">Ceiling Paint Color</label>
+                                <select id="calc-ceil-color" class="calc-select">
+                                    <option value="white" selected>Pure White</option>
+                                    <option value="beige">Beige</option>
+                                    <option value="gold">Gold Accent</option>
+                                    <option value="black">Matte Black</option>
+                                    <option value="wood">Wood Finish</option>
+                                </select>
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label">Installation Style (Labor)</label>
+                                <select id="calc-style" class="calc-select">
+                                    <option value="modern" selected>Modern Luxury (Medium-High)</option>
+                                    <option value="minimalist">Minimalist (Low)</option>
+                                    <option value="scandinavian">Scandinavian (Medium)</option>
+                                    <option value="zen">Japanese Zen (Medium-High)</option>
+                                    <option value="palace">Royal Palace (Ultra-High)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="toggle-group" style="margin-top: 20px; padding: 10px 0; border-top: 1px solid #f0f0f0;">
+                            <span class="input-label" style="margin-bottom:0;">Perimeter Cove LED lighting</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="calc-led">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Part 3: Lighting counts -->
+                    <div>
+                        <span class="calc-section-title">3. Lighting Fixtures</span>
+                        <div class="qty-grid">
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Chandeliers</label>
+                                <input type="number" id="count-chandelier" class="qty-input" min="0" max="5" value="1">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Pendant Lights</label>
+                                <input type="number" id="count-pendant" class="qty-input" min="0" max="10" value="0">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Spotlights</label>
+                                <input type="number" id="count-spotlight" class="qty-input" min="0" max="40" value="8">
+                            </div>
+                            <div class="qty-group">
+                                <label class="input-label" style="font-size:0.75rem; text-align:center;">Wall Sconces</label>
+                                <input type="number" id="count-sconce" class="qty-input" min="0" max="10" value="2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 4: Furniture & Decor checklists -->
+                    <div>
+                        <span class="calc-section-title">4. Furniture & Decor</span>
+                        <div class="checklist-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="sofa" checked>
+                                <span>Suede Lounge Sofa</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="chair" checked>
+                                <span>Luxury Armchairs</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="coffee" checked>
+                                <span>Marble Coffee Table</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="furniture-checkbox" value="bookshelf">
+                                <span>Solid Oak Shelving</span>
+                            </label>
+                        </div>
+                        <div class="checklist-grid" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="rug" checked>
+                                <span>Plush Floor Rug</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="painting" checked>
+                                <span>Abstract Art Piece</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="plant" checked>
+                                <span>Fiddle Leaf Fig Tree</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="decor-checkbox" value="mirror">
+                                <span>Gold Arch Mirror</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Side: Invoice Breakdown Billing -->
+            <div>
+                <section class="invoice-card reveal">
+                    <!-- Print only header -->
+                    <div class="print-header" style="display: none;">
+                        <div class="print-header-top" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px;">
+                            <div>
+                                <h1 style="font-family: 'Outfit', sans-serif; font-size: 1.8rem; color: #0E1629; margin: 0; letter-spacing: 1px;">VALURE <span style="color: #D4AF37;">STUDIO</span></h1>
+                                <p style="font-size: 0.8rem; color: #666; margin: 5px 0 0 0;">Premium Sourced Marble & Luxury Interiors</p>
+                            </div>
+                            <div style="text-align: right; font-size: 0.8rem; color: #333; line-height: 1.4;">
+                                <div><strong>Stone Concierge:</strong> +91 7454853045</div>
+                                <div><strong>Email:</strong> shivakshkaushik8590@gmail.com</div>
+                                <div id="print-date">Date: </div>
+                            </div>
+                        </div>
+                        <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #0E1629; margin: 20px 0 10px 0; text-align: center; text-transform: uppercase; letter-spacing: 2px;">Luxury Project Estimate & Sourcing Quote</h2>
+                    </div>
+
+                    <h3>
+                        <span>Design Ledger</span>
+                        <span class="invoice-tag">Estimate invoice</span>
+                    </h3>
+
+                    <div class="invoice-item">
+                        <span>Wall Painting & Surface Accents</span>
+                        <span id="bill-wall" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Flooring Installation Cost</span>
+                        <span id="bill-floor" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Ceiling Structural Cost</span>
+                        <span id="bill-ceil" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Layered Lighting Fixtures</span>
+                        <span id="bill-light" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Luxury Furniture Collection</span>
+                        <span id="bill-furn" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Artworks & Decors Sourcing</span>
+                        <span id="bill-decor" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Master Craftsmanship Labor</span>
+                        <span id="bill-labor" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Shipping, Packing & Tax (8%)</span>
+                        <span id="bill-tax" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item">
+                        <span>Luxury Architecture Consulting Fee (15%)</span>
+                        <span id="bill-fee" class="item-cost">₹0</span>
+                    </div>
+                    <div class="invoice-item total">
+                        <span>Estimated Project Grand Total</span>
+                        <span id="bill-total">₹0</span>
+                    </div>
+
+                    <!-- Budget allocation graphs -->
+                    <div class="budget-meter-group" style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
+                        <span class="calc-section-title">Budget Allocation Split</span>
+                        
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Flooring installation</span>
+                                <span id="meter-floor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-floor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Wall Finish & Paint</span>
+                                <span id="meter-wall-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-wall-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Fittings & Furniture</span>
+                                <span id="meter-fit-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-fit-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                        <div class="budget-meter-group">
+                            <div class="budget-meter-label">
+                                <span>Installation Labor</span>
+                                <span id="meter-labor-val">0%</span>
+                            </div>
+                            <div class="budget-meter-container">
+                                <div id="meter-labor-fill" class="budget-meter-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer actions buttons -->
+                    <div class="invoice-footer-actions">
+                        <button class="btn btn-primary btn-full" onclick="alert('Sending invoice proposal to designer concierge...')"><i class="fas fa-paper-plane"></i> Lock In Sourcing Estimate</button>
+                        <button class="btn btn-outline btn-full" onclick="window.print()"><i class="fas fa-print"></i> Print Billing PDF</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 80px;" role="contentinfo">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Empowering interior visualizations with proprietary Web3D interfaces and high-fidelity AI render engines.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#srs-docs">Project SRS</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Join our elite list for interior inspiration.</p>
+                <form class="newsletter-form" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your email" required aria-label="Email Address">
+                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="student-info">
+                    <p style="margin: 0; color: var(--accent-gold); font-weight: 600;">Prepared By: Shivaksh Kaushik</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
+                </div>
+                <div class="project-info" style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Project: Valure Studio Platform</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
+                &copy; 2026 Valure Studio Platform. All rights reserved. | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="calculator.js"></script>
+    <script>
+        // Mobile menu for sub-page
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        if (menuToggle && mobileMenu && closeMenu) {
+            menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
+            document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
+        }
+    </script>
+</body>
+</html>

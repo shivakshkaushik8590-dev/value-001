@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail | Valure Studio — Premium Marble Supplier</title>
+    <meta name="description" content="View detailed specifications, pricing in INR, and high-quality images. Request a free quote or contact us via WhatsApp for instant support.">
+    <link rel="canonical" href="https://value-001.vercel.app/product.html" />
+
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="Premium Marble Product — Valure Studio" />
+    <meta property="og:description" content="High-quality marble, granite & stone products at competitive prices. Get instant quotes." />
+    <meta property="og:image" content="assets/images/marble-library-hero.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="collection.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
+</head>
+<body>
+
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar">
+        <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:center;gap:20px;font-size:0.78rem;">
+                <a href="tel:+917454853045" style="color:rgba(255,255,255,0.85);text-decoration:none;"><i class="fas fa-phone-alt" style="margin-right:5px;color:var(--accent-gold);"></i> +91 7454853045</a>
+                <a href="mailto:shivakshkaushik8590@gmail.com" style="color:rgba(255,255,255,0.85);text-decoration:none;"><i class="fas fa-envelope" style="margin-right:5px;color:var(--accent-gold);"></i> shivakshkaushik8590@gmail.com</a>
+            </div>
+            <a href="https://wa.me/917454853045" target="_blank" style="color:#25D366;font-size:0.78rem;text-decoration:none;font-weight:600;"><i class="fab fa-whatsapp" style="margin-right:5px;"></i> WhatsApp Us</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation">
+        <div class="container nav-content">
+            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="collection.html">Marble Collection</a></li>
+                <li><a href="calculator.html">Project Estimator</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="tel:+917454853045" class="btn btn-outline" style="padding:10px 20px;font-size:0.72rem;"><i class="fas fa-phone-alt" style="margin-right:6px;"></i> Call Now</a>
+                <a href="contact.html" class="btn btn-primary" style="padding:10px 24px;font-size:0.72rem;">Get Quote</a>
+                <button class="menu-toggle" aria-label="Toggle Navigation" aria-expanded="false"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true">
+        <div class="close-menu" role="button" aria-label="Close"><i class="fas fa-times"></i></div>
+        <ul class="mobile-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Marble Collection</a></li>
+            <li><a href="calculator.html">Project Estimator</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header" style="padding:130px 0 50px;">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> <span>/</span> <a href="collection.html">Marble Collection</a> <span>/</span> <span id="breadcrumb-name">Product</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="product-detail-grid" id="product-detail">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specs -->
+    <section class="specs-section" id="specs-section" style="display:none;">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">Specifications</span>
+                <h2>Technical Details</h2>
+            </div>
+            <div class="specs-grid">
+                <div>
+                    <table class="specs-table" id="specs-table-left"></table>
+                </div>
+                <div>
+                    <table class="specs-table" id="specs-table-right"></table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enquiry Section -->
+    <section class="product-enquiry-section" id="enquiry-section">
+        <div class="container">
+            <div class="enquiry-card">
+                <div class="enquiry-info">
+                    <span class="subtitle" style="color:var(--accent-gold);">Get a Quote</span>
+                    <h2>Interested in This Product?</h2>
+                    <p>Fill the enquiry form and our team will get back to you within 2 hours with the best pricing and availability details.</p>
+                    <div class="contact-chips">
+                        <a href="tel:+917454853045" class="contact-chip"><i class="fas fa-phone-alt"></i> +91 7454853045</a>
+                        <a href="mailto:shivakshkaushik8590@gmail.com" class="contact-chip"><i class="fas fa-envelope"></i> shivakshkaushik8590@gmail.com</a>
+                        <a href="https://wa.me/917454853045" target="_blank" class="contact-chip"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="enquiry-form-box">
+                    <h3><i class="fas fa-paper-plane" style="margin-right:8px;color:var(--accent-gold);"></i> Request Free Quote</h3>
+                    <form class="enquiry-form" id="product-enquiry-form">
+                        <div style="display:none;">
+                            <input type="text" id="prod-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
+                        <div class="form-group"><input type="text" id="prod-name" placeholder="Your Name *" required></div>
+                        <div class="form-group"><input type="tel" id="prod-phone" placeholder="Phone Number *" required></div>
+                        <div class="form-group"><input type="email" id="prod-email" placeholder="Email Address *" required></div>
+                        <div class="form-group"><input type="text" id="enquiry-product-name" placeholder="Product Interest" readonly></div>
+                        <div class="form-group"><textarea id="prod-message" placeholder="Your Message * (quantity, size, etc.)" rows="3" required></textarea></div>
+                        <button type="submit" class="btn-submit-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
+                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
+                    </form>
+                    <div class="form-success-toast" id="prod-enquiry-success" style="margin-top: 16px;">
+                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
+                        <span>Thank you! Your quote request has been received and sent successfully. Our team will contact you within 2 hours.</span>
+                    </div>
+                    <div class="form-error-toast" id="prod-enquiry-error" style="margin-top: 16px;">
+                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                        <span id="prod-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Similar Products -->
+    <section class="similar-section" id="similar-section" style="display:none;">
+        <div class="container">
+            <div class="section-header center">
+                <span class="subtitle">You May Also Like</span>
+                <h2>Similar Products</h2>
+            </div>
+            <div class="similar-grid" id="similar-grid"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Premium marble, granite & stone supplier. Quality materials for luxury spaces at competitive prices across India.</p>
+                <div style="margin-top:16px;"><a href="tel:+917454853045" style="color:var(--accent-gold);text-decoration:none;font-size:0.85rem;"><i class="fas fa-phone-alt" style="margin-right:5px;"></i> +91 7454853045</a></div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="collection.html">Marble Collection</a></li>
+                    <li><a href="calculator.html">Project Estimator</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Get Free Quote</h4>
+                <p>Share your email for best deals.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault();alert('Thank you!');">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="margin-top:20px;opacity:0.5;font-size:0.8rem;text-align:center;">&copy; 2026 Valure Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/917454853045" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+    <script src="marble-data.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const product = getProductById(productId);
+
+        if (!product) {
+            document.getElementById('product-detail').innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1;"><h2>Product not found</h2><p style="margin:15px 0;"><a href="collection.html">← Back to Collection</a></p></div>';
+            return;
+        }
+
+        // Update page title & meta
+        document.title = `${product.name} — ₹${product.price}/sq.ft. | Valure Studio`;
+        document.querySelector('meta[name="description"]').content = product.description;
+        document.getElementById('breadcrumb-name').textContent = product.name;
+        document.getElementById('enquiry-product-name').value = product.name;
+
+        // Add JSON-LD Product schema
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.name,
+            "description": product.description,
+            "image": product.images[0],
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "INR",
+                "price": product.price,
+                "availability": product.availability === 'in-stock' ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability"
+            }
+        });
+        document.head.appendChild(schemaScript);
+
+        const catLabel = categoryInfo[product.category]?.label || product.category;
+        const availClass = product.availability === 'in-stock' ? 'in-stock' : 'limited';
+        const availText = product.availability === 'in-stock' ? 'In Stock' : 'Limited Stock';
+        const savings = product.originalPrice ? product.originalPrice - product.price : 0;
+
+        // Render product detail
+        document.getElementById('product-detail').innerHTML = `
+            <div class="product-gallery">
+                <div class="gallery-main" id="gallery-main">
+                    <img src="${product.images[0]}" alt="${product.name}" id="main-image">
+                    <span class="gallery-zoom-hint"><i class="fas fa-search-plus"></i> Hover to zoom</span>
+                </div>
+                <div class="gallery-thumbs">
+                    ${product.images.map((img, i) => `
+                        <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
+                            <img src="${img}" alt="${product.name} view ${i+1}" loading="lazy">
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category-tag"><i class="${categoryInfo[product.category]?.icon || 'fas fa-gem'}"></i> ${catLabel}</span>
+                <h1>${product.name}</h1>
+                <div class="product-availability ${availClass}"><i class="fas fa-circle"></i> ${availText}</div>
+                <div class="product-price-block">
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                        ${product.originalPrice ? `<span class="product-price-orig">₹${product.originalPrice}/sq.ft.</span>` : ''}
+                        <span class="product-price-main">₹${product.price}</span>
+                        ${savings > 0 ? `<span class="product-price-savings">Save ₹${savings}/sq.ft.</span>` : ''}
+                    </div>
+                    <p class="product-price-unit">Price per square foot (inclusive of GST)</p>
+                </div>
+                <p class="product-desc">${product.description}</p>
+                <div class="quick-specs">
+                    <div class="spec-chip"><span class="spec-chip-label">Color</span><span class="spec-chip-value"><span class="color-dot" style="background:${product.colorHex};display:inline-block;margin-right:6px;vertical-align:middle;"></span>${product.color}</span></div>
+                    <div class="spec-chip"><span class="spec-chip-label">Finish</span><span class="spec-chip-value">${product.finish}</span></div>
+                    <div class="spec-chip"><span class="spec-chip-label">Thickness</span><span class="spec-chip-value">${product.thickness}</span></div>
+                    <div class="spec-chip"><span class="spec-chip-label">Origin</span><span class="spec-chip-value">${product.origin}</span></div>
+                    <div class="spec-chip"><span class="spec-chip-label">Size</span><span class="spec-chip-value">${product.size}</span></div>
+                    <div class="spec-chip"><span class="spec-chip-label">Application</span><span class="spec-chip-value">${product.application}</span></div>
+                </div>
+                <div class="product-cta-group">
+                    <button class="btn-request-quote" onclick="document.getElementById('enquiry-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-paper-plane"></i> Request Quote</button>
+                    <a href="tel:+917454853045" class="btn-call-now"><i class="fas fa-phone-alt"></i> Call</a>
+                    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(product.name)}%20(₹${product.price}/sq.ft.)%20Please%20share%20details." target="_blank" class="btn-whatsapp-lg"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
+                </div>
+                <div class="trust-micro">
+                    <span class="trust-micro-item"><i class="fas fa-shield-alt"></i> Quality Guaranteed</span>
+                    <span class="trust-micro-item"><i class="fas fa-truck"></i> Pan India Delivery</span>
+                    <span class="trust-micro-item"><i class="fas fa-undo"></i> Free Sample Available</span>
+                </div>
+            </div>
+        `;
+
+        // Gallery zoom
+        const mainImg = document.getElementById('main-image');
+        const galleryMain = document.getElementById('gallery-main');
+        galleryMain.addEventListener('mousemove', (e) => {
+            const rect = galleryMain.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            mainImg.style.transformOrigin = `${x}% ${y}%`;
+            mainImg.style.transform = 'scale(1.8)';
+        });
+        galleryMain.addEventListener('mouseleave', () => {
+            mainImg.style.transform = 'scale(1)';
+        });
+
+        // Specs table
+        const specsSection = document.getElementById('specs-section');
+        const allSpecs = {
+            'Color': product.color,
+            'Finish': product.finish,
+            'Thickness': product.thickness,
+            'Origin': product.origin,
+            'Size': product.size,
+            'Application': product.application,
+            ...product.specs
+        };
+        const specEntries = Object.entries(allSpecs);
+        const half = Math.ceil(specEntries.length / 2);
+        document.getElementById('specs-table-left').innerHTML = specEntries.slice(0, half).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+        document.getElementById('specs-table-right').innerHTML = specEntries.slice(half).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+        specsSection.style.display = 'block';
+
+        // Similar products
+        const similar = getSimilarProducts(product, 3);
+        if (similar.length > 0) {
+            const simSection = document.getElementById('similar-section');
+            simSection.style.display = 'block';
+            document.getElementById('similar-grid').innerHTML = similar.map(p => `
+                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'">
+                    <div class="card-img-wrap">
+                        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+                        <div class="card-badges">
+                            ${p.isNew ? '<span class="badge-new">New</span>' : ''}
+                            ${p.isPopular ? '<span class="badge-popular">Popular</span>' : ''}
+                        </div>
+                        <div class="card-quick-view"><i class="fas fa-eye" style="margin-right:6px;"></i> View Details</div>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-category">${categoryInfo[p.category]?.label || p.category}</span>
+                        <h3 class="card-name">${p.name}</h3>
+                        <div class="card-price-row">
+                            <span class="price-inr">₹${p.price}</span>
+                            <span class="price-unit">/ sq.ft.</span>
+                        </div>
+                        <div class="card-actions" onclick="event.stopPropagation();">
+                            <a href="product.html?id=${p.id}" class="btn-enquire"><i class="fas fa-eye"></i> View</a>
+                            <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Enquiry form
+        document.getElementById('product-enquiry-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const successToast = document.getElementById('prod-enquiry-success');
+            const errorToast = document.getElementById('prod-enquiry-error');
+            const errorText = document.getElementById('prod-enquiry-error-text');
+            
+            if (successToast) successToast.classList.remove('show');
+            if (errorToast) errorToast.classList.remove('show');
+
+            const nameVal = document.getElementById('prod-name').value.trim();
+            const phoneVal = document.getElementById('prod-phone').value.trim();
+            const emailVal = document.getElementById('prod-email').value.trim();
+            const productVal = document.getElementById('enquiry-product-name').value || (product ? product.name : 'Unknown Product');
+            const messageVal = document.getElementById('prod-message').value.trim();
+            const honeypotVal = document.getElementById('prod-honeypot').value;
+
+            // Local duplicate protection
+            const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            const isDuplicate = existingInquiries.some(inq => 
+                inq.name === nameVal && inq.phone === phoneVal && inq.message === messageVal
+            );
+
+            if (isDuplicate) {
+                if (errorToast && errorText) {
+                    errorText.textContent = "You have already submitted this enquiry request.";
+                    errorToast.classList.add('show');
+                }
+                return;
+            }
+
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const originalBtnContent = btnSubmit.innerHTML;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending...';
+
+            const newInquiry = {
+                id: 'inq_' + Date.now(),
+                name: nameVal,
+                phone: phoneVal,
+                email: emailVal,
+                product: productVal,
+                message: messageVal,
+                date: new Date().toLocaleDateString('en-IN'),
+                status: 'New'
+            };
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        product: productVal,
+                        message: messageVal,
+                        honeypot: honeypotVal
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(newInquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'quote');
+                    e.target.reset();
+                    document.getElementById('enquiry-product-name').value = productVal;
+                } else {
+                    throw new Error(data.error || 'Server failed to submit enquiry.');
+                }
+            } catch (err) {
+                console.error("Product contact API error (offline fallback):", err);
+                
+                // Offline fallback
+                let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                inquiries.unshift(newInquiry);
+                localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                
+                if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'quote');
+                e.target.reset();
+                document.getElementById('enquiry-product-name').value = productVal;
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            }
+        });
+
+        // Handle secondary WhatsApp button inside form
+        const productForm = document.getElementById('product-enquiry-form');
+        if (productForm) {
+            const wpCta = productForm.querySelector('.btn-whatsapp-cta');
+            if (wpCta) {
+                wpCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (productForm.reportValidity()) {
+                        productForm.requestSubmit();
+                    }
+                });
+            }
+        }
+
+        // Mobile menu
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        if (menuToggle && mobileMenu && closeMenu) {
+            menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
+            document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
+        }
+    });
+
+    function changeImage(src, thumbEl) {
+        document.getElementById('main-image').src = src;
+        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+        thumbEl.classList.add('active');
+    }
+    </script>
+</body>
+</html>

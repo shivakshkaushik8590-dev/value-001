@@ -1,0 +1,375 @@
+/* ==========================================================================
+   Material Library Specific Styles
+   Inherits design variables from style.css
+   ========================================================================== */
+
+/* Page Setup */
+body {
+    background-color: var(--light-beige);
+}
+
+.materials-container {
+    max-width: 1200px;
+    margin: 90px auto 0;
+    padding: 40px 20px;
+    min-height: calc(100vh - 90px);
+}
+
+/* ==========================================================================
+   SEARCH & FILTERS PANEL
+   ========================================================================== */
+.mat-filter-panel {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mat-search-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.mat-search-box {
+    flex: 1;
+    position: relative;
+}
+
+.mat-search-box i {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.mat-search-input {
+    width: 100%;
+    padding: 14px 15px 14px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background: var(--light-beige);
+    transition: var(--transition-smooth);
+}
+
+.mat-search-input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    background: var(--white);
+}
+
+/* Favorites toggle button */
+.btn-fav-toggle {
+    background: transparent;
+    border: 2px solid var(--accent-gold);
+    color: var(--accent-gold);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-fav-toggle:hover, .btn-fav-toggle.active {
+    background: var(--accent-gold);
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(197,160,89,0.3);
+}
+
+/* Category Filters Horizontal Scroll bar */
+.mat-tabs-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+}
+
+.mat-tab {
+    white-space: nowrap;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: var(--light-beige);
+    border: 1px solid transparent;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: var(--transition-smooth);
+}
+
+.mat-tab:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.mat-tab.active {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+/* ==========================================================================
+   MATERIALS CARDS GRID
+   ========================================================================== */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 30px;
+}
+
+.material-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: var(--transition-smooth);
+}
+
+.material-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.07);
+}
+
+.material-img-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background-color: var(--primary-blue);
+}
+
+.material-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.material-card:hover .material-img-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Heart favorite badge button */
+.fav-card-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.fav-card-btn:hover {
+    transform: scale(1.1);
+    color: #ef4444;
+}
+
+.fav-card-btn.active {
+    color: #ef4444;
+    background: var(--white);
+}
+
+/* Card overlay triggers */
+.material-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.material-card:hover .material-card-overlay {
+    opacity: 1;
+}
+
+.material-card-info {
+    padding: 20px;
+}
+
+.mat-category-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.material-card-info h4 {
+    font-size: 1.1rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.mat-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.mat-card-footer span i {
+    color: var(--accent-gold);
+    margin-right: 5px;
+}
+
+.mat-price-tag {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* ==========================================================================
+   QUICK PREVIEW SPEC MODAL
+   ========================================================================== */
+.mat-modal-content {
+    background: var(--white);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px; /* Expanded width for split layout */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.mat-modal-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+}
+
+.modal-left-visual {
+    position: relative;
+    height: 100%;
+    min-height: 480px;
+    background: var(--primary-blue);
+}
+
+.modal-left-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-right-specs {
+    padding: 40px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-right-specs h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+}
+
+.modal-desc-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+}
+
+/* Specifications list block */
+.modal-specs-list {
+    margin-bottom: 30px;
+}
+
+.modal-specs-list h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.85rem;
+}
+
+.spec-row:last-child {
+    border-bottom: none;
+}
+
+.spec-row span.label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.spec-row span.val {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* Request Sample Form */
+.modal-request-box h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--primary-blue);
+    margin-bottom: 12px;
+}
+
+/* Form layouts */
+.sample-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Responsive Adaptive */
+@media (max-width: 992px) {
+    .mat-modal-grid {
+        grid-template-columns: 1fr;
+    }
+    .modal-left-visual {
+        min-height: 250px;
+        height: 250px;
+    }
+    .modal-right-specs {
+        padding: 25px;
+    }
+    .mat-search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

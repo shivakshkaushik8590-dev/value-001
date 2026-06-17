@@ -1,0 +1,1035 @@
+/* ==========================================================================
+   Cost Estimator & Recommendation Engine Styles
+   Inherits design variables from style.css
+   ========================================================================== */
+
+/* ==========================================================================
+   CALCULATOR HERO BANNER
+   ========================================================================== */
+
+.calc-hero-banner {
+    position: relative;
+    height: 88vh;
+    min-height: 560px;
+    max-height: 780px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 0;
+    padding: 0;
+}
+
+/* Background image container */
+.calc-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.calc-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transform: scale(1.06);
+    transition: transform 10s ease-out;
+    will-change: transform;
+}
+
+.calc-hero-banner:hover .calc-hero-bg img {
+    transform: scale(1);
+}
+
+/* Multi-layer gradient overlay — left side dark for text legibility, right reveals image */
+.calc-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            105deg,
+            rgba(8, 13, 26, 0.92)  0%,
+            rgba(8, 13, 26, 0.78) 40%,
+            rgba(8, 13, 26, 0.45) 65%,
+            rgba(8, 13, 26, 0.15) 100%
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(8, 13, 26, 0.25) 0%,
+            rgba(8, 13, 26, 0.0)  40%,
+            rgba(8, 13, 26, 0.55) 100%
+        );
+}
+
+/* Gold shimmer accent line at the bottom */
+.calc-hero-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-gold) 30%, var(--accent-gold) 70%, transparent 100%);
+    z-index: 3;
+}
+
+/* Content wrapper */
+.calc-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    padding-top: 80px; /* offset fixed nav */
+    animation: calcHeroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes calcHeroFadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Label / eyebrow */
+.calc-hero-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 22px;
+}
+
+/* Main heading */
+.calc-hero-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+}
+
+.calc-hero-accent {
+    color: var(--accent-gold);
+    position: relative;
+}
+
+/* Animated underline on accent word */
+.calc-hero-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
+}
+
+.calc-hero-banner .calc-hero-accent::after {
+    transform: scaleX(1);
+}
+
+/* Description */
+.calc-hero-desc {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.75;
+    margin: 0 0 36px;
+    max-width: 560px;
+}
+
+/* CTA buttons row */
+.calc-hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+}
+
+.calc-hero-btn {
+    font-size: 0.8rem;
+    padding: 14px 32px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.calc-hero-btn.btn-primary {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--primary-blue);
+    font-weight: 700;
+    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.35);
+}
+
+.calc-hero-btn.btn-primary:hover {
+    background: #f3e08a;
+    border-color: #f3e08a;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(212, 175, 55, 0.45);
+}
+
+.calc-hero-btn.btn-outline-white {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(6px);
+}
+
+.calc-hero-btn.btn-outline-white:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--white);
+    transform: translateY(-3px);
+}
+
+/* Stats bar */
+.calc-hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.calc-hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.calc-hero-stat-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.calc-hero-stat-label {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.calc-hero-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.18);
+    flex-shrink: 0;
+}
+
+/* ── Responsive Breakpoints ───────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .calc-hero-banner {
+        height: 75vh;
+        min-height: 500px;
+        max-height: 680px;
+    }
+    .calc-hero-overlay {
+        background:
+            linear-gradient(
+                105deg,
+                rgba(8, 13, 26, 0.95)  0%,
+                rgba(8, 13, 26, 0.85) 50%,
+                rgba(8, 13, 26, 0.50) 100%
+            );
+    }
+}
+
+@media (max-width: 768px) {
+    .calc-hero-banner {
+        height: auto;
+        min-height: unset;
+        max-height: unset;
+        padding: 110px 0 60px;
+        align-items: flex-start;
+    }
+    .calc-hero-bg img {
+        object-position: 65% center;
+    }
+    /* Heavier overlay on mobile so text is always legible */
+    .calc-hero-overlay {
+        background: linear-gradient(
+            to bottom,
+            rgba(8, 13, 26, 0.9) 0%,
+            rgba(8, 13, 26, 0.82) 100%
+        );
+    }
+    .calc-hero-content {
+        padding-top: 0;
+        max-width: 100%;
+    }
+    .calc-hero-title {
+        font-size: clamp(2rem, 8vw, 2.8rem);
+    }
+    .calc-hero-desc {
+        font-size: 0.95rem;
+    }
+    .calc-hero-actions {
+        gap: 12px;
+        margin-bottom: 36px;
+    }
+    .calc-hero-btn {
+        padding: 13px 26px;
+        font-size: 0.78rem;
+    }
+    .calc-hero-stats {
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+    .calc-hero-stat-num {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .calc-hero-banner {
+        padding: 100px 0 50px;
+    }
+    .calc-hero-actions {
+        flex-direction: column;
+    }
+    .calc-hero-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .calc-hero-stats {
+        gap: 14px;
+    }
+    .calc-hero-stat-divider {
+        height: 30px;
+    }
+}
+
+/* Page Setup */
+body {
+    background-color: var(--light-beige);
+}
+
+.calc-container {
+    max-width: 1300px;
+    margin: 60px auto 0;
+    padding: 30px 20px;
+    min-height: calc(100vh - 90px);
+}
+
+/* Layout Split */
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* ==========================================================================
+   LEFT PANEL: DIMENSION SLIDERS & PARAMETERS
+   ========================================================================== */
+.calc-card-panel {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.calc-card-panel h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 12px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calc-card-panel h3 i {
+    color: var(--accent-gold);
+}
+
+/* Sub-headings */
+.calc-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Dropdown styling */
+.calc-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: var(--white);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.calc-select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Quantities Row */
+.qty-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.qty-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.qty-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.qty-input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Checkboxes Grid layout */
+.checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    user-select: none;
+}
+
+.checkbox-label input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--accent-gold);
+}
+
+/* ==========================================================================
+   AI RECOMMENDATIONS ENGINE PANEL
+   ========================================================================== */
+.ai-rec-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.ai-rec-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-rec-card h3 i {
+    color: var(--accent-gold);
+}
+
+.rec-report-box {
+    background: var(--light-beige);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid var(--accent-gold);
+    transition: var(--transition-smooth);
+}
+
+.rec-report-box.hidden {
+    display: none;
+}
+
+.rec-report-box p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-style: italic;
+    color: var(--text-dark);
+}
+
+.rec-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-dark);
+}
+
+.rec-detail-item i {
+    color: var(--accent-gold);
+    width: 18px;
+}
+
+/* ==========================================================================
+   RIGHT PANEL: BREAKDOWN INVOICE BILLING
+   ========================================================================== */
+.invoice-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.invoice-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--light-beige);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice-card h3 span.invoice-tag {
+    font-size: 0.75rem;
+    background: var(--light-beige);
+    color: var(--primary-blue);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.invoice-footer-actions {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Responsive Adaptive */
+@media (max-width: 992px) {
+    .calc-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .qty-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================================================
+   DESIGN MODELS GALLERY
+   ========================================================================== */
+
+.design-models-section {
+    margin: 0 0 60px;
+    padding: 50px 0 20px;
+}
+
+/* Section Header Row */
+.dm-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+}
+
+.dm-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 8px;
+}
+
+.dm-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
+
+.dm-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0;
+}
+
+/* Filter Pills */
+.dm-filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.dm-filter-btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1.5px solid #ddd;
+    background: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.dm-filter-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.dm-filter-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #fff;
+}
+
+/* Card Grid */
+.dm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* Individual Card */
+.dm-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border: 1.5px solid transparent;
+    transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.dm-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(15,23,42,0.14);
+    border-color: var(--accent-gold);
+}
+
+.dm-card.dm-card--selected {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), 0 20px 50px rgba(15,23,42,0.14);
+}
+
+/* Card Image */
+.dm-img-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.dm-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+    display: block;
+}
+
+.dm-card:hover .dm-img-wrapper img {
+    transform: scale(1.06);
+}
+
+/* Image Overlay */
+.dm-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.1) 55%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+    gap: 8px;
+}
+
+.dm-price-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(197, 160, 89, 0.92);
+    color: var(--primary-blue);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(4px);
+}
+
+.dm-tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.dm-tag {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    letter-spacing: 0.3px;
+}
+
+/* Active Selected Badge */
+.dm-active-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #10b981;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.dm-active-badge.hidden {
+    display: none;
+}
+
+/* Card Body */
+.dm-card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.dm-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.dm-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin: 0 0 5px;
+}
+
+.dm-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Colour Palette Row */
+.dm-palette {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.dm-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    display: inline-block;
+    transition: transform 0.2s;
+    cursor: help;
+}
+
+.dm-swatch:hover {
+    transform: scale(1.3);
+}
+
+/* Feature List */
+.dm-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.dm-features li {
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+}
+
+.dm-features li i {
+    color: var(--accent-gold);
+    font-size: 0.72rem;
+    flex-shrink: 0;
+}
+
+/* Apply Button */
+.dm-apply-btn {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.28s ease;
+}
+
+.dm-apply-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(197,160,89,0.4);
+}
+
+/* Hidden card during filter */
+.dm-card.dm-hidden {
+    display: none;
+}
+
+/* Fade-in animation for filter */
+@keyframes dmFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dm-card.dm-visible {
+    animation: dmFadeIn 0.3s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .dm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dm-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dm-grid {
+        grid-template-columns: 1fr;
+    }
+    .dm-title {
+        font-size: 1.6rem;
+    }
+    .dm-img-wrapper {
+        height: 200px;
+    }
+}
+
+/* ==========================================================================
+   PRINT MEDIA STYLES (Print Billing PDF)
+   ========================================================================== */
+@media print {
+    /* Set page settings */
+    @page {
+        margin: 1.5cm;
+        size: A4 portrait;
+    }
+
+    /* General typography and backgrounds */
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Hide non-printable items */
+    nav, #navbar, .mobile-menu, .calc-hero-banner, .section-header, 
+    .ai-rec-card, .calc-card-panel, .invoice-footer-actions, 
+    .design-models-section, footer, .footer, .footer-bottom, 
+    .floating-whatsapp, .student-info {
+        display: none !important;
+    }
+
+    /* Expand workspace and grid to full width */
+    .calc-container, main {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .calc-grid {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .calc-grid > div {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Format Invoice Card as a corporate sheet */
+    .invoice-card {
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        color: #000000 !important;
+    }
+
+    /* Show print header */
+    .invoice-card .print-header {
+        display: block !important;
+    }
+
+    /* Adjust Ledger Heading */
+    .invoice-card h3 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 16pt !important;
+        color: #0E1629 !important;
+        border-bottom: 2px solid #D4AF37 !important;
+        padding-bottom: 8px !important;
+        margin-top: 25px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .invoice-card h3 span.invoice-tag {
+        border: 1px solid #D4AF37 !important;
+        background: transparent !important;
+        color: #0E1629 !important;
+        font-size: 9pt !important;
+        padding: 3px 10px !important;
+    }
+
+    /* Invoice list items */
+    .invoice-item {
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 10px 0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        font-size: 10pt !important;
+        color: #1a202c !important;
+    }
+
+    .invoice-item span.item-cost {
+        font-weight: 600 !important;
+    }
+
+    /* Grand Total Row */
+    .invoice-item.total {
+        border-top: 2px solid #0E1629 !important;
+        border-bottom: 2px solid #0E1629 !important;
+        padding: 15px 0 !important;
+        margin-top: 15px !important;
+        font-size: 14pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+    }
+
+    /* Budget allocation bars */
+    .budget-meter-group {
+        page-break-inside: avoid !important;
+        margin-top: 30px !important;
+        padding-top: 20px !important;
+        border-top: 1px solid #e2e8f0 !important;
+    }
+
+    .calc-section-title {
+        font-size: 11pt !important;
+        font-weight: 700 !important;
+        color: #0E1629 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    .budget-meter-label {
+        font-size: 9pt !important;
+        margin-bottom: 4px !important;
+    }
+
+    .budget-meter-container {
+        height: 10px !important;
+        border: 1px solid #cbd5e0 !important;
+        background: #f7fafc !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+
+    .budget-meter-fill {
+        background: #0E1629 !important;
+        height: 100% !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
