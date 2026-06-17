@@ -15,7 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         italian_white: 450,
         black_galaxy: 380,
         statuario: 500,
+        calacatta_gold: 550,
         carrara: 400,
+        black_marquina: 420,
+        panda_white: 480,
+        armani_grey: 410,
         glossy: 120,
         matte: 100,
         wooden_tile: 140,
@@ -617,6 +621,133 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // ==========================================================================
+    // RECENT PROJECTS - Apply specs to estimator
+    // ==========================================================================
+    const rpCards = document.querySelectorAll('.rp-card');
+    const rpApplyBtns = document.querySelectorAll('.rp-apply-btn');
+
+    rpApplyBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            const card = btn.closest('.rp-card');
+            if (!card) return;
+
+            // Load data attributes
+            const length = parseInt(card.dataset.length) || 18;
+            const width = parseInt(card.dataset.width) || 14;
+            const height = parseInt(card.dataset.height) || 10;
+            const floor = card.dataset.floor || 'oak';
+            const wallColor = card.dataset.wallColor || 'pearl_white';
+            const wallMat = card.dataset.wallMat || 'plaster';
+            const ceilType = card.dataset.ceilType || 'flat';
+            const ceilCol = card.dataset.ceilColor || 'white';
+            const style = card.dataset.style || 'modern';
+            const led = card.dataset.led === 'true';
+            
+            const chandelier = parseInt(card.dataset.chandelier) || 0;
+            const pendant = parseInt(card.dataset.pendant) || 0;
+            const spotlight = parseInt(card.dataset.spotlight) || 0;
+            const sconce = parseInt(card.dataset.sconce) || 0;
+
+            const furnitureList = (card.dataset.furniture || '').split(',').filter(Boolean);
+            const decorList = (card.dataset.decor || '').split(',').filter(Boolean);
+
+            // Update range slider values & visual text
+            const setSlider = (id, val) => {
+                const slider = document.getElementById(id);
+                if (slider) {
+                    slider.value = val;
+                    // Trigger input event to update label visual text
+                    slider.dispatchEvent(new Event('input'));
+                }
+            };
+            setSlider('room-length', length);
+            setSlider('room-width', width);
+            setSlider('room-height', height);
+
+            // Update dropdown values
+            const setSelect = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
+            setSelect('calc-floor', floor);
+            setSelect('calc-wall-color', wallColor);
+            setSelect('calc-wall-mat', wallMat);
+            setSelect('calc-ceil-type', ceilType);
+            setSelect('calc-ceil-color', ceilCol);
+            setSelect('calc-style', style);
+
+            // LED checkbox
+            const ledCheckbox = document.getElementById('calc-led');
+            if (ledCheckbox) ledCheckbox.checked = led;
+
+            // Update quantities
+            const setQty = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
+            setQty('count-chandelier', chandelier);
+            setQty('count-pendant', pendant);
+            setQty('count-spotlight', spotlight);
+            setQty('count-sconce', sconce);
+
+            // Furniture Checkboxes reset and toggle
+            document.querySelectorAll('.furniture-checkbox').forEach(cb => {
+                cb.checked = furnitureList.includes(cb.value);
+            });
+
+            // Decor Checkboxes reset and toggle
+            document.querySelectorAll('.decor-checkbox').forEach(cb => {
+                cb.checked = decorList.includes(cb.value);
+            });
+
+            // Toggle active styles on cards
+            rpCards.forEach(c => {
+                c.classList.remove('rp-card--selected');
+                const badge = c.querySelector('.rp-active-badge');
+                if (badge) badge.classList.add('hidden');
+            });
+            card.classList.add('rp-card--selected');
+            const activeBadge = card.querySelector('.rp-active-badge');
+            if (activeBadge) activeBadge.classList.remove('hidden');
+
+            // Force recalculation
+            recalculateCosts();
+
+            // Provide visual feedback on button
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Applied!';
+            btn.style.background = '#10b981';
+            btn.style.borderColor = '#10b981';
+            btn.style.color = '#fff';
+            setTimeout(() => {
+                btn.innerHTML = origHTML;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            }, 2000);
+
+            // Smooth scroll to estimator inputs or billing invoice
+            const targetSection = document.getElementById('calc-floor');
+            if (targetSection) {
+                setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        });
+    });
+
+    // Make clicking the card act as applying the specs
+    rpCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.rp-apply-btn')) return;
+            const applyBtn = card.querySelector('.rp-apply-btn');
+            if (applyBtn) applyBtn.click();
+        });
+    });
 
     const printDateEl = document.getElementById('print-date');
     if (printDateEl) {
