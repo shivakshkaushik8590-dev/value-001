@@ -1,0 +1,32 @@
+Starting server logs...
+127.0.0.1 - - [17/Jun/2026 23:16:45] "GET /calculator.html HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:16:46] "GET /calculator.css HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:16:46] "GET /whatsapp-helper.js HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:16:46] "GET /calculator.js HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:16:48] code 404, message File not found
+127.0.0.1 - - [17/Jun/2026 23:16:48] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [17/Jun/2026 23:21:15] "GET /calculator.html HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:21:16] "GET /calculator.css HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:21:16] "GET /calculator.js HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:21:16] "GET /whatsapp-helper.js HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:28:41] "GET /calculator.html HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:28:41] "GET /calculator.css HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:28:41] "GET /whatsapp-helper.js HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:28:41] "GET /style.css HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:28:41] "GET /calculator.js HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:30:07] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:30:07] "GET /collection.css HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:30:07] "GET /assets/images/hero.png HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:30:08] "GET /marble-data.js HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:31:37] code 404, message File not found
+127.0.0.1 - - [17/Jun/2026 23:31:37] "GET /js/calculator.js HTTP/1.1" 404 -
+127.0.0.1 - - [17/Jun/2026 23:32:06] "GET /calculator.html HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:32:15] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:32:26] "GET /calculator.js HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:32:41] "GET /calculator.css HTTP/1.1" 304 -
+127.0.0.1 - - [17/Jun/2026 23:33:02] "GET /designer.html HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:33:03] "GET /designer.css HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:33:03] "GET /assets/images/mat-carrara.png HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:33:03] "GET /designer.js HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:33:03] "GET /assets/images/mat-oak.png HTTP/1.1" 200 -
+127.0.0.1 - - [17/Jun/2026 23:33:22] "GET /collection.html HTTP/1.1" 200 -

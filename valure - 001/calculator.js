@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
         black_galaxy: 380,
         statuario: 500,
         carrara: 400,
+        calacatta_gold: 550,
+        black_marquina: 420,
+        panda_white: 480,
+        armani_grey: 410,
+        travertine_beige: 350,
         glossy: 120,
         matte: 100,
         wooden_tile: 140,
@@ -616,6 +621,284 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error loading quiz selections:', err);
             }
         }
+    }
+
+    // ==========================================================================
+    // INSPIRATION GALLERY & LIGHTBOX CONTROLLER
+    // ==========================================================================
+    const rpCards = document.querySelectorAll('.rp-card');
+    const rpFilterBtns = document.querySelectorAll('.rp-filter-btn');
+    const rpApplyBtns = document.querySelectorAll('.rp-apply-btn');
+    const rpDetailsBtns = document.querySelectorAll('.rp-details-btn');
+
+    const lightbox = document.getElementById('rp-lightbox');
+    const lightboxClose = document.querySelector('.rp-lightbox-close');
+    const lightboxOverlay = document.querySelector('.rp-lightbox-overlay');
+    const lightboxApplyBtn = document.getElementById('lb-apply-btn');
+
+    // Project Details Dictionary for Lightbox dynamically populating
+    const projectDetails = {
+        villa: {
+            name: "Royal Luxury Villa",
+            category: "Luxury",
+            location: "Dubai Style Modern Villa",
+            area: "8,500 sq ft",
+            budget: "₹1.25 Crore",
+            timeline: "120 Days",
+            materials: "Italian Statuario Marble, Calacatta Gold Marble, Black Marquina Marble",
+            desc: "Premium villa featuring imported Italian marble flooring, luxury staircase cladding, book-matched wall panels, and custom marble detailing.",
+            image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80"
+        },
+        penthouse: {
+            name: "Skyview Presidential Penthouse",
+            category: "Luxury",
+            location: "Exclusive Skyline Penthouse",
+            area: "5,200 sq ft",
+            budget: "₹95 Lakhs",
+            timeline: "90 Days",
+            materials: "Calacatta Gold, Onyx Marble, Nero Portoro",
+            desc: "High-end penthouse with premium marble flooring, luxury bathrooms, statement walls, and custom marble furniture.",
+            image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80"
+        },
+        hotel: {
+            name: "Grand Imperial Hotel",
+            category: "Commercial Luxury",
+            location: "Five-Star Lobby Design",
+            area: "12,000 sq ft",
+            budget: "₹2.4 Crore",
+            timeline: "150 Days",
+            materials: "Crema Marfil, Statuario Marble, Black Granite",
+            desc: "Grand hotel lobby with premium marble flooring, luxury reception area, decorative columns, and elegant interiors.",
+            image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80"
+        },
+        corporate: {
+            name: "Elite Business Tower",
+            category: "Corporate",
+            location: "Corporate Headquarters",
+            area: "15,000 sq ft",
+            budget: "₹3.1 Crore",
+            timeline: "180 Days",
+            materials: "Armani Grey Marble, White Statuario Marble, Black Marquina",
+            desc: "Corporate headquarters featuring executive reception, conference areas, premium marble wall cladding, and modern luxury interiors.",
+            image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+        },
+        resort: {
+            name: "Paradise Luxury Resort",
+            category: "Hospitality",
+            location: "Luxury Resort Reception",
+            area: "10,500 sq ft",
+            budget: "₹1.8 Crore",
+            timeline: "140 Days",
+            materials: "Travertine Marble, Onyx Stone, Statuario Marble",
+            desc: "Luxury resort reception with natural stone features, grand entrance, premium flooring, and elegant hospitality aesthetics.",
+            image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80"
+        }
+    };
+
+    // Keep track of which project is open in lightbox
+    let currentLightboxProject = null;
+
+    // 1. Category Filters
+    rpFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            rpFilterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+
+            rpCards.forEach(card => {
+                const category = card.dataset.category || '';
+                const matches = filter === 'all' || category === filter;
+
+                card.classList.remove('rp-hidden', 'rp-visible');
+
+                if (matches) {
+                    card.classList.remove('rp-hidden');
+                    // Small stagger for animation
+                    requestAnimationFrame(() => card.classList.add('rp-visible'));
+                } else {
+                    card.classList.add('rp-hidden');
+                }
+            });
+        });
+    });
+
+    // 2. Lightbox Open/Close Handlers
+    const openLightbox = (projectId) => {
+        const details = projectDetails[projectId];
+        if (!details) return;
+
+        currentLightboxProject = projectId;
+
+        document.getElementById('lb-image').src = details.image;
+        document.getElementById('lb-image').alt = details.name;
+        document.getElementById('lb-category').textContent = details.category;
+        document.getElementById('lb-name').textContent = details.name;
+        document.getElementById('lb-location').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${details.location}`;
+        document.getElementById('lb-area').textContent = details.area;
+        document.getElementById('lb-budget').textContent = details.budget;
+        document.getElementById('lb-timeline').textContent = details.timeline;
+        document.getElementById('lb-materials').textContent = details.materials;
+        document.getElementById('lb-description').textContent = details.desc;
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        currentLightboxProject = null;
+    };
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
+
+    // Open lightbox when clicking "View Details" or image wrapper
+    rpDetailsBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.rp-card');
+            if (card) openLightbox(card.dataset.project);
+        });
+    });
+
+    rpCards.forEach(card => {
+        const imgWrap = card.querySelector('.rp-img-wrapper');
+        if (imgWrap) {
+            imgWrap.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLightbox(card.dataset.project);
+            });
+        }
+    });
+
+    // 3. Apply Template Settings to Estimator
+    const applyTemplateToEstimator = (projectId) => {
+        const card = document.querySelector(`.rp-card[data-project="${projectId}"]`);
+        if (!card) return;
+
+        // Extract parameters
+        const length = parseInt(card.dataset.length) || 18;
+        const width = parseInt(card.dataset.width) || 14;
+        const height = parseInt(card.dataset.height) || 10;
+        const floor = card.dataset.floor || 'oak';
+        const wallColor = card.dataset.wallColor || 'pearl_white';
+        const wallMat = card.dataset.wallMat || 'plaster';
+        const ceilType = card.dataset.ceilType || 'flat';
+        const ceilCol = card.dataset.ceilColor || 'white';
+        const style = card.dataset.style || 'modern';
+        const led = card.dataset.led === 'true';
+        
+        const chandelier = parseInt(card.dataset.chandelier) || 0;
+        const pendant = parseInt(card.dataset.pendant) || 0;
+        const spotlight = parseInt(card.dataset.spotlight) || 0;
+        const sconce = parseInt(card.dataset.sconce) || 0;
+
+        const furnitureList = (card.dataset.furniture || '').split(',').filter(Boolean);
+        const decorList = (card.dataset.decor || '').split(',').filter(Boolean);
+
+        // Update range sliders
+        const setSlider = (id, val) => {
+            const slider = document.getElementById(id);
+            if (slider) {
+                slider.value = val;
+                slider.dispatchEvent(new Event('input'));
+            }
+        };
+        setSlider('room-length', length);
+        setSlider('room-width', width);
+        setSlider('room-height', height);
+
+        // Update dropdowns
+        const setSelect = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        };
+        setSelect('calc-floor', floor);
+        setSelect('calc-wall-color', wallColor);
+        setSelect('calc-wall-mat', wallMat);
+        setSelect('calc-ceil-type', ceilType);
+        setSelect('calc-ceil-color', ceilCol);
+        setSelect('calc-style', style);
+
+        // LED checkbox
+        const ledCheckbox = document.getElementById('calc-led');
+        if (ledCheckbox) ledCheckbox.checked = led;
+
+        // Lighting quantities
+        const setQty = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        };
+        setQty('count-chandelier', chandelier);
+        setQty('count-pendant', pendant);
+        setQty('count-spotlight', spotlight);
+        setQty('count-sconce', sconce);
+
+        // Furniture Checkboxes reset and toggle
+        document.querySelectorAll('.furniture-checkbox').forEach(cb => {
+            cb.checked = furnitureList.includes(cb.value);
+        });
+
+        // Decor Checkboxes reset and toggle
+        document.querySelectorAll('.decor-checkbox').forEach(cb => {
+            cb.checked = decorList.includes(cb.value);
+        });
+
+        // Toggle active styles on cards
+        rpCards.forEach(c => {
+            c.classList.remove('rp-card--selected');
+            const badge = c.querySelector('.rp-active-badge');
+            if (badge) badge.classList.add('hidden');
+        });
+        card.classList.add('rp-card--selected');
+        const activeBadge = card.querySelector('.rp-active-badge');
+        if (activeBadge) activeBadge.classList.remove('hidden');
+
+        // Force recalculation
+        recalculateCosts();
+
+        // Scroll to estimator inputs
+        const targetSection = document.getElementById('calc-floor');
+        if (targetSection) {
+            setTimeout(() => {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+    };
+
+    // Bind Apply Template actions
+    rpApplyBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.rp-card');
+            if (card) {
+                applyTemplateToEstimator(card.dataset.project);
+                
+                // Visual feedback on card button
+                const origHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Loaded!';
+                btn.style.background = '#10b981';
+                btn.style.borderColor = '#10b981';
+                btn.style.color = '#fff';
+                setTimeout(() => {
+                    btn.innerHTML = origHTML;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2000);
+            }
+        });
+    });
+
+    if (lightboxApplyBtn) {
+        lightboxApplyBtn.addEventListener('click', () => {
+            if (currentLightboxProject) {
+                applyTemplateToEstimator(currentLightboxProject);
+                closeLightbox();
+            }
+        });
     }
 
     const printDateEl = document.getElementById('print-date');
