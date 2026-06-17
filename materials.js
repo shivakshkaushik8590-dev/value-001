@@ -393,6 +393,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 status: 'New'
             };
 
+            // Open blank window before fetching to avoid popup blocker
+            const openedTab = window.open('', '_blank');
+            if (openedTab) {
+                openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+            }
+
             try {
                 const response = await fetch('/api/contact', {
                     method: 'POST',
@@ -417,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
-                    redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote');
+                    redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote', openedTab);
                     btn.textContent = 'Sample Requested Successfully!';
                     btn.style.backgroundColor = '#10b981';
                     requestForm.reset();
@@ -441,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
-                redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote');
+                redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote', openedTab);
                 btn.textContent = 'Sample Requested Successfully!';
                 btn.style.backgroundColor = '#10b981';
                 requestForm.reset();

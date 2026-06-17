@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
 </head>
 <body>
 
@@ -225,11 +226,17 @@
                             <div style="display:none;">
                                 <input type="text" id="qv-sample-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
                             </div>
-                            <input type="text" id="qv-sample-name" placeholder="Your Name *" required>
-                            <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required>
-                            <input type="email" id="qv-sample-email" placeholder="Email Address *" required>
-                            <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required>
+                             <input type="text" id="qv-sample-name" placeholder="Your Name *" required>
+                             <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required>
+                             <input type="email" id="qv-sample-email" placeholder="Email Address *" required>
+                             <input type="text" id="qv-sample-location" placeholder="City / Location *" required>
+                             <div style="margin-bottom: 10px;">
+                                 <label style="font-size: 0.72rem; color: #718096; display: block; margin-bottom: 4px; text-align: left; padding-left: 4px;">Preferred Consultation Date (Optional)</label>
+                                 <input type="date" id="qv-sample-date" style="margin-bottom: 0;">
+                             </div>
+                             <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required>
                             <button type="submit" class="btn-submit-sample">Request Courier</button>
+                            <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Request Sample on WhatsApp</a>
                         </form>
                         <div class="form-success-toast" id="qv-sample-success" style="margin-top: 10px;">
                             <i class="fas fa-check-circle" style="font-size:1.1rem;"></i>
@@ -430,6 +437,8 @@
             const nameVal = document.getElementById('qv-sample-name').value.trim();
             const phoneVal = document.getElementById('qv-sample-phone').value.trim();
             const emailVal = document.getElementById('qv-sample-email').value.trim();
+            const locationVal = document.getElementById('qv-sample-location').value.trim();
+            const dateVal = document.getElementById('qv-sample-date').value || 'N/A';
             const addressVal = document.getElementById('qv-sample-address').value.trim();
             const honeypotVal = document.getElementById('qv-sample-honeypot').value;
 
@@ -452,6 +461,7 @@
             btnSubmit.disabled = true;
             btnSubmit.textContent = 'Requesting Courier...';
 
+            const submissionTime = new Date().toISOString();
             const sampleInquiry = {
                 id: 'inq_' + Date.now(),
                 name: nameVal,
@@ -459,9 +469,18 @@
                 email: emailVal,
                 product: `Sample: ${prodName}`,
                 message: `Sample delivery requested to: ${addressVal}`,
+                location: locationVal,
+                consultationDate: dateVal,
                 date: new Date().toLocaleDateString('en-IN'),
+                submissionTime: submissionTime,
                 status: 'New'
             };
+
+            // Open blank window before fetching to avoid popup blocker
+            const openedTab = window.open('', '_blank');
+            if (openedTab) {
+                openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+            }
 
             try {
                 const response = await fetch('/api/contact', {
@@ -475,6 +494,9 @@
                         email: emailVal,
                         product: `Sample: ${prodName}`,
                         message: `Sample delivery requested to: ${addressVal}`,
+                        location: locationVal,
+                        consultationDate: dateVal,
+                        submissionTime: submissionTime,
                         honeypot: honeypotVal
                     })
                 });
@@ -487,6 +509,7 @@
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(nameVal, phoneVal, emailVal, `Sample: ${prodName}`, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nDelivery Address: ${addressVal}`, 'quote', openedTab);
                     btnSubmit.textContent = 'Courier Requested!';
                     e.target.reset();
                     
@@ -508,6 +531,7 @@
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(nameVal, phoneVal, emailVal, `Sample: ${prodName}`, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nDelivery Address: ${addressVal}`, 'quote', openedTab);
                 btnSubmit.textContent = 'Courier Requested!';
                 e.target.reset();
                 
@@ -519,6 +543,20 @@
                 }, 2000);
             }
         });
+
+        // Handle secondary WhatsApp button inside qv-sample-form
+        const qvSampleForm = document.getElementById('qv-sample-form');
+        if (qvSampleForm) {
+            const wpCta = qvSampleForm.querySelector('.btn-whatsapp-cta');
+            if (wpCta) {
+                wpCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (qvSampleForm.reportValidity()) {
+                        qvSampleForm.requestSubmit();
+                    }
+                });
+            }
+        }
     });
     </script>
 </body>

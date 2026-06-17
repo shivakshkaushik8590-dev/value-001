@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
 </head>
 <body>
 
@@ -120,9 +121,15 @@
                         <div class="form-group"><input type="text" id="prod-name" placeholder="Your Name *" required></div>
                         <div class="form-group"><input type="tel" id="prod-phone" placeholder="Phone Number *" required></div>
                         <div class="form-group"><input type="email" id="prod-email" placeholder="Email Address *" required></div>
+                        <div class="form-group"><input type="text" id="prod-location" placeholder="City / Location *" required></div>
+                        <div class="form-group">
+                            <label style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-bottom: 4px; text-align: left; padding-left: 4px;">Preferred Consultation Date (Optional)</label>
+                            <input type="date" id="prod-date">
+                        </div>
                         <div class="form-group"><input type="text" id="enquiry-product-name" placeholder="Product Interest" readonly></div>
                         <div class="form-group"><textarea id="prod-message" placeholder="Your Message * (quantity, size, etc.)" rows="3" required></textarea></div>
                         <button type="submit" class="btn-submit-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
+                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                     </form>
                     <div class="form-success-toast" id="prod-enquiry-success" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
@@ -262,7 +269,7 @@
                 <div class="product-cta-group">
                     <button class="btn-request-quote" onclick="document.getElementById('enquiry-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-paper-plane"></i> Request Quote</button>
                     <a href="tel:+917454853045" class="btn-call-now"><i class="fas fa-phone-alt"></i> Call</a>
-                    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(product.name)}%20(₹${product.price}/sq.ft.)%20Please%20share%20details." target="_blank" class="btn-whatsapp-lg"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(product.name)}%20(₹${product.price}/sq.ft.)%20Please%20share%20details." target="_blank" class="btn-whatsapp-lg"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                 </div>
                 <div class="trust-micro">
                     <span class="trust-micro-item"><i class="fas fa-shield-alt"></i> Quality Guaranteed</span>
@@ -349,6 +356,8 @@
             const phoneVal = document.getElementById('prod-phone').value.trim();
             const emailVal = document.getElementById('prod-email').value.trim();
             const productVal = document.getElementById('enquiry-product-name').value || (product ? product.name : 'Unknown Product');
+            const locationVal = document.getElementById('prod-location').value.trim();
+            const dateVal = document.getElementById('prod-date').value || 'N/A';
             const messageVal = document.getElementById('prod-message').value.trim();
             const honeypotVal = document.getElementById('prod-honeypot').value;
 
@@ -371,6 +380,7 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending...';
 
+            const submissionTime = new Date().toISOString();
             const newInquiry = {
                 id: 'inq_' + Date.now(),
                 name: nameVal,
@@ -378,9 +388,18 @@
                 email: emailVal,
                 product: productVal,
                 message: messageVal,
+                location: locationVal,
+                consultationDate: dateVal,
                 date: new Date().toLocaleDateString('en-IN'),
+                submissionTime: submissionTime,
                 status: 'New'
             };
+
+            // Open blank window before fetching to avoid popup blocker
+            const openedTab = window.open('', '_blank');
+            if (openedTab) {
+                openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+            }
 
             try {
                 const response = await fetch('/api/contact', {
@@ -394,6 +413,9 @@
                         email: emailVal,
                         product: productVal,
                         message: messageVal,
+                        location: locationVal,
+                        consultationDate: dateVal,
+                        submissionTime: submissionTime,
                         honeypot: honeypotVal
                     })
                 });
@@ -406,6 +428,7 @@
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                     e.target.reset();
                     document.getElementById('enquiry-product-name').value = productVal;
                 } else {
@@ -420,6 +443,7 @@
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                 e.target.reset();
                 document.getElementById('enquiry-product-name').value = productVal;
             } finally {
@@ -427,6 +451,20 @@
                 btnSubmit.innerHTML = originalBtnContent;
             }
         });
+
+        // Handle secondary WhatsApp button inside form
+        const productForm = document.getElementById('product-enquiry-form');
+        if (productForm) {
+            const wpCta = productForm.querySelector('.btn-whatsapp-cta');
+            if (wpCta) {
+                wpCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (productForm.reportValidity()) {
+                        productForm.requestSubmit();
+                    }
+                });
+            }
+        }
 
         // Mobile menu
         const menuToggle = document.querySelector('.menu-toggle');

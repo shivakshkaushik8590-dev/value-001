@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const twilio = require('twilio');
 const fs = require('fs');
 const path = require('path');
+const { Resend } = require('resend');
 
 module.exports = async (req, res) => {
     // CORS Headers setup
@@ -23,7 +24,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { name, phone, email, project, date, slot, honeypot } = req.body;
+        const { name, phone, email, project, date, slot, location, message, honeypot } = req.body;
 
         // Honeypot Spam Protection
         if (honeypot) {
@@ -35,8 +36,8 @@ module.exports = async (req, res) => {
         }
 
         // Validation
-        if (!name || !phone || !email || !date || !slot) {
-            return res.status(400).json({ error: 'Missing required booking fields.' });
+        if (!name || !phone || !email || !date || !slot || !location || !message) {
+            return res.status(400).json({ error: 'Missing required booking fields (Name, Phone, Email, Date, Slot, Location, and Message are required).' });
         }
 
         // Prepare booking payload
@@ -49,6 +50,8 @@ module.exports = async (req, res) => {
             project: project || 'Residential Villa',
             date,
             slot,
+            location: location || 'N/A',
+            message: message || 'N/A',
             status: 'New',
             createdAt: new Date().toISOString()
         };
@@ -106,6 +109,10 @@ module.exports = async (req, res) => {
                             <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${email}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">City / Location:</td>
+                            <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${location}</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7;">
                             <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Project Type:</td>
                             <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${project || 'Residential Villa'}</td>
                         </tr>
@@ -117,7 +124,15 @@ module.exports = async (req, res) => {
                             <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Time Slot:</td>
                             <td style="padding: 12px 0; color: #D4AF37; font-weight: 700; font-size: 0.95rem;">${slot}</td>
                         </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Submission Time:</td>
+                            <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${new Date(newBooking.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} (IST)</td>
+                        </tr>
                     </table>
+                    <div style="margin-top: 20px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 8px; color: #080D1A; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600;">Message / Specific Request:</h4>
+                        <div style="background: #faf8f5; border-left: 4px solid #D4AF37; padding: 16px; border-radius: 8px; font-size: 0.9rem; color: #2d3748; white-space: pre-wrap;">${message}</div>
+                    </div>
                     <div style="background: #faf8f5; border-left: 4px solid #D4AF37; padding: 16px; border-radius: 8px; margin-top: 30px;">
                         <p style="margin: 0; font-size: 0.85rem; color: #718096; font-style: italic;">
                             Note: This booking request was captured in real-time. Please follow up with the client to confirm details and arrange video call logistics or a showroom visit.
@@ -132,27 +147,20 @@ module.exports = async (req, res) => {
 
         if (resendApiKey) {
             try {
-                const resendRes = await fetch('https://api.resend.com/emails', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${resendApiKey}`
-                    },
-                    body: JSON.stringify({
-                        from: 'Valure Studio <onboarding@resend.dev>',
-                        to: notificationEmail,
-                        subject: `New Consultation Booking - ${name}`,
-                        html: emailHtml
-                    })
+                const resend = new Resend(resendApiKey);
+                const sendResult = await resend.emails.send({
+                    from: 'Valure Studio <onboarding@resend.dev>',
+                    to: notificationEmail,
+                    subject: `New Consultation Booking - ${name}`,
+                    html: emailHtml
                 });
 
-                if (resendRes.ok) {
+                if (sendResult.data && sendResult.data.id) {
                     emailSent = true;
-                    deliveryMethod = 'Resend API';
-                } else {
-                    const errData = await resendRes.json();
-                    console.error('Booking Resend delivery failed:', errData);
-                    emailError = `Resend API error: ${JSON.stringify(errData)}`;
+                    deliveryMethod = 'Resend SDK';
+                } else if (sendResult.error) {
+                    console.error('Booking Resend SDK delivery failed:', sendResult.error);
+                    emailError = `Resend SDK error: ${JSON.stringify(sendResult.error)}`;
                 }
             } catch (err) {
                 console.error('Booking Resend exception:', err.message);
@@ -160,13 +168,9 @@ module.exports = async (req, res) => {
             }
         }
 
-        if (!emailSent) {
-            const smtpHost = process.env.SMTP_HOST;
-            const smtpPort = process.env.SMTP_PORT || 587;
-            const smtpUser = process.env.SMTP_USER;
-            const smtpPass = process.env.SMTP_PASS;
-
-            if (smtpUser && smtpPass) {
+        const isPlaceholder = !smtpUser || !smtpPass || smtpUser.includes('your-email') || smtpPass.includes('your-app-password');
+        if (!emailSent && smtpUser && smtpPass && !isPlaceholder) {
+            try {
                 const transporter = nodemailer.createTransport({
                     host: smtpHost,
                     port: Number(smtpPort),
@@ -185,10 +189,13 @@ module.exports = async (req, res) => {
                 });
                 emailSent = true;
                 deliveryMethod = 'SMTP Fallback';
-            } else {
-                console.info('SMTP config not set. Skipping automated email notification.');
-                if (!emailError) emailError = 'SMTP and Resend credentials not provided in environment.';
+            } catch (smtpErr) {
+                console.error('SMTP email fallback delivery failed:', smtpErr.message);
+                emailError = `SMTP error: ${smtpErr.message}`;
             }
+        } else if (!emailSent) {
+            console.info('SMTP config not set or placeholders used. Skipping automated email notification.');
+            if (!emailError) emailError = 'SMTP credentials not configured or are placeholder values.';
         }
 
 
@@ -203,7 +210,7 @@ module.exports = async (req, res) => {
         if (twilioSid && twilioToken && twilioFrom) {
             const client = twilio(twilioSid, twilioToken);
             
-            const waBody = `New Consultation Booking\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nProject Type: ${project}\nDate: ${date}\nTime Slot: ${slot}`;
+            const waBody = `New Consultation Booking\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCity/Location: ${location}\nProject Type: ${project}\nDate: ${date}\nTime Slot: ${slot}\nMessage: ${message}\nSubmitted at: ${new Date(newBooking.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} (IST)`;
 
             const formattedTo = whatsAppTo.startsWith('whatsapp:') ? whatsAppTo : `whatsapp:${whatsAppTo.replace(/\s+/g, '')}`;
             const formattedFrom = twilioFrom.startsWith('whatsapp:') ? twilioFrom : `whatsapp:${twilioFrom.replace(/\s+/g, '')}`;

@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
 </head>
 <body>
 
@@ -356,9 +357,20 @@
                             </div>
                         </div>
                         
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                            <div class="form-group">
+                                <label for="book-date" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Date *</label>
+                                <input type="date" id="book-date" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-location" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">City / Location *</label>
+                                <input type="text" id="book-location" placeholder="E.g. Delhi NCR" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                            </div>
+                        </div>
+
                         <div class="form-group" style="margin-bottom:16px;">
-                            <label for="book-date" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Date *</label>
-                            <input type="date" id="book-date" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                            <label for="book-message" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Message *</label>
+                            <textarea id="book-message" placeholder="Details about your space, quantity, sizes, preferred stones..." required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;" rows="3"></textarea>
                         </div>
 
                         <div class="form-group" style="margin-bottom:20px;">
@@ -372,6 +384,7 @@
                         </div>
                         
                         <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;"><i class="fas fa-check-circle" style="margin-right:8px;"></i> Book Appointment</button>
+                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Book Consultation on WhatsApp</a>
                     </form>
                     <div class="form-success-toast" id="booking-success" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
@@ -506,10 +519,19 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="hp-location">City / Location *</label>
+                            <input type="text" id="hp-location" placeholder="Your city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hp-date">Preferred Consultation Date (Optional)</label>
+                            <input type="date" id="hp-date">
+                        </div>
+                        <div class="form-group">
                             <label for="hp-message">Message *</label>
                             <textarea id="hp-message" rows="4" placeholder="Tell us about your project..." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane" style="margin-right:8px;"></i> Request Free Quote</button>
+                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                     </form>
                     <div class="form-success-toast" id="hp-enquiry-success" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
@@ -690,6 +712,8 @@
                 const phoneVal = document.getElementById('hp-phone').value.trim();
                 const emailVal = document.getElementById('hp-email').value.trim();
                 const productVal = document.getElementById('hp-product').value || 'General Sourcing Inquiry';
+                const locationVal = document.getElementById('hp-location').value.trim();
+                const dateVal = document.getElementById('hp-date').value || 'N/A';
                 const messageVal = document.getElementById('hp-message').value.trim();
                 const honeypotVal = document.getElementById('hp-honeypot').value;
 
@@ -712,6 +736,7 @@
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
 
+                const submissionTime = new Date().toISOString();
                 const inquiry = {
                     id: 'inq_' + Date.now(),
                     name: nameVal,
@@ -719,9 +744,18 @@
                     email: emailVal,
                     product: productVal,
                     message: messageVal,
+                    location: locationVal,
+                    consultationDate: dateVal,
                     date: new Date().toLocaleDateString('en-IN'),
+                    submissionTime: submissionTime,
                     status: 'New'
                 };
+
+                // Open blank window before fetching to avoid popup blocker
+                const openedTab = window.open('', '_blank');
+                if (openedTab) {
+                    openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+                }
 
                 try {
                     const response = await fetch('/api/contact', {
@@ -735,6 +769,9 @@
                             email: emailVal,
                             product: productVal,
                             message: messageVal,
+                            location: locationVal,
+                            consultationDate: dateVal,
+                            submissionTime: submissionTime,
                             honeypot: honeypotVal
                         })
                     });
@@ -744,6 +781,7 @@
                     if (response.ok && data.success) {
                         saveInquiry(inquiry);
                         if (successToast) successToast.classList.add('show');
+                        redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                         form.reset();
                     } else {
                         throw new Error(data.error || 'Server failed to save enquiry.');
@@ -752,12 +790,24 @@
                     console.error("Enquiry API error (offline fallback):", err);
                     saveInquiry(inquiry);
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                     form.reset();
                 } finally {
                     btnSubmit.disabled = false;
                     btnSubmit.innerHTML = originalBtnContent;
                 }
             });
+
+            // Handle secondary WhatsApp button inside form
+            const wpCta = form.querySelector('.btn-whatsapp-cta');
+            if (wpCta) {
+                wpCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (form.reportValidity()) {
+                        form.requestSubmit();
+                    }
+                });
+            }
         }
 
         // Booking form submit
@@ -793,6 +843,8 @@
                     project: document.getElementById('book-project').value,
                     date: document.getElementById('book-date').value,
                     slot: selectedSlot,
+                    location: document.getElementById('book-location').value.trim(),
+                    message: document.getElementById('book-message').value.trim(),
                     honeypot: document.getElementById('book-honeypot').value,
                     status: 'New'
                 };
@@ -832,6 +884,15 @@
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
 
+                const submissionTime = new Date().toISOString();
+                booking.submissionTime = submissionTime;
+
+                // Open blank window before fetching to avoid popup blocker
+                const openedTab = window.open('', '_blank');
+                if (openedTab) {
+                    openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+                }
+
                 try {
                     // Send to backend API
                     const response = await fetch('/api/booking', {
@@ -855,14 +916,18 @@
                             phone: booking.phone,
                             email: booking.email || 'N/A',
                             product: `Booking: ${booking.project} (${booking.slot})`,
-                            message: `Consultation booked for ${booking.date} at ${booking.slot}. Contact email: ${booking.email}`,
+                            message: booking.message,
+                            location: booking.location,
+                            consultationDate: booking.date,
                             date: new Date().toLocaleDateString('en-IN'),
+                            submissionTime: submissionTime,
                             status: 'New'
                         };
                         saveInquiry(inquiry);
 
                         // Success notification
                         if (successToast) successToast.classList.add('show');
+                        redirectToWhatsApp(booking.name, booking.phone, booking.email, booking.project, `Consultation scheduled for ${booking.date} at ${booking.slot}.\nLocation: ${booking.location}\nMessage: ${booking.message}`, 'consultation', openedTab);
                         bookingForm.reset();
                     } else {
                         // Error returned from server
@@ -879,13 +944,17 @@
                         phone: booking.phone,
                         email: booking.email || 'N/A',
                         product: `Booking: ${booking.project} (${booking.slot})`,
-                        message: `Consultation booked for ${booking.date} at ${booking.slot}. (Offline fallback storage - Email & WhatsApp pending)`,
+                        message: booking.message,
+                        location: booking.location,
+                        consultationDate: booking.date,
                         date: new Date().toLocaleDateString('en-IN'),
+                        submissionTime: submissionTime,
                         status: 'New'
                     };
                     saveInquiry(inquiry);
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(booking.name, booking.phone, booking.email, booking.project, `Consultation scheduled for ${booking.date} at ${booking.slot}.\nLocation: ${booking.location}\nMessage: ${booking.message}`, 'consultation', openedTab);
                     bookingForm.reset();
                 } finally {
                     // Reset button state
@@ -893,6 +962,17 @@
                     btnSubmit.innerHTML = originalBtnContent;
                 }
             });
+
+            // Handle secondary WhatsApp button inside bookingForm
+            const wpBookingCta = bookingForm.querySelector('.btn-whatsapp-cta');
+            if (wpBookingCta) {
+                wpBookingCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (bookingForm.reportValidity()) {
+                        bookingForm.requestSubmit();
+                    }
+                });
+            }
         }
 
         // --- Before/After Homepage Slider logic ---

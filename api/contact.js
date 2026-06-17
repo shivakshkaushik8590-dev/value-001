@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+const twilio = require('twilio');
 
 // In-memory duplicate protection cache (SHA/signature keys -> timestamp)
 const recentSubmissions = new Map();
@@ -25,7 +27,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { name, phone, email, product, message, honeypot } = req.body;
+        const { name, phone, email, product, message, location, consultationDate, honeypot } = req.body;
 
         // 1. Honeypot Spam Protection
         if (honeypot) {
@@ -54,6 +56,9 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Message is required.' });
         }
 
+        const locationVal = (location && typeof location === 'string') ? location.trim() : 'N/A';
+        const dateVal = (consultationDate && typeof consultationDate === 'string') ? consultationDate.trim() : 'N/A';
+
         // 3. Duplicate Protection (1 minute cooldown)
         const now = Date.now();
         // Clean cache entries older than 1 minute
@@ -77,6 +82,7 @@ module.exports = async (req, res) => {
 
         // Prepare structured enquiry data
         const dateString = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+        const submissionTime = new Date().toISOString();
         const enquiryId = 'enq_' + Date.now();
         const newEnquiry = {
             id: enquiryId,
@@ -85,7 +91,10 @@ module.exports = async (req, res) => {
             email: email.trim(),
             product: product.trim(),
             message: message.trim(),
+            location: locationVal,
+            consultationDate: dateVal,
             date: dateString,
+            submissionTime: submissionTime,
             status: 'New'
         };
 
@@ -139,12 +148,24 @@ module.exports = async (req, res) => {
                             <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${newEnquiry.email}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">City / Location:</td>
+                            <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${newEnquiry.location}</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7;">
                             <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Product Interest:</td>
                             <td style="padding: 12px 0; color: #D4AF37; font-weight: 700; font-size: 0.95rem;">${newEnquiry.product}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Preferred Date:</td>
+                            <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${newEnquiry.consultationDate}</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7;">
                             <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Date & Time (IST):</td>
                             <td style="padding: 12px 0; color: #080D1A; font-size: 0.9rem;">${newEnquiry.date}</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 12px 0; font-weight: 600; color: #4a5568; font-size: 0.9rem;">Submission Time:</td>
+                            <td style="padding: 12px 0; color: #1a202c; font-size: 0.9rem;">${new Date(newEnquiry.submissionTime).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} (IST)</td>
                         </tr>
                     </table>
                     
@@ -163,50 +184,56 @@ module.exports = async (req, res) => {
         let deliveryMethod = 'none';
 
         if (resendApiKey) {
-            // Deliver using Resend REST API
-            const resendRes = await fetch('https://api.resend.com/emails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${resendApiKey}`
-                },
-                body: JSON.stringify({
+            try {
+                // Deliver using Resend SDK
+                const resend = new Resend(resendApiKey);
+                const sendResult = await resend.emails.send({
                     from: 'Valure Studio <onboarding@resend.dev>',
                     to: notificationEmail,
                     subject: `New Lead: ${newEnquiry.name} - ${newEnquiry.product}`,
                     html: emailHtml
-                })
-            });
+                });
 
-            if (resendRes.ok) {
-                emailSent = true;
-                deliveryMethod = 'Resend API';
-            } else {
-                const errData = await resendRes.json();
-                console.error('Resend delivery failed:', errData);
+                if (sendResult.data && sendResult.data.id) {
+                    emailSent = true;
+                    deliveryMethod = 'Resend SDK';
+                } else if (sendResult.error) {
+                    console.error('Resend SDK delivery failed:', sendResult.error);
+                }
+            } catch (err) {
+                console.error('Resend SDK exception:', err.message);
             }
         }
 
         // Graceful SMTP fallback if Resend not active, but SMTP details are provided in .env
-        if (!emailSent && process.env.SMTP_USER && process.env.SMTP_PASS) {
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: Number(process.env.SMTP_PORT || 587),
-                secure: Number(process.env.SMTP_PORT) === 465,
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS
-                }
-            });
+        const smtpUser = process.env.SMTP_USER;
+        const smtpPass = process.env.SMTP_PASS;
+        const isPlaceholder = !smtpUser || !smtpPass || smtpUser.includes('your-email') || smtpPass.includes('your-app-password');
 
-            await transporter.sendMail({
-                from: `"${newEnquiry.name}" <${process.env.SMTP_USER}>`,
-                to: notificationEmail,
-                subject: `New Lead: ${newEnquiry.name} - ${newEnquiry.product} (SMTP Fallback)`,
-                html: emailHtml
-            });
-            emailSent = true;
-            deliveryMethod = 'SMTP Fallback';
+        if (!emailSent && smtpUser && smtpPass && !isPlaceholder) {
+            try {
+                const transporter = nodemailer.createTransport({
+                    host: process.env.SMTP_HOST,
+                    port: Number(process.env.SMTP_PORT || 587),
+                    secure: Number(process.env.SMTP_PORT) === 465,
+                    auth: {
+                        user: smtpUser,
+                        pass: smtpPass
+                    }
+                });
+
+                await transporter.sendMail({
+                    from: `"${newEnquiry.name}" <${smtpUser}>`,
+                    to: notificationEmail,
+                    subject: `New Lead: ${newEnquiry.name} - ${newEnquiry.product} (SMTP Fallback)`,
+                    html: emailHtml
+                });
+                emailSent = true;
+                deliveryMethod = 'SMTP Fallback';
+            } catch (smtpErr) {
+                console.error('SMTP email fallback delivery failed:', smtpErr.message);
+                deliveryMethod = `SMTP Failure: ${smtpErr.message}`;
+            }
         }
 
         if (!emailSent) {
@@ -215,13 +242,46 @@ module.exports = async (req, res) => {
             deliveryMethod = 'Console Log (No email config provided)';
         }
 
+        // 6. WhatsApp Notification (Twilio API)
+        let whatsAppSent = false;
+        let whatsAppError = null;
+        const twilioSid = process.env.TWILIO_ACCOUNT_SID;
+        const twilioToken = process.env.TWILIO_AUTH_TOKEN;
+        const twilioFrom = process.env.TWILIO_WHATSAPP_FROM;
+        const whatsAppTo = process.env.WHATSAPP_TO || '+917454853045';
+
+        if (twilioSid && twilioToken && twilioFrom) {
+            try {
+                const client = twilio(twilioSid, twilioToken);
+                const waBody = `New Lead Sourced\n\nName: ${newEnquiry.name}\nPhone: ${newEnquiry.phone}\nEmail: ${newEnquiry.email}\nCity/Location: ${newEnquiry.location}\nProduct/Service: ${newEnquiry.product}\nPreferred Date: ${newEnquiry.consultationDate}\nMessage: ${newEnquiry.message}\nSubmitted at: ${new Date(newEnquiry.submissionTime).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} (IST)`;
+
+                const formattedTo = whatsAppTo.startsWith('whatsapp:') ? whatsAppTo : `whatsapp:${whatsAppTo.replace(/\s+/g, '')}`;
+                const formattedFrom = twilioFrom.startsWith('whatsapp:') ? twilioFrom : `whatsapp:${twilioFrom.replace(/\s+/g, '')}`;
+
+                await client.messages.create({
+                    body: waBody,
+                    from: formattedFrom,
+                    to: formattedTo
+                });
+                whatsAppSent = true;
+            } catch (waErr) {
+                console.error('WhatsApp notification dispatch error:', waErr.message);
+                whatsAppError = waErr.message;
+            }
+        } else {
+            console.info('Twilio configurations missing. Skipping automated WhatsApp notification.');
+            whatsAppError = 'Twilio variables missing in environment configurations';
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Your request has been sent successfully.',
             enquiry: newEnquiry,
             savedLocally,
             emailSent,
-            deliveryMethod
+            deliveryMethod,
+            whatsAppSent,
+            whatsAppError
         });
     } catch (error) {
         console.error('Fatal API contact failure:', error);

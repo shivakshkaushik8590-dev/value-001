@@ -2,7 +2,7 @@
  * Valure Premium WhatsApp Lead Generation Redirection Helper
  * Prefills structured enquiry or booking text and routes to WhatsApp Web (Desktop) or App (Mobile)
  */
-function redirectToWhatsApp(name, phone, email, product, message, type) {
+function redirectToWhatsApp(name, phone, email, product, message, type, openedTab = null) {
     const targetPhone = "917454853045";
     const header = type === 'consultation' ? 'New Luxury Consultation Request' : 'New Luxury Quote Request';
     
@@ -23,13 +23,23 @@ Submitted From:
 https://value-001.vercel.app/`;
 
     const encodedText = encodeURIComponent(textMsg);
+    const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodedText}`;
     
-    // User-agent detection for desktop vs mobile routing
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
-    const whatsappUrl = `${baseUrl}?phone=${targetPhone}&text=${encodedText}`;
-    
-    window.open(whatsappUrl, '_blank');
+    if (openedTab) {
+        try {
+            openedTab.location.href = whatsappUrl;
+        } catch (err) {
+            console.warn("Failed to set location on pre-opened tab (will fallback to current tab/window.open):", err);
+            window.open(whatsappUrl, '_blank');
+        }
+    } else {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) {
+            window.location.href = whatsappUrl;
+        } else {
+            window.open(whatsappUrl, '_blank');
+        }
+    }
 }
 
 // Global WhatsApp Float Widget Injection and Micro-interaction on DOMContentLoaded

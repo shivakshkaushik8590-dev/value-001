@@ -100,8 +100,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let materialsChartInstance = null;
     let leadsChartInstance = null;
 
-    window.initializeCRM = () => {
+    const loadLeadsFromServer = async () => {
+        try {
+            const response = await fetch('/api/leads');
+            if (response.ok) {
+                leadsData = await response.json();
+                localStorage.setItem('valure_inquiries', JSON.stringify(leadsData));
+            } else {
+                console.warn('Backend API leads fetch failed, loading local cache');
+                leadsData = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+            }
+        } catch (err) {
+            console.error('Error fetching leads from server:', err);
+            leadsData = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+        }
+    };
+
+    window.initializeCRM = async () => {
         loadLocalStorageData();
+        await loadLeadsFromServer();
         renderKPIs();
         renderCharts();
         renderLeadsTable();
@@ -111,20 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadLocalStorageData = () => {
-        // Load Leads
-        leadsData = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-        if (leadsData.length === 0) {
-            // Seed mock leads for demo demonstration
-            leadsData = [
-                { id: 'inq_1', name: 'Rohan Sharma', phone: '9812345678', email: 'rohan.sharma@gmail.com', product: 'Italian Statuario Marble', message: 'Need 1200 sq.ft. for luxury living room flooring. Please send slab photos.', date: new Date(Date.now() - 3600000 * 4).toLocaleDateString('en-IN'), status: 'New' },
-                { id: 'inq_2', name: 'Preeti Deshmukh', phone: '7023456789', email: 'preeti.d@gmail.com', product: 'Sample: Italian Calacatta Gold', message: 'Sample delivery requested to: Villa 12, Golf Links Road, New Delhi.', date: new Date(Date.now() - 3600000 * 20).toLocaleDateString('en-IN'), status: 'New' },
-                { id: 'inq_3', name: 'Vikram Malhotra', phone: '8098765432', email: 'vikram.m@luxuryhomes.in', product: '3D Designer Proposal: BEDROOM', message: 'Client requested full design package details. Active materials: Floor: hardwood.', date: new Date(Date.now() - 3600000 * 50).toLocaleDateString('en-IN'), status: 'Contacted' },
-                { id: 'inq_4', name: 'Ananya Goel', phone: '9988776655', email: 'ananya.goel@archdesign.com', product: 'Makrana White Alabaster', message: 'Sourcing quote needed for hotel lobby project. ~5000 sq.ft. required.', date: new Date(Date.now() - 3600000 * 120).toLocaleDateString('en-IN'), status: 'Quoted' },
-                { id: 'inq_5', name: 'Kabir Mehta', phone: '7454853045', email: 'kabir.mehta@yahoo.com', product: 'Italian Portoro Black', message: 'Interested in premium black marble blocks.', date: new Date(Date.now() - 3600000 * 240).toLocaleDateString('en-IN'), status: 'Closed' }
-            ];
-            localStorage.setItem('valure_inquiries', JSON.stringify(leadsData));
-        }
-
         // Load Materials
         materialsData = JSON.parse(localStorage.getItem('valure_custom_marbles')) || [];
         if (materialsData.length === 0) {
@@ -143,10 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    window.resetDemoData = () => {
-        localStorage.removeItem('valure_inquiries');
-        initializeCRM();
-        alert('Demo Sourcing Leads successfully reloaded!');
+    window.resetDemoData = async () => {
+        if (confirm('Are you sure you want to request data reload? This will refresh your dashboard view.')) {
+            await initializeCRM();
+            alert('Sourcing leads successfully synchronized!');
+        }
     };
 
 
@@ -307,9 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>
                     <div><i class="fas fa-phone-alt" style="font-size:0.75rem; color:var(--accent-champagne-gold);"></i> ${lead.phone}</div>
                     <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;"><i class="fas fa-envelope" style="font-size:0.7rem;"></i> ${lead.email}</div>
+                    <div style="font-size:0.75rem; color:var(--accent-champagne-gold); margin-top:3px;"><i class="fas fa-map-marker-alt" style="font-size:0.7rem;"></i> ${lead.location || 'N/A'}</div>
                 </td>
                 <td><span style="font-weight:600; color:var(--bg-slate-navy);">${lead.product}</span></td>
-                <td>${lead.date}</td>
+                <td>
+                    <div>${lead.date}</div>
+                    ${lead.consultationDate && lead.consultationDate !== 'N/A' ? `<div style="font-size:0.7rem; color:var(--accent-champagne-gold); margin-top:3px;"><i class="fas fa-calendar-alt"></i> Pref: ${lead.consultationDate}</div>` : ''}
+                </td>
                 <td><p style="margin:0; font-size:0.8rem; line-height:1.4; max-width:260px;">${lead.message}</p></td>
                 <td>
                     <select class="admin-select" onchange="updateLeadStatus('${lead.id}', this.value)">
@@ -330,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.updateLeadStatus = (leadId, newStatus) => {
+    window.updateLeadStatus = async (leadId, newStatus) => {
         leadsData = leadsData.map(l => {
             if (l.id === leadId) {
                 return { ...l, status: newStatus };
@@ -341,15 +349,47 @@ document.addEventListener('DOMContentLoaded', () => {
         renderKPIs();
         renderCharts();
         renderLeadsTable();
-        // Sync followup workspace too
         renderFollowupList();
+
+        try {
+            const response = await fetch('/api/leads', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: leadId, status: newStatus })
+            });
+            if (!response.ok) {
+                throw new Error('Server status update failed');
+            }
+        } catch (err) {
+            console.error('Failed to sync lead status update with server:', err);
+        }
     };
 
-    window.deleteLead = (leadId) => {
+    window.deleteLead = async (leadId) => {
         if (confirm('Are you sure you want to permanently delete this lead inquiry?')) {
             leadsData = leadsData.filter(l => l.id !== leadId);
             localStorage.setItem('valure_inquiries', JSON.stringify(leadsData));
-            initializeCRM();
+            renderKPIs();
+            renderCharts();
+            renderLeadsTable();
+            renderFollowupList();
+
+            try {
+                const response = await fetch('/api/leads', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: leadId })
+                });
+                if (!response.ok) {
+                    throw new Error('Server lead deletion failed');
+                }
+            } catch (err) {
+                console.error('Failed to delete lead from server:', err);
+            }
         }
     };
 

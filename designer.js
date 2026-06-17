@@ -689,6 +689,12 @@ ${designSpecs}`;
                 status: 'New'
             };
 
+            // Open blank window before fetching to avoid popup blocker
+            const openedTab = window.open('', '_blank');
+            if (openedTab) {
+                openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+            }
+
             try {
                 const response = await fetch('/api/contact', {
                     method: 'POST',
@@ -713,7 +719,7 @@ ${designSpecs}`;
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
-                    redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote');
+                    redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote', openedTab);
                     btnSubmit.textContent = 'Proposal Sent!';
                     e.target.reset();
 
@@ -735,7 +741,7 @@ ${designSpecs}`;
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
-                redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote');
+                redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote', openedTab);
                 btnSubmit.textContent = 'Proposal Sent!';
                 e.target.reset();
 

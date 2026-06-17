@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="whatsapp-helper.js"></script>
 </head>
 <body>
 
@@ -150,6 +151,16 @@
                             <label for="contact-email">Email Address *</label>
                             <input type="email" id="contact-email" placeholder="your@email.com" required>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-location">City / Location *</label>
+                                <input type="text" id="contact-location" placeholder="Your city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-date">Preferred Consultation Date (Optional)</label>
+                                <input type="date" id="contact-date">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="contact-product">Product Interest *</label>
                             <select id="contact-product" required>
@@ -169,6 +180,7 @@
                             <textarea id="contact-message" placeholder="Tell us what you're looking for — marble type, quantity, size, etc." required></textarea>
                         </div>
                         <button type="submit" class="btn-send-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
+                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                     </form>
 
                     <div class="form-success-toast" id="contact-success">
@@ -252,6 +264,8 @@
             const phoneVal = document.getElementById('contact-phone').value.trim();
             const emailVal = document.getElementById('contact-email').value.trim();
             const productVal = document.getElementById('contact-product').value || 'General Sourcing Inquiry';
+            const locationVal = document.getElementById('contact-location').value.trim();
+            const dateVal = document.getElementById('contact-date').value || 'N/A';
             const messageVal = document.getElementById('contact-message').value.trim();
             const honeypotVal = document.getElementById('contact-honeypot').value;
 
@@ -274,6 +288,7 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending...';
 
+            const submissionTime = new Date().toISOString();
             const inquiry = {
                 id: 'inq_' + Date.now(),
                 name: nameVal,
@@ -281,10 +296,19 @@
                 email: emailVal,
                 product: productVal,
                 message: messageVal,
+                location: locationVal,
+                consultationDate: dateVal,
                 date: new Date().toLocaleDateString('en-IN'),
+                submissionTime: submissionTime,
                 status: 'New'
             };
             
+            // Open blank window before fetching to avoid popup blocker
+            const openedTab = window.open('', '_blank');
+            if (openedTab) {
+                openedTab.document.write('<html><head><title>Opening WhatsApp...</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#080D1A;color:white;}</style></head><body>Redirecting to WhatsApp... Please wait.</body></html>');
+            }
+
             try {
                 const response = await fetch('/api/contact', {
                     method: 'POST',
@@ -297,6 +321,9 @@
                         email: emailVal,
                         product: productVal,
                         message: messageVal,
+                        location: locationVal,
+                        consultationDate: dateVal,
+                        submissionTime: submissionTime,
                         honeypot: honeypotVal
                     })
                 });
@@ -309,6 +336,7 @@
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                     e.target.reset();
                     setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 5000);
                 } else {
@@ -323,6 +351,7 @@
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, `City: ${locationVal}\nPreferred Consultation Date: ${dateVal}\nMessage: ${messageVal}`, 'quote', openedTab);
                 e.target.reset();
                 setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 5000);
             } finally {
@@ -330,6 +359,20 @@
                 btnSubmit.innerHTML = originalBtnContent;
             }
         });
+
+        // Handle secondary WhatsApp button inside form
+        const contactForm = document.getElementById('contact-enquiry-form');
+        if (contactForm) {
+            const wpCta = contactForm.querySelector('.btn-whatsapp-cta');
+            if (wpCta) {
+                wpCta.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (contactForm.reportValidity()) {
+                        contactForm.requestSubmit();
+                    }
+                });
+            }
+        }
 
         // Mobile menu
         const menuToggle = document.querySelector('.menu-toggle');
