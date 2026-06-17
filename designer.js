@@ -713,6 +713,7 @@ ${designSpecs}`;
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote');
                     btnSubmit.textContent = 'Proposal Sent!';
                     e.target.reset();
 
@@ -734,6 +735,7 @@ ${designSpecs}`;
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(clientName, clientPhone, clientEmail, proposalProduct, proposalMessage, 'quote');
                 btnSubmit.textContent = 'Proposal Sent!';
                 e.target.reset();
 
@@ -745,5 +747,16 @@ ${designSpecs}`;
                 }, 2000);
             }
         });
+
+        // Handle secondary WhatsApp button inside emailDesignForm
+        const wpCta = emailDesignForm.querySelector('.btn-whatsapp-cta');
+        if (wpCta) {
+            wpCta.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (emailDesignForm.reportValidity()) {
+                    emailDesignForm.requestSubmit();
+                }
+            });
+        }
     }
 });

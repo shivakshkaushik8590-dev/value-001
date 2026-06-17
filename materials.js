@@ -417,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                     
                     if (successToast) successToast.classList.add('show');
+                    redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote');
                     btn.textContent = 'Sample Requested Successfully!';
                     btn.style.backgroundColor = '#10b981';
                     requestForm.reset();
@@ -440,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
                 
                 if (successToast) successToast.classList.add('show');
+                redirectToWhatsApp(clientName, clientPhone, clientEmail, `Sample: ${sampleItemName}`, `Concierge sample request. Delivery address: ${clientAddr}`, 'quote');
                 btn.textContent = 'Sample Requested Successfully!';
                 btn.style.backgroundColor = '#10b981';
                 requestForm.reset();
@@ -453,6 +455,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
             }
         });
+
+        // Handle secondary WhatsApp button inside requestForm
+        const wpCta = requestForm.querySelector('.btn-whatsapp-cta');
+        if (wpCta) {
+            wpCta.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (requestForm.reportValidity()) {
+                    requestForm.requestSubmit();
+                }
+            });
+        }
     });
 
 
