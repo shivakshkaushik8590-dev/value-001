@@ -654,10 +654,11 @@
         if (grid && featured.length) {
             grid.innerHTML = featured.map((p, index) => {
                 const catLabel = categoryInfo[p.category]?.label || p.category;
+                const productImg = (p.images && p.images.length > 0 && p.images[0]) ? p.images[0] : 'assets/images/italian_statuario.png';
                 return `
                 <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer; animation-delay: ${index * 0.05}s;">
                     <div class="card-img-wrap">
-                        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+                        <img src="${productImg}" alt="${p.name}" loading="lazy" onerror="this.onerror=null; this.src='assets/images/italian_statuario.png';">
                         <div class="card-badges">
                             ${p.isNew ? '<span class="badge-new">New</span>' : ''}
                             ${p.isPopular ? '<span class="badge-popular">Most Popular</span>' : ''}

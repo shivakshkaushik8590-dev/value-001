@@ -315,10 +315,11 @@
                 const catLabel = categoryInfo[p.category]?.label || p.category;
                 const availClass = p.availability === 'in-stock' ? 'in-stock' : p.availability === 'limited' ? 'limited' : 'out-of-stock';
                 const availText = p.availability === 'in-stock' ? 'In Stock' : p.availability === 'limited' ? 'Limited' : 'Out of Stock';
+                const productImg = (p.images && p.images.length > 0 && p.images[0]) ? p.images[0] : 'assets/images/italian_statuario.png';
                 return `
                 <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="animation-delay: ${index * 0.05}s;">
                     <div class="card-img-wrap">
-                        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+                        <img src="${productImg}" alt="${p.name}" loading="lazy" onerror="this.onerror=null; this.src='assets/images/italian_statuario.png';">
                         <div class="card-badges">
                             ${p.isNew ? '<span class="badge-new">New</span>' : ''}
                             ${p.isPopular ? '<span class="badge-popular">Most Popular</span>' : ''}
@@ -373,8 +374,13 @@
             const product = getProductById(productId);
             if (!product) return;
 
-            document.getElementById('qv-main-img').src = product.images[0];
-            document.getElementById('qv-main-img').alt = product.name;
+            const qvMainImg = document.getElementById('qv-main-img');
+            qvMainImg.src = (product.images && product.images.length > 0 && product.images[0]) ? product.images[0] : 'assets/images/italian_statuario.png';
+            qvMainImg.onerror = function() {
+                this.onerror = null;
+                this.src = 'assets/images/italian_statuario.png';
+            };
+            qvMainImg.alt = product.name;
             document.getElementById('qv-category').textContent = categoryInfo[product.category]?.label || product.category;
             document.getElementById('qv-title').textContent = product.name;
             document.getElementById('qv-price').textContent = '₹' + product.price;

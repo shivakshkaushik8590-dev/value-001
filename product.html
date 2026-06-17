@@ -215,7 +215,7 @@
             "@type": "Product",
             "name": product.name,
             "description": product.description,
-            "image": product.images[0],
+            "image": (product.images && product.images.length > 0 && product.images[0]) ? product.images[0] : 'assets/images/italian_statuario.png',
             "offers": {
                 "@type": "Offer",
                 "priceCurrency": "INR",
@@ -234,13 +234,13 @@
         document.getElementById('product-detail').innerHTML = `
             <div class="product-gallery">
                 <div class="gallery-main" id="gallery-main">
-                    <img src="${product.images[0]}" alt="${product.name}" id="main-image">
+                    <img src="${(product.images && product.images.length > 0 && product.images[0]) ? product.images[0] : 'assets/images/italian_statuario.png'}" alt="${product.name}" id="main-image" onerror="this.onerror=null; this.src='assets/images/italian_statuario.png';">
                     <span class="gallery-zoom-hint"><i class="fas fa-search-plus"></i> Hover to zoom</span>
                 </div>
                 <div class="gallery-thumbs">
-                    ${product.images.map((img, i) => `
+                    ${((product.images && product.images.length > 0) ? product.images : ['assets/images/italian_statuario.png']).map((img, i) => `
                         <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
-                            <img src="${img}" alt="${product.name} view ${i+1}" loading="lazy">
+                            <img src="${img}" alt="${product.name} view ${i+1}" loading="lazy" onerror="this.onerror=null; this.src='assets/images/italian_statuario.png';">
                         </div>
                     `).join('')}
                 </div>

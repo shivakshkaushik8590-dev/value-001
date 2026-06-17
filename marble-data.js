@@ -282,7 +282,7 @@ const marbleProducts = [
     isPremium: true,
     description: "A breathtaking natural masterpiece featuring dramatic chunks of translucent quartz crystals clustered with golden-brown and grey feldspar veins. Ideal for high-end backlit luxury feature walls.",
     shortDesc: "Exotic translucent quartzite with dramatic crystal clustering.",
-    images: ["https://images.unsplash.com/photo-1600585154340-be6199f7a099?auto=format&fit=crop&q=80&w=800"],
+    images: ["assets/images/patagonia_quartzite.png"],
     specs: {
       "Water Absorption": "< 0.1%",
       "Compressive Strength": "180 MPa",
@@ -427,7 +427,7 @@ const marbleProducts = [
     isPremium: false,
     description: "Uniform jet black granite with a polished surface. Highly resistant to heat, scratches, and stains. Sourced from Karnataka, it is the definitive choice for modern kitchen countertops.",
     shortDesc: "Uniform jet black granite — maximum durability and sleekness.",
-    images: ["https://images.unsplash.com/photo-1590483736148-3c1a587969f5?auto=format&fit=crop&q=80&w=800"],
+    images: ["assets/images/absolute_black_granite.png"],
     specs: {
       "Water Absorption": "< 0.08%",
       "Compressive Strength": "260 MPa",
