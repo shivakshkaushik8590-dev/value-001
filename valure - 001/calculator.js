@@ -692,6 +692,27 @@ document.addEventListener('DOMContentLoaded', () => {
             materials: "Travertine Marble, Onyx Stone, Statuario Marble",
             desc: "Luxury resort reception with natural stone features, grand entrance, premium flooring, and elegant hospitality aesthetics.",
             image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80"
+        },
+        royal_calacatta: {
+            name: "Royal Calacatta Penthouse",
+            category: "Luxury Interior",
+            location: "Gurgaon, Haryana — Private Residence",
+            area: "4,500 sq ft",
+            budget: "₹48 Lakhs",
+            timeline: "90 Days",
+            materials: "Italian Calacatta Gold Marble, Brass Metal Details, Teak Wood Veneer, Onyx Accents",
+            desc: "Royal Calacatta Penthouse is a luxury residential project designed using premium Italian marble and modern architectural principles. Every area combines timeless elegance with sophisticated craftsmanship — from the bookmatched Calacatta feature wall in the living room and floating white marble staircase with glass railings, to the open kitchen with a marble island and the master bedroom's warm wood-panel retreat. Each space delivers an exceptional living experience at a ₹5+ crore standard.",
+            image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+            features: ["Italian Calacatta Marble", "Bookmatched Feature Walls", "Floating Marble Staircase", "Brass & Gold Metal Details", "Premium LED Lighting", "Scratch & Waterproof Surface", "Imported Italian Stone", "Modern Contemporary Style", "Floor-to-Ceiling Glass", "Sustainable Design"],
+            gallery: [
+                "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=85",
+                "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=85",
+                "https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=900&q=85",
+                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=85",
+                "https://images.unsplash.com/photo-1615529179035-e760f6a2dcee?auto=format&fit=crop&w=900&q=85",
+                "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=85"
+            ],
+            pageUrl: "royal-calacatta-penthouse.html"
         }
     };
 
@@ -740,6 +761,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('lb-timeline').textContent = details.timeline;
         document.getElementById('lb-materials').textContent = details.materials;
         document.getElementById('lb-description').textContent = details.desc;
+
+        // Show/hide the "View Full Project" link
+        const projectLink = document.getElementById('lb-project-link');
+        if (projectLink) {
+            if (details.pageUrl) {
+                projectLink.href = details.pageUrl;
+                projectLink.classList.remove('hidden');
+            } else {
+                projectLink.classList.add('hidden');
+            }
+        }
 
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';

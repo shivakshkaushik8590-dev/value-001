@@ -1545,3 +1545,57 @@ body {
     }
 }
 
+
+/* ==========================================================================
+   ROYAL CALACATTA PENTHOUSE — FEATURED CARD STYLES
+   ========================================================================== */
+
+.rp-card--featured {
+    border: 1.5px solid rgba(197, 160, 89, 0.45);
+    background: linear-gradient(145deg, #fff 0%, #fffdf5 100%);
+    box-shadow: 0 12px 36px rgba(197, 160, 89, 0.15);
+}
+
+.rp-card--featured:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 28px 60px rgba(197, 160, 89, 0.28), 0 8px 24px rgba(0,0,0,0.08);
+    border-color: var(--accent-gold);
+}
+
+.rp-card-category--gold {
+    background: linear-gradient(135deg, rgba(197,160,89,0.95), rgba(212,175,55,0.9)) !important;
+    color: #0E1629 !important;
+    font-weight: 800 !important;
+    border: 1px solid rgba(212,175,55,0.5) !important;
+}
+
+.rp-new-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #d4af37, #f5e07a);
+    color: #0E1629;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 5px 13px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 14px rgba(212,175,55,0.5);
+    z-index: 3;
+    animation: badgePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(212,175,55,0.5); }
+    50%       { box-shadow: 0 4px 24px rgba(212,175,55,0.9); }
+}
+
+.rp-card--featured .rp-name {
+    background: linear-gradient(90deg, #0E1629 55%, #c5a059);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
