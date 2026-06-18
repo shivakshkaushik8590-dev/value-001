@@ -937,5 +937,59 @@ document.addEventListener('DOMContentLoaded', () => {
     if (printDateEl) {
         printDateEl.textContent = 'Date: ' + new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
     }
+
+    // WhatsApp Share Estimate
+    const whatsappShareBtn = document.getElementById('calc-whatsapp-share');
+    if (whatsappShareBtn) {
+        whatsappShareBtn.addEventListener('click', () => {
+            const length = document.getElementById('room-length').value;
+            const width = document.getElementById('room-width').value;
+            const height = document.getElementById('room-height').value;
+            
+            const floorSel = document.getElementById('calc-floor');
+            const floorText = floorSel.options[floorSel.selectedIndex].text;
+            
+            const wallColorSel = document.getElementById('calc-wall-color');
+            const wallColorText = wallColorSel.options[wallColorSel.selectedIndex].text;
+            
+            const wallMatSel = document.getElementById('calc-wall-mat');
+            const wallMatText = wallMatSel.options[wallMatSel.selectedIndex].text;
+            
+            const ceilSel = document.getElementById('calc-ceil-type');
+            const ceilText = ceilSel.options[ceilSel.selectedIndex].text;
+            
+            const totalCost = document.getElementById('bill-total').textContent;
+            
+            const message = `*Valure Studio — Luxury Marble Estimate*
+
+*Room Details:*
+- Dimension: ${length} ft x ${width} ft x ${height} ft
+- Flooring Stone: ${floorText}
+- Wall Color: ${wallColorText}
+- Accent Wall: ${wallMatText}
+- Ceiling: ${ceilText}
+
+*Cost Summary:*
+- Floor Installation: ${document.getElementById('bill-floor').textContent}
+- Wall Finish & Accent: ${document.getElementById('bill-wall').textContent}
+- Ceiling Structural: ${document.getElementById('bill-ceil').textContent}
+- Lighting Fixtures: ${document.getElementById('bill-light').textContent}
+- Furniture Collection: ${document.getElementById('bill-furn').textContent}
+- Art & Decors: ${document.getElementById('bill-decor').textContent}
+- Craftsmanship Labor: ${document.getElementById('bill-labor').textContent}
+- Shipping & Tax (8%): ${document.getElementById('bill-tax').textContent}
+- Design & Consulting (15%): ${document.getElementById('bill-fee').textContent}
+-----------------------------
+*Estimated Grand Total:* ${totalCost}
+
+Estimate generated from Valure Studio Project Estimator.`;
+
+            const encodedText = encodeURIComponent(message);
+            const targetPhone = "917454853045";
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
+            window.open(`${baseUrl}?phone=${targetPhone}&text=${encodedText}`, '_blank');
+        });
+    }
 });
 

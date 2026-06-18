@@ -15,12 +15,16 @@
     <meta property="og:description" content="Premium marble, granite, quartz & stone collection at competitive prices. Get instant quotes." />
     <meta property="og:image" content="assets/images/hero.png" />
     <meta property="og:url" content="https://value-001.vercel.app/" />
+    <meta property="og:site_name" content="Valure Studio" />
+    <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="Valure Studio | Premium Marble & Stone Supplier" />
     <meta property="twitter:description" content="Premium marble, granite & stone at competitive prices in India." />
     <meta property="twitter:image" content="assets/images/hero.png" />
+    <meta name="twitter:site" content="@valurestudio" />
+    <meta name="twitter:creator" content="@valurestudio" />
 
     <!-- Structured Data JSON-LD -->
     <script type="application/ld+json">
@@ -34,6 +38,37 @@
       "email": "shivakshkaushik8590@gmail.com",
       "description": "Premium marble, granite, quartz, onyx and travertine supplier in India at competitive prices.",
       "priceRange": "₹₹₹",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Kishangarh Marble Zone",
+        "addressLocality": "Ajmer",
+        "addressRegion": "Rajasthan",
+        "postalCode": "305801",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "09:00",
+          "closes": "19:00"
+        }
+      ],
+      "areaServed": [
+        "Delhi NCR",
+        "Mumbai",
+        "Bangalore",
+        "Hyderabad",
+        "Chennai",
+        "Jaipur"
+      ],
       "sameAs": [
         "https://wa.me/917454853045"
       ]
@@ -280,6 +315,22 @@
         </div>
     </section>
 
+    <!-- Get Free Quote CTA Banner -->
+    <section class="container" style="margin-top: 40px; margin-bottom: 40px;">
+        <div class="quote-cta-banner">
+            <h3>Ready to Elevate Your Space?</h3>
+            <p>Contact our design concierge today for premium material sourcing, bespoke pricing, and custom slab visualizers. Let's make your luxury project a reality.</p>
+            <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+                <a href="#contact" class="btn btn-primary" style="background:var(--accent-gold); border-color:var(--accent-gold); color:var(--primary-blue); font-weight:700;">
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i> Get Free Quote
+                </a>
+                <a href="#booking" class="btn btn-outline-white">
+                    <i class="fas fa-calendar-alt" style="margin-right:8px;"></i> Book Luxury Consultation
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- ============================================================
          PROJECT ESTIMATOR CTA
          ============================================================ -->
@@ -323,7 +374,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="booking-calendar-wrapper">
                     <form id="consultation-booking-form">
                         <div style="display:none;">
@@ -332,18 +382,18 @@
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                             <div class="form-group">
                                 <label for="book-name" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Full Name *</label>
-                                <input type="text" id="book-name" placeholder="John Doe" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                                <input type="text" id="book-name" placeholder="John Doe" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
                             </div>
                             <div class="form-group">
                                 <label for="book-phone" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Phone Number *</label>
-                                <input type="tel" id="book-phone" placeholder="+91 XXXXX XXXXX" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                                <input type="tel" id="book-phone" placeholder="+91 XXXXX XXXXX" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
                             </div>
                         </div>
                         
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                             <div class="form-group">
                                 <label for="book-email" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Email Address *</label>
-                                <input type="email" id="book-email" placeholder="john@example.com" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                                <input type="email" id="book-email" placeholder="john@example.com" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
                             </div>
                             <div class="form-group">
                                 <label for="book-project" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Project Type</label>
@@ -359,9 +409,9 @@
                         
                         <div class="form-group" style="margin-bottom:16px;">
                             <label for="book-date" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Date *</label>
-                            <input type="date" id="book-date" required style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
+                            <input type="date" id="book-date" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
                         </div>
-
+ 
                         <div class="form-group" style="margin-bottom:20px;">
                             <label style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Time Slot *</label>
                             <div class="slots-grid" id="booking-slots">
@@ -375,14 +425,14 @@
                         <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;"><i class="fas fa-check-circle" style="margin-right:8px;"></i> Book Appointment</button>
                         <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Book Consultation on WhatsApp</a>
                     </form>
-                    <div class="form-success-toast" id="booking-success" style="margin-top: 16px;">
+                    <div class="form-success-toast" id="booking-success" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
                         <span>Thank you. Your consultation request has been received successfully. Our team will contact you shortly.</span>
                     </div>
-                    <div class="form-error-toast" id="booking-error" style="margin-top: 16px;">
+                    <div class="form-error-toast" id="booking-error" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
                         <span id="booking-error-text">An error occurred while processing your booking. Please try again.</span>
-                    </div>
+                    </div>            </div>
                 </div>
             </div>
         </div>
@@ -399,6 +449,13 @@
             </div>
             <div class="testimonials-slider">
                 <div class="testimonial-card">
+                    <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <i class="fas fa-quote-right quote-icon"></i>
                     <p>"Excellent quality Italian Statuario marble at the best price I found in India. The delivery was safe and on time. Highly recommended for premium projects."</p>
                     <div class="client-info">
@@ -410,6 +467,13 @@
                     </div>
                 </div>
                 <div class="testimonial-card">
+                    <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <i class="fas fa-quote-right quote-icon"></i>
                     <p>"We ordered Black Galaxy granite for 3 kitchens in our project. Perfect cuts, no wastage, and the price was 20% lower than local dealers. Amazing service!"</p>
                     <div class="client-info">
@@ -421,6 +485,13 @@
                     </div>
                 </div>
                 <div class="testimonial-card">
+                    <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <i class="fas fa-quote-right quote-icon"></i>
                     <p>"The Makrana White marble for our temple project was absolutely flawless. Shivaksh and team provided excellent guidance on choosing the right quality grade."</p>
                     <div class="client-info">
@@ -484,19 +555,19 @@
                         </div>
                         <div class="form-group">
                             <label for="hp-name">Full Name *</label>
-                            <input type="text" id="hp-name" placeholder="Your name" required>
+                            <input type="text" id="hp-name" placeholder="Your name" required aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="hp-phone">Phone Number *</label>
-                            <input type="tel" id="hp-phone" placeholder="+91 XXXXX XXXXX" required>
+                            <input type="tel" id="hp-phone" placeholder="+91 XXXXX XXXXX" required aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="hp-email">Email *</label>
-                            <input type="email" id="hp-email" placeholder="your@email.com" required>
+                            <input type="email" id="hp-email" placeholder="your@email.com" required aria-required="true">
                         </div>
                         <div class="form-group">
                             <label for="hp-product">Product Interest *</label>
-                            <select id="hp-product" required>
+                            <select id="hp-product" required aria-required="true">
                                 <option value="">Select...</option>
                                 <option value="Italian Marble">Italian Marble</option>
                                 <option value="Indian Marble">Indian Marble</option>
@@ -509,16 +580,16 @@
                         </div>
                         <div class="form-group">
                             <label for="hp-message">Message *</label>
-                            <textarea id="hp-message" rows="4" placeholder="Tell us about your project..." required></textarea>
+                            <textarea id="hp-message" rows="4" placeholder="Tell us about your project..." required aria-required="true"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane" style="margin-right:8px;"></i> Request Free Quote</button>
                         <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                     </form>
-                    <div class="form-success-toast" id="hp-enquiry-success" style="margin-top: 16px;">
+                    <div class="form-success-toast" id="hp-enquiry-success" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
                         <span>Thank you! Your enquiry has been received and sent successfully. Our team will contact you within 2 hours.</span>
                     </div>
-                    <div class="form-error-toast" id="hp-enquiry-error" style="margin-top: 16px;">
+                    <div class="form-error-toast" id="hp-enquiry-error" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
                         <span id="hp-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
                     </div>

@@ -226,18 +226,18 @@
                             <div style="display:none;">
                                 <input type="text" id="qv-sample-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
                             </div>
-                            <input type="text" id="qv-sample-name" placeholder="Your Name *" required>
-                            <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required>
-                            <input type="email" id="qv-sample-email" placeholder="Email Address *" required>
-                            <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required>
+                            <input type="text" id="qv-sample-name" placeholder="Your Name *" required aria-required="true" aria-label="Your Name">
+                            <input type="tel" id="qv-sample-phone" placeholder="Phone Number *" required aria-required="true" aria-label="Phone Number">
+                            <input type="email" id="qv-sample-email" placeholder="Email Address *" required aria-required="true" aria-label="Email Address">
+                            <input type="text" id="qv-sample-address" placeholder="Delivery Address *" required aria-required="true" aria-label="Delivery Address">
                             <button type="submit" class="btn-submit-sample">Request Courier</button>
                             <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Request Sample on WhatsApp</a>
                         </form>
-                        <div class="form-success-toast" id="qv-sample-success" style="margin-top: 10px;">
+                        <div class="form-success-toast" id="qv-sample-success" role="alert" aria-live="polite" style="margin-top: 10px;">
                             <i class="fas fa-check-circle" style="font-size:1.1rem;"></i>
                             <span>Courier request sent successfully!</span>
                         </div>
-                        <div class="form-error-toast" id="qv-sample-error" style="margin-top: 10px;">
+                        <div class="form-error-toast" id="qv-sample-error" role="alert" aria-live="polite" style="margin-top: 10px;">
                             <i class="fas fa-exclamation-circle" style="font-size:1.1rem;"></i>
                             <span id="qv-sample-error-text">Failed to request courier.</span>
                         </div>

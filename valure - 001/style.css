@@ -2708,3 +2708,132 @@ h2 {
         display: none; /* Hide tooltip on mobile to prevent clutter */
     }
 }
+
+/* ================================================================
+   VALURE LUXURY DESIGN SYSTEM ADDITIONS
+   ================================================================ */
+
+/* Scroll Progress Bar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--accent-gold);
+    z-index: 99999;
+    width: 0%;
+    transition: width 0.1s ease-out;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 105px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: 1.5px solid var(--accent-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+.back-to-top:hover {
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+}
+
+/* Mobile Sticky Call Button */
+.sticky-call-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: 1.5px solid var(--accent-gold);
+    border-radius: 50%;
+    display: none; /* Hidden on desktop */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+}
+.sticky-call-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+}
+@media (max-width: 768px) {
+    .sticky-call-btn {
+        display: flex; /* Visible on mobile */
+    }
+}
+
+/* Star Rating Styles for Testimonials */
+.star-rating {
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    font-size: 1.15rem;
+    display: flex;
+    gap: 4px;
+}
+
+/* Button Loading State */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* Quote CTA Banner style */
+.quote-cta-banner {
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 50px 40px;
+    text-align: center;
+    margin: 60px 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+.quote-cta-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+.quote-cta-banner h3 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--white);
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+}
+.quote-cta-banner p {
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+}

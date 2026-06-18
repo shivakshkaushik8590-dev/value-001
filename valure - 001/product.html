@@ -118,19 +118,19 @@
                         <div style="display:none;">
                             <input type="text" id="prod-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
                         </div>
-                        <div class="form-group"><input type="text" id="prod-name" placeholder="Your Name *" required></div>
-                        <div class="form-group"><input type="tel" id="prod-phone" placeholder="Phone Number *" required></div>
-                        <div class="form-group"><input type="email" id="prod-email" placeholder="Email Address *" required></div>
-                        <div class="form-group"><input type="text" id="enquiry-product-name" placeholder="Product Interest" readonly></div>
-                        <div class="form-group"><textarea id="prod-message" placeholder="Your Message * (quantity, size, etc.)" rows="3" required></textarea></div>
+                        <div class="form-group"><input type="text" id="prod-name" placeholder="Your Name *" required aria-required="true" aria-label="Your Name"></div>
+                        <div class="form-group"><input type="tel" id="prod-phone" placeholder="Phone Number *" required aria-required="true" aria-label="Phone Number"></div>
+                        <div class="form-group"><input type="email" id="prod-email" placeholder="Email Address *" required aria-required="true" aria-label="Email Address"></div>
+                        <div class="form-group"><input type="text" id="enquiry-product-name" placeholder="Product Interest" readonly aria-label="Product Interest"></div>
+                        <div class="form-group"><textarea id="prod-message" placeholder="Your Message * (quantity, size, etc.)" rows="3" required aria-required="true" aria-label="Your Message"></textarea></div>
                         <button type="submit" class="btn-submit-enquiry"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
                         <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
                     </form>
-                    <div class="form-success-toast" id="prod-enquiry-success" style="margin-top: 16px;">
+                    <div class="form-success-toast" id="prod-enquiry-success" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
                         <span>Thank you! Your quote request has been received and sent successfully. Our team will contact you within 2 hours.</span>
                     </div>
-                    <div class="form-error-toast" id="prod-enquiry-error" style="margin-top: 16px;">
+                    <div class="form-error-toast" id="prod-enquiry-error" role="alert" aria-live="polite" style="margin-top: 16px;">
                         <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
                         <span id="prod-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
                     </div>

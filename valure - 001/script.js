@@ -74,32 +74,97 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Form Submission Handling
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    // Animated Stats Counter for .achievement-number
+    const stats = document.querySelectorAll('.achievement-number');
+    if (stats.length > 0) {
+        const animateCounter = (el) => {
+            const text = el.textContent;
+            const target = parseInt(text.replace(/\D/g, ''), 10);
+            if (isNaN(target)) return;
             
-            // Show basic success feedback
-            const btn = contactForm.querySelector('button');
-            const originalText = btn.textContent;
+            const suffix = text.replace(/[0-9]/g, '');
+            let count = 0;
+            const duration = 2000;
+            const startTime = performance.now();
             
-            btn.textContent = 'Sending...';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                btn.textContent = 'Inquiry Sent Successfully!';
-                btn.style.backgroundColor = '#10b981'; // Success green
-                contactForm.reset();
+            const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
                 
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.backgroundColor = '';
-                    btn.disabled = false;
-                }, 3000);
-            }, 1500);
+                // Ease out quad
+                const easeProgress = progress * (2 - progress);
+                count = Math.floor(easeProgress * target);
+                
+                el.textContent = count + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    el.textContent = text;
+                }
+            };
+            
+            requestAnimationFrame(updateCount);
+        };
+        
+        const statsObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        stats.forEach(stat => {
+            if (/\d/.test(stat.textContent)) {
+                statsObserver.observe(stat);
+            }
         });
     }
+
+    // Scroll Progress Bar Injection & Logic
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress-bar';
+    document.body.appendChild(progressBar);
+    
+    window.addEventListener('scroll', () => {
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (scrollHeight > 0) {
+            const scrollPct = (window.scrollY / scrollHeight) * 100;
+            progressBar.style.width = `${scrollPct}%`;
+        }
+    });
+
+    // Back to Top Button Injection & Logic
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', 'Back to top');
+    backToTopBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    document.body.appendChild(backToTopBtn);
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Mobile Sticky Call Button Injection
+    const mobileCallBtn = document.createElement('a');
+    mobileCallBtn.className = 'sticky-call-btn';
+    mobileCallBtn.href = 'tel:+917454853045';
+    mobileCallBtn.setAttribute('aria-label', 'Call us');
+    mobileCallBtn.innerHTML = '<i class="fas fa-phone-alt"></i>';
+    document.body.appendChild(mobileCallBtn);
 
     // Chatbot Toggle Logic
     const chatTrigger = document.getElementById('chat-trigger');
