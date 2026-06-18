@@ -78,15 +78,22 @@
         <!-- Filter and Search controls panel -->
         <section class="mat-filter-panel reveal">
             <!-- Search row -->
-            <div class="mat-search-row">
-                <div class="mat-search-box">
+            <div class="mat-search-row" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
+                <div class="mat-search-box" style="flex: 1; min-width: 250px;">
                     <i class="fas fa-search"></i>
                     <input type="text" id="mat-search" class="mat-search-input" placeholder="Search by name, description, or origin (e.g. Carrara, Oak)...">
                 </div>
+                <div class="mat-sort-box" style="display: flex; align-items: center;">
+                    <select id="mat-sort" class="mat-sort-select" style="padding: 10px 14px; border-radius: 6px; border: 1.5px solid rgba(212,175,55,0.25); background: var(--primary-blue); color: white; font-size: 0.85rem; font-family: 'Outfit', sans-serif;">
+                        <option value="default">Default Sorting</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                </div>
                 <button id="mat-fav-toggle" class="btn-fav-toggle"><i class="far fa-heart"></i> Show Favorites</button>
-            </div>
-
-            <!-- Categories horizontal scroll -->
+            </div>            <!-- Categories horizontal scroll -->
             <div class="mat-tabs-row">
                 <button class="mat-tab active" data-category="all">All Finishes</button>
                 <button class="mat-tab" data-category="marble">Marble Series</button>
@@ -235,6 +242,44 @@
                             <span id="materials-error-text">Failed to request sample.</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Drawer -->
+    <div id="compare-drawer" class="compare-drawer" style="position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(90deg, var(--primary-blue) 0%, #0c152b 100%); border-top: 1.5px solid var(--accent-gold); padding: 15px 30px; display: none; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 -8px 30px rgba(0,0,0,0.4); transition: all 0.3s ease;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span style="color: var(--white); font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600;"><i class="fas fa-balance-scale" style="color: var(--accent-gold); margin-right: 8px;"></i> Compare Materials (<span id="compare-count">0</span>/3):</span>
+            <div id="compare-thumbnails" style="display: flex; gap: 8px; align-items: center;"></div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button id="btn-compare-now" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.8rem; background: var(--accent-gold); color: var(--primary-blue); font-weight: 700; border: none; border-radius: 6px; cursor: pointer;">Compare Selected</button>
+            <button id="btn-compare-clear" class="btn btn-outline" style="padding: 10px 18px; font-size: 0.8rem; border-color: rgba(255,255,255,0.2); color: white; background: transparent; cursor: pointer;">Clear All</button>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div id="compare-modal" class="qv-modal" style="display: none;" role="dialog" aria-modal="true" aria-label="Material Comparison Modal">
+        <div class="qv-modal-overlay" id="compare-modal-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8,13,26,0.85); z-index: 99999;"></div>
+        <div class="qv-modal-content" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 900px; background: #fff; border-radius: 12px; z-index: 100000; box-shadow: var(--shadow-premium); overflow: hidden; max-height: 85vh; display: flex; flex-direction: column;">
+            <div style="padding: 20px 30px; background: var(--primary-blue); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-family: 'Outfit', sans-serif; color: #fff; margin: 0; font-size: 1.3rem;"><i class="fas fa-balance-scale" style="color: var(--accent-gold); margin-right: 8px;"></i> Material Comparison Matrix</h3>
+                <button id="close-compare-modal" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0 5px;">&times;</button>
+            </div>
+            <div style="padding: 30px; overflow-y: auto; flex: 1;">
+                <div class="table-responsive" style="width: 100%; overflow-x: auto;">
+                    <table class="compare-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: #333;">
+                        <thead>
+                            <tr id="compare-table-headers" style="border-bottom: 2px solid var(--accent-gold);">
+                                <th style="padding: 12px; color: var(--primary-blue); font-weight: 700; width: 25%;">Feature</th>
+                                <!-- Dynamic headers -->
+                            </tr>
+                        </thead>
+                        <tbody id="compare-table-body">
+                            <!-- Dynamic comparison matrix details -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

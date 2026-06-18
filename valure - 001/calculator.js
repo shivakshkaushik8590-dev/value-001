@@ -713,6 +713,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=85"
             ],
             pageUrl: "royal-calacatta-penthouse.html"
+        },
+        apartment: {
+            name: "Urban Chic Apartment",
+            category: "Luxury Residential",
+            location: "South Extension, Delhi",
+            area: "2,800 sq ft",
+            budget: "₹35 Lakhs",
+            timeline: "60 Days",
+            materials: "Armani Grey Marble, Carrara Bianco Marble, Teak Panels",
+            desc: "Sleek, open-plan apartment design utilizing grey tone marbles and linear architectural finishes for space enhancement.",
+            image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
+        },
+        kitchen: {
+            name: "Calacatta Waterfall Kitchen",
+            category: "Luxury Kitchen",
+            location: "Jubilee Hills, Hyderabad",
+            area: "450 sq ft",
+            budget: "₹18 Lakhs",
+            timeline: "45 Days",
+            materials: "Calacatta Gold Marble, Engineered Quartz, Brass Fixtures",
+            desc: "Exquisite kitchen featuring double waterfall islands, seamless marble splashbacks, and custom-jointed white cabinetry.",
+            image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80"
+        },
+        bathroom: {
+            name: "Onyx Sanctuary Bathroom",
+            category: "Luxury Bathroom",
+            location: "Alibaug Private Villa, Mumbai",
+            area: "350 sq ft",
+            budget: "₹15 Lakhs",
+            timeline: "40 Days",
+            materials: "Turkish Honey Onyx, Statuario Gold Marble, Frameless Glass",
+            desc: "A private spa bathroom with backlit Honey Onyx features, free-standing marble tub, and floor-to-ceiling bookmatched Statuario cladding.",
+            image: "https://images.unsplash.com/photo-1620626011761-996317b69763?auto=format&fit=crop&w=800&q=80"
+        },
+        staircase: {
+            name: "Imperial Spiral Staircase",
+            category: "Luxury Architecture",
+            location: "Lutyens Bungalow, Delhi",
+            area: "1,200 sq ft",
+            budget: "₹25 Lakhs",
+            timeline: "75 Days",
+            materials: "Italian Statuario Marble, Dark Armani Grey, Gold Rails",
+            desc: "A breathtaking triple-height spiral staircase featuring hand-carved white marble steps, dark Armani grey border runs, and gold rails.",
+            image: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+        },
+        temple: {
+            name: "White Heritage Temple",
+            category: "Heritage Interior",
+            location: "Private Residence, Jaipur",
+            area: "800 sq ft",
+            budget: "₹28 Lakhs",
+            timeline: "90 Days",
+            materials: "Pure Makrana White Marble, Inlaid Semi-Precious Stones",
+            desc: "Traditional temple sanctuary constructed with zero-vein Makrana White marble, featuring hand-crafted arches and semi-precious stone inlays.",
+            image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80"
+        },
+        restaurant: {
+            name: "The Gilded Plate Bistro",
+            category: "Commercial Luxury",
+            location: "Bandra Kurla Complex, Mumbai",
+            area: "3,800 sq ft",
+            budget: "₹65 Lakhs",
+            timeline: "80 Days",
+            materials: "Nero Marquina Black Marble, Honey Onyx Accents, Brass Trim",
+            desc: "A fine-dining establishment featuring high-gloss Nero Marquina floors, golden honey onyx pillars, and bespoke circular marble tables.",
+            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
         }
     };
 

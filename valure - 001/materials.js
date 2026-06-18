@@ -193,10 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeCategory = 'all';
     let searchQuery = '';
     let showFavoritesOnly = false;
+    let compareList = [];
+
+    const priceValues = {
+        "$": 1,
+        "$$": 2,
+        "$$$": 3,
+        "$$$$": 4,
+        "$$$$$": 5
+    };
 
     // Dom elements
     const grid = document.getElementById('materials-grid');
     const searchInput = document.getElementById('mat-search');
+    const sortInput = document.getElementById('mat-sort');
     const categoryTabs = document.querySelectorAll('.mat-tab');
     const favToggleBtn = document.getElementById('mat-fav-toggle');
     const previewModal = document.getElementById('preview-modal');
@@ -208,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.innerHTML = '';
 
         // Filter list
-        const filtered = materialsData.filter(item => {
+        let filtered = materialsData.filter(item => {
             // Category check
             const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
             
@@ -222,6 +232,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return matchesCategory && matchesSearch && matchesFavorites;
         });
+
+        // Sorting Logic
+        const sortBy = sortInput ? sortInput.value : 'default';
+        if (sortBy !== 'default') {
+            filtered.sort((a, b) => {
+                if (sortBy === 'name-asc') {
+                    return a.name.localeCompare(b.name);
+                } else if (sortBy === 'name-desc') {
+                    return b.name.localeCompare(a.name);
+                } else if (sortBy === 'price-asc') {
+                    return (priceValues[a.price] || 0) - (priceValues[b.price] || 0);
+                } else if (sortBy === 'price-desc') {
+                    return (priceValues[b.price] || 0) - (priceValues[a.price] || 0);
+                }
+                return 0;
+            });
+        }
 
         // Handle empty states
         if (filtered.length === 0) {
@@ -254,8 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="material-card-info">
                     <span class="mat-category-label">${item.category}</span>
-                    <h4>${item.name}</h4>
-                    <div class="mat-card-footer">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                        <h4 style="margin: 0; line-height: 1.25;">${item.name}</h4>
+                        <button class="btn-compare-add" data-id="${item.id}" style="font-size: 0.7rem; background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 4px; padding: 2px 6px; cursor: pointer; font-family: 'Outfit', sans-serif;"><i class="fas fa-plus"></i> Compare</button>
+                    </div>
+                    <div class="mat-card-footer" style="margin-top: 10px;">
                         <span><i class="fas fa-map-marker-alt"></i> ${item.origin}</span>
                         <span class="mat-price-tag">${item.price}</span>
                     </div>
@@ -300,7 +330,183 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (item) openQuickPreviewModal(item);
             });
         });
+
+        // Compare Add toggle
+        document.querySelectorAll('.btn-compare-add').forEach(btn => {
+            const id = btn.dataset.id;
+            const inCompare = compareList.includes(id);
+            if (inCompare) {
+                btn.innerHTML = '<i class="fas fa-check"></i> Compared';
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'var(--primary-blue)';
+            }
+            
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idx = compareList.indexOf(id);
+                if (idx === -1) {
+                    if (compareList.length >= 3) {
+                        alert("You can compare up to 3 materials at once.");
+                        return;
+                    }
+                    compareList.push(id);
+                    btn.innerHTML = '<i class="fas fa-check"></i> Compared';
+                    btn.style.background = 'var(--accent-gold)';
+                    btn.style.color = 'var(--primary-blue)';
+                } else {
+                    compareList.splice(idx, 1);
+                    btn.innerHTML = '<i class="fas fa-plus"></i> Compare';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+                updateCompareDrawer();
+            });
+        });
     };
+
+    // Update comparison drawer view state
+    const updateCompareDrawer = () => {
+        const drawer = document.getElementById('compare-drawer');
+        const countSpan = document.getElementById('compare-count');
+        const thumbContainer = document.getElementById('compare-thumbnails');
+        
+        if (!drawer) return;
+        
+        if (compareList.length === 0) {
+            drawer.style.display = 'none';
+            return;
+        }
+        
+        drawer.style.display = 'flex';
+        countSpan.textContent = compareList.length;
+        thumbContainer.innerHTML = '';
+        
+        compareList.forEach(id => {
+            const item = materialsData.find(m => m.id === id);
+            if (item) {
+                const thumb = document.createElement('div');
+                thumb.style.position = 'relative';
+                thumb.style.width = '40px';
+                thumb.style.height = '40px';
+                thumb.style.borderRadius = '4px';
+                thumb.style.overflow = 'hidden';
+                thumb.style.border = '1px solid var(--accent-gold)';
+                thumb.innerHTML = `
+                    <img src="${item.image}" style="width:100%; height:100%; object-fit:cover;">
+                    <button class="remove-thumb-btn" data-id="${id}" style="position:absolute; top:-2px; right:-2px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:15px; height:15px; font-size:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;">&times;</button>
+                `;
+                thumb.querySelector('.remove-thumb-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = compareList.indexOf(id);
+                    if (idx !== -1) {
+                        compareList.splice(idx, 1);
+                        renderLibrary(); // Re-render to update card button states
+                        updateCompareDrawer();
+                    }
+                });
+                thumbContainer.appendChild(thumb);
+            }
+        });
+    };
+
+    // Compare matrix logic
+    const compareModal = document.getElementById('compare-modal');
+    const closeCompareModalBtn = document.getElementById('close-compare-modal');
+    const compareModalOverlay = document.getElementById('compare-modal-overlay');
+    const btnCompareNow = document.getElementById('btn-compare-now');
+    const btnCompareClear = document.getElementById('btn-compare-clear');
+
+    const openCompareModal = () => {
+        if (!compareModal) return;
+        
+        const headersRow = document.getElementById('compare-table-headers');
+        const body = document.getElementById('compare-table-body');
+        
+        headersRow.innerHTML = '<th style="padding: 12px; color: var(--primary-blue); font-weight: 700; width: 25%;">Feature</th>';
+        body.innerHTML = '';
+        
+        const selectedItems = compareList.map(id => materialsData.find(m => m.id === id)).filter(Boolean);
+        
+        // Populate headers
+        selectedItems.forEach(item => {
+            const th = document.createElement('th');
+            th.style.padding = '12px';
+            th.style.textAlign = 'center';
+            th.style.width = `${75 / selectedItems.length}%`;
+            th.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+                    <img src="${item.image}" style="width:70px; height:70px; object-fit:cover; border-radius:4px; border:1px solid rgba(0,0,0,0.1);">
+                    <span style="font-family:'Outfit',sans-serif; color:var(--primary-blue); font-weight:700; font-size:0.9rem;">${item.name}</span>
+                </div>
+            `;
+            headersRow.appendChild(th);
+        });
+        
+        // Features list to compare
+        const features = [
+            { label: "Category", key: "category" },
+            { label: "Origin", key: "origin" },
+            { label: "Finish Type", key: "finish" },
+            { label: "Thickness", key: "specs", subKey: "thickness" },
+            { label: "Durability", key: "specs", subKey: "durability" },
+            { label: "Price Range", key: "price" },
+            { label: "Eco Rating", key: "specs", subKey: "ecoRating" },
+            { label: "Description", key: "desc" }
+        ];
+        
+        features.forEach((feat, index) => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid rgba(0,0,0,0.08)';
+            if (index % 2 === 1) tr.style.background = '#fcf8f2';
+            
+            const labelTd = document.createElement('td');
+            labelTd.style.padding = '12px';
+            labelTd.style.fontWeight = '700';
+            labelTd.style.color = 'var(--primary-blue)';
+            labelTd.textContent = feat.label;
+            tr.appendChild(labelTd);
+            
+            selectedItems.forEach(item => {
+                const valTd = document.createElement('td');
+                valTd.style.padding = '12px';
+                valTd.style.textAlign = 'center';
+                
+                let value = '';
+                if (feat.subKey) {
+                    value = item[feat.key] ? (item[feat.key][feat.subKey] || 'N/A') : 'N/A';
+                } else {
+                    value = item[feat.key] || 'N/A';
+                }
+                
+                valTd.textContent = value;
+                tr.appendChild(valTd);
+            });
+            
+            body.appendChild(tr);
+        });
+        
+        compareModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeCompareModal = () => {
+        if (compareModal) {
+            compareModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    };
+
+    if (btnCompareNow) btnCompareNow.addEventListener('click', openCompareModal);
+    if (closeCompareModalBtn) closeCompareModalBtn.addEventListener('click', closeCompareModal);
+    if (compareModalOverlay) compareModalOverlay.addEventListener('click', closeCompareModal);
+    
+    if (btnCompareClear) {
+        btnCompareClear.addEventListener('click', () => {
+            compareList = [];
+            renderLibrary();
+            updateCompareDrawer();
+        });
+    }
 
 
     // ==========================================================================
@@ -466,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-    });
+    }
 
 
     // ==========================================================================
@@ -475,6 +681,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             searchQuery = e.target.value;
+            renderLibrary();
+        });
+    }
+
+    if (sortInput) {
+        sortInput.addEventListener('change', () => {
             renderLibrary();
         });
     }
