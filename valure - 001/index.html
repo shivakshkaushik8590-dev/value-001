@@ -81,6 +81,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP & ScrollTrigger CDN links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js & OrbitControls CDN links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
     <script src="whatsapp-helper.js"></script>
 </head>
 <body>
@@ -136,8 +145,9 @@
          HERO SECTION
          ============================================================ -->
     <section id="home" class="hero">
-        <div class="hero-background">
-            <img src="assets/images/hero.png" alt="Premium Marble Interior Visualizations — Valure Studio">
+        <div id="hero-3d-canvas"></div>
+        <div class="hero-background" style="background-color: var(--primary-blue);">
+            <img src="assets/images/hero.png" alt="Premium Marble Interior Visualizations — Valure Studio" style="opacity: 0.18; filter: blur(4px);">
             <div class="overlay"></div>
         </div>
         <div class="container hero-content">
@@ -1216,5 +1226,6 @@
         revealElements.forEach(el => observer.observe(el));
     });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>

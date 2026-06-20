@@ -362,6 +362,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateCompareDrawer();
             });
         });
+
+        // 3D Tilt & Metallic Sweep reflections using GSAP
+        document.querySelectorAll('.material-card').forEach(card => {
+            let sweep = card.querySelector('.gold-sweep');
+            if (!sweep) {
+                sweep = document.createElement('div');
+                sweep.className = 'gold-sweep';
+                card.appendChild(sweep);
+            }
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = -((y - centerY) / centerY) * 10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                gsap.to(card, {
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    transformPerspective: 1000,
+                    ease: "power2.out",
+                    duration: 0.3,
+                    overwrite: "auto"
+                });
+
+                const pctX = (x / rect.width) * 100;
+                const pctY = (y / rect.height) * 100;
+                gsap.to(sweep, {
+                    background: `radial-gradient(circle at ${pctX}% ${pctY}%, rgba(212,175,55,0.22) 0%, transparent 60%)`,
+                    duration: 0.1,
+                    overwrite: "auto"
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    ease: "power2.out",
+                    duration: 0.5,
+                    overwrite: "auto"
+                });
+                gsap.to(sweep, {
+                    background: `radial-gradient(circle at 50% 50%, rgba(212,175,55,0) 0%, transparent 60%)`,
+                    duration: 0.4,
+                    overwrite: "auto"
+                });
+            });
+        });
     };
 
     // Update comparison drawer view state

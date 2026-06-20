@@ -1734,7 +1734,7 @@ h2 {
     height: 100%;
     background: var(--accent-gold);
     width: 0%;
-    transition: width 0.8s ease-in-out;
+    transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Adaptive mobile layout overrides */
@@ -2837,3 +2837,139 @@ h2 {
     margin: 0 auto 28px;
     line-height: 1.6;
 }
+
+/* ================================================================
+   VALURE LUXURY 3D & ANIMATION ADDITIONS
+   ================================================================ */
+
+/* Custom luxury cursor */
+@media (hover: hover) and (pointer: fine) {
+    body {
+        cursor: none;
+    }
+    a, button, select, input, textarea, [role="button"], .product-card, .marble-cat-card, .drag-item, .slot-chip, .swatch-btn, .texture-card, .close-modal {
+        cursor: none;
+    }
+    .luxury-cursor {
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-gold);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 100000;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+        display: block;
+    }
+    .luxury-cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 99999;
+        transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+        display: block;
+    }
+    .luxury-cursor.hover {
+        width: 12px;
+        height: 12px;
+        background-color: var(--white);
+    }
+    .luxury-cursor-outline.hover {
+        width: 60px;
+        height: 60px;
+        border-color: var(--accent-gold);
+        background-color: rgba(212, 175, 55, 0.12);
+        backdrop-filter: blur(2px);
+    }
+}
+
+/* 3D Canvas elements */
+#hero-3d-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.hero-background {
+    z-index: 0 !important;
+}
+
+/* Light sweep reflection effect */
+.light-sweep-container {
+    position: relative;
+    overflow: hidden;
+}
+.light-sweep-container::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+.light-sweep-container:hover::after {
+    left: 130%;
+}
+
+/* Luxury magnetic-hover highlights */
+.btn-primary, .btn-outline, .btn-outline-white {
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary::after, .btn-outline::after, .btn-outline-white::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    transition: transform 0.5s ease-out;
+}
+.btn-primary:hover::after, .btn-outline:hover::after, .btn-outline-white:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* 3D hover effects on cards */
+.product-card, .marble-cat-card, .why-card, .testimonial-card, .select-card, .texture-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+.product-card:hover, .marble-cat-card:hover, .why-card:hover, .testimonial-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 25px 50px -12px rgba(212, 175, 55, 0.2);
+}
+
+/* Glassmorphism overrides */
+.glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+

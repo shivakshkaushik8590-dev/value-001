@@ -1,7 +1,8 @@
 // ==========================================================================
-// VALUE 001 - AI Room Designer Studio Controller
+// VALUE 001 - AI Room Designer Studio Controller (Safeguarded & Upgraded)
 // Manages Three.js WebGL Room, Before/After Slider, Drag & Drop Elements, 
 // Day/Night mode illumination, and Invoicing Cost calculations.
+// Supports both custom studio selectors and designer.html control bindings.
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,12 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Safe DOM manipulation helpers
+    const setSafeText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    };
+    const setSafeWidth = (id, width) => {
+        const el = document.getElementById(id);
+        if (el) el.style.width = width;
+    };
+
     // ==========================================================================
     // 3D THREE.JS WEBGL PREVIEW ENGINE
     // ==========================================================================
-    let scene, camera, renderer, controls;
-    let roomBox, floorMesh, ceilingMesh, backWall, leftWall, rightWall;
-    let mainLight, ambientLight, spotlightMesh;
+    let scene, camera, renderer, controls, roomGroup;
+    let floorMesh, ceilingMesh, backWall, leftWall, rightWall;
+    let mainLight, ambientLight, spotlightMesh, chandelierLight;
     const canvasContainer = document.getElementById('canvas-3d');
 
     // Mapped color hex values from lists
@@ -48,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0c1220);
 
+        // Room Group for camera sandbox rotation
+        roomGroup = new THREE.Group();
+        scene.add(roomGroup);
+
         // 2. Camera setup
         camera = new THREE.PerspectiveCamera(50, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
         camera.position.set(0, 5, 12);
@@ -70,8 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             controls.maxDistance = 18;
         }
 
-        // 5. Room geometry (A Box flipped inside out)
-        // We create separate meshes for Floor, Ceiling, Back Wall, Left Wall, Right Wall to control materials independently
+        // 5. Room geometry (Separate meshes for independent materials)
         const floorGeo = new THREE.PlaneGeometry(10, 10);
         const ceilGeo = new THREE.PlaneGeometry(10, 10);
         const wallBackGeo = new THREE.PlaneGeometry(10, 6);
@@ -87,63 +101,63 @@ document.addEventListener('DOMContentLoaded', () => {
         floorMesh.rotation.x = -Math.PI / 2;
         floorMesh.position.y = -3;
         floorMesh.receiveShadow = true;
-        scene.add(floorMesh);
+        roomGroup.add(floorMesh);
 
         // Ceiling Mesh
         ceilingMesh = new THREE.Mesh(ceilGeo, ceilMat);
         ceilingMesh.rotation.x = Math.PI / 2;
         ceilingMesh.position.y = 3;
         ceilingMesh.receiveShadow = true;
-        scene.add(ceilingMesh);
+        roomGroup.add(ceilingMesh);
 
         // Back Wall
         backWall = new THREE.Mesh(wallBackGeo, wallMatDefault);
         backWall.position.set(0, 0, -5);
         backWall.receiveShadow = true;
-        scene.add(backWall);
+        roomGroup.add(backWall);
 
         // Left Wall
         leftWall = new THREE.Mesh(wallSideGeo, wallMatDefault);
         leftWall.rotation.y = Math.PI / 2;
         leftWall.position.set(-5, 0, 0);
         leftWall.receiveShadow = true;
-        scene.add(leftWall);
+        roomGroup.add(leftWall);
 
         // Right Wall
         rightWall = new THREE.Mesh(wallSideGeo, wallMatDefault);
         rightWall.rotation.y = -Math.PI / 2;
         rightWall.position.set(5, 0, 0);
         rightWall.receiveShadow = true;
-        scene.add(rightWall);
+        roomGroup.add(rightWall);
 
-        // 6. Furniture Placeholders (Simple visual blocks representing layout)
+        // 6. Furniture Placeholders
         const sofaGeo = new THREE.BoxGeometry(4, 1, 1.5);
         const sofaMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.7 });
         const sofaMesh = new THREE.Mesh(sofaGeo, sofaMat);
         sofaMesh.position.set(0, -2.5, 2);
         sofaMesh.castShadow = true;
         sofaMesh.receiveShadow = true;
-        scene.add(sofaMesh);
+        roomGroup.add(sofaMesh);
 
         const tableGeo = new THREE.BoxGeometry(2, 0.8, 1.2);
         const tableMat = new THREE.MeshStandardMaterial({ color: 0xc5a059, roughness: 0.2, metalness: 0.4 });
         const tableMesh = new THREE.Mesh(tableGeo, tableMat);
         tableMesh.position.set(0, -2.6, 0);
         tableMesh.castShadow = true;
-        scene.add(tableMesh);
+        roomGroup.add(tableMesh);
 
         // Decorative plant block
         const potGeo = new THREE.CylinderGeometry(0.4, 0.3, 0.8, 12);
         const potMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
         const pot = new THREE.Mesh(potGeo, potMat);
         pot.position.set(-4, -2.6, -4);
-        scene.add(pot);
+        roomGroup.add(pot);
 
         const leafGeo = new THREE.SphereGeometry(0.6, 8, 8);
         const leafMat = new THREE.MeshStandardMaterial({ color: 0x3b4e43, roughness: 0.9 });
         const leaf = new THREE.Mesh(leafGeo, leafMat);
         leaf.position.set(-4, -1.8, -4);
-        scene.add(leaf);
+        roomGroup.add(leaf);
 
         // 7. Lighting setup
         ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -156,16 +170,16 @@ document.addEventListener('DOMContentLoaded', () => {
         mainLight.shadow.mapSize.height = 1024;
         scene.add(mainLight);
 
-        // 8. Chandelier / Ceiling Spotlight mesh representation
+        // Chandelier / Ceiling Spotlight mesh representation
         const chGeo = new THREE.SphereGeometry(0.3, 16, 16);
         const chMat = new THREE.MeshBasicMaterial({ color: 0xc5a059 });
         spotlightMesh = new THREE.Mesh(chGeo, chMat);
         spotlightMesh.position.set(0, 2.5, 0);
-        scene.add(spotlightMesh);
+        roomGroup.add(spotlightMesh);
 
-        const chandelierLight = new THREE.PointLight(0xffdf80, 0.5, 10);
+        chandelierLight = new THREE.PointLight(0xffdf80, 0.5, 10);
         chandelierLight.position.set(0, 2, 0);
-        scene.add(chandelierLight);
+        roomGroup.add(chandelierLight);
 
         // Render Loop
         const animate = () => {
@@ -186,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic Swapping Handlers
     const update3DWallColor = (hexString) => {
-        if (!backWall) return;
+        if (!backWall || !leftWall || !rightWall) return;
         const color = new THREE.Color(hexString);
         backWall.material.color = color;
         leftWall.material.color = color;
@@ -194,24 +208,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const update3DWallMaterial = (materialType) => {
-        if (!backWall) return;
+        if (!backWall || !leftWall || !rightWall) return;
         
         // Simulating material properties
         if (materialType === 'marble') {
             backWall.material.roughness = 0.1;
             backWall.material.metalness = 0.1;
             backWall.material.color.setHex(0xf1ebd9);
-        } else if (materialType === 'wood') {
+        } else if (materialType === 'wood' || materialType === 'wood-panels') {
             backWall.material.roughness = 0.7;
             backWall.material.metalness = 0.0;
             backWall.material.color.setHex(0x5c4033);
         } else if (materialType === 'brick') {
             backWall.material.roughness = 0.9;
             backWall.material.color.setHex(0x8b5a2b);
-        } else { // textured / standard paint
+        } else { // textured / standard paint / plaster
             backWall.material.roughness = 0.8;
             backWall.material.metalness = 0.0;
         }
+        backWall.material.needsUpdate = true;
+        leftWall.material.needsUpdate = true;
+        rightWall.material.needsUpdate = true;
     };
 
     const update3DFlooring = (flooringMaterial) => {
@@ -221,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             floorMesh.material.color.setHex(0xffffff);
             floorMesh.material.roughness = 0.05;
             floorMesh.material.metalness = 0.15;
-        } else if (flooringMaterial === 'wood') {
+        } else if (flooringMaterial === 'wood' || flooringMaterial === 'hardwood') {
             floorMesh.material.color.setHex(0x8b5a2b);
             floorMesh.material.roughness = 0.45;
             floorMesh.material.metalness = 0.0;
@@ -233,38 +250,45 @@ document.addEventListener('DOMContentLoaded', () => {
             floorMesh.material.color.setHex(0x36454f);
             floorMesh.material.roughness = 0.15;
             floorMesh.material.metalness = 0.0;
+        } else if (flooringMaterial === 'concrete') {
+            floorMesh.material.color.setHex(0x555555);
+            floorMesh.material.roughness = 0.8;
+            floorMesh.material.metalness = 0.0;
         } else { // laminate / tiles
             floorMesh.material.color.setHex(0xdedede);
             floorMesh.material.roughness = 0.3;
             floorMesh.material.metalness = 0.05;
         }
+        floorMesh.material.needsUpdate = true;
     };
 
     const update3DCeiling = (colorHex) => {
         if (!ceilingMesh) return;
         ceilingMesh.material.color.set(colorHex);
+        ceilingMesh.material.needsUpdate = true;
     };
 
     const update3DIllumination = (mode, brightness, temperature) => {
         if (!ambientLight || !mainLight) return;
 
-        // Shift color temperature
-        // Warm temperature is yellowish-orange, cool is pale-blue
+        // Shift color temperature (warm = yellowish, cool = pale-blue)
         const tempColor = new THREE.Color();
         const factor = (temperature - 2000) / 4000; // 0 (warm) to 1 (cool)
-        tempColor.lerpColors(new THREE.Color(0xffdf80), new THREE.Color(0xdceeff), factor);
+        tempColor.lerpColors(new THREE.Color(0xffdf80), new THREE.Color(0xdceeff), Math.max(0, Math.min(1, factor)));
         mainLight.color = tempColor;
 
         if (mode === 'night') {
             ambientLight.intensity = 0.2;
             ambientLight.color.setHex(0x111625); // dark blue
             mainLight.intensity = 0.25;
-            spotlightMesh.material.color.setHex(0xffdf80); // light bulb glows
+            if (spotlightMesh) spotlightMesh.material.color.setHex(0xffdf80); // light bulb glows
+            if (chandelierLight) chandelierLight.intensity = 0.8;
         } else { // day mode
             ambientLight.intensity = 0.7 * (brightness / 100);
             ambientLight.color.setHex(0xffffff);
             mainLight.intensity = 0.6 * (brightness / 100);
-            spotlightMesh.material.color.setHex(0xc5a059);
+            if (spotlightMesh) spotlightMesh.material.color.setHex(0xc5a059);
+            if (chandelierLight) chandelierLight.intensity = 0.5 * (brightness / 100);
         }
     };
 
@@ -287,11 +311,18 @@ document.addEventListener('DOMContentLoaded', () => {
             viewPanes.forEach(pane => {
                 pane.classList.remove('active');
                 if (pane.id === viewId) {
+                    pane.style.display = 'block';
                     pane.classList.add('active');
                     // Force WebGL renderer resize correction
-                    if (viewId === 'view-3d' && renderer) {
+                    if (viewId === 'view-3d' && renderer && canvasContainer) {
                         renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+                        if (camera) {
+                            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+                            camera.updateProjectionMatrix();
+                        }
                     }
+                } else {
+                    pane.style.display = 'none';
                 }
             });
         });
@@ -299,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // INTERACTIVE BEFORE/AFTER SLIDER
+    // INTERACTIVE BEFORE/AFTER SLIDER (For studio specific layout if loaded)
     // ==========================================================================
     const sliderHandle = document.getElementById('studio-slider-handle');
     const afterImgWrapper = document.getElementById('studio-slider-img-after');
@@ -325,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
         });
 
-        sliderHandle.addEventListener('touchstart', (e) => {
+        sliderHandle.addEventListener('touchstart', () => {
             isDragging = true;
         });
 
@@ -345,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // STUDIO ACCORDION INTERACTION
+    // STUDIO ACCORDION INTERACTION (Safeguarded)
     // ==========================================================================
     const accordionHeaders = document.querySelectorAll('.studio-accordion-header');
     accordionHeaders.forEach(header => {
@@ -374,18 +405,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const nightFilter = document.getElementById('night-filter-overlay');
 
     const updateLightMode = (mode) => {
-        const brightness = parseInt(document.getElementById('studio-brightness').value);
-        const temp = parseInt(document.getElementById('studio-temp').value);
+        const brightnessEl = document.getElementById('studio-brightness') || document.getElementById('light-intensity');
+        const tempEl = document.getElementById('studio-temp') || document.getElementById('light-temp');
+        
+        const brightness = brightnessEl ? parseInt(brightnessEl.value) : 75;
+        const temp = tempEl ? parseInt(tempEl.value) : 3000;
         
         update3DIllumination(mode, brightness, temp);
 
         if (mode === 'night') {
-            nightModeBtn.classList.add('active');
-            dayModeBtn.classList.remove('active');
+            if (nightModeBtn) nightModeBtn.classList.add('active');
+            if (dayModeBtn) dayModeBtn.classList.remove('active');
             if (nightFilter) nightFilter.classList.add('active');
         } else {
-            dayModeBtn.classList.add('active');
-            nightModeBtn.classList.remove('active');
+            if (dayModeBtn) dayModeBtn.classList.add('active');
+            if (nightModeBtn) nightModeBtn.classList.remove('active');
             if (nightFilter) nightFilter.classList.remove('active');
         }
     };
@@ -398,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tempSlider = document.getElementById('studio-temp');
 
     const triggerIlluminationUpdate = () => {
-        const activeMode = dayModeBtn && dayModeBtn.classList.contains('active') ? 'day' : 'night';
+        const activeMode = (dayModeBtn && dayModeBtn.classList.contains('active')) ? 'day' : 'day';
         updateLightMode(activeMode);
     };
 
@@ -484,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // STAMP DRAG-AND-DROP PLACEMENT OVER CANVAS
+    // STAMP DRAG-AND-DROP PLACEMENT OVER CANVAS (Studio specific overlay)
     // ==========================================================================
     const stampsList = document.querySelectorAll('.studio-drag-item');
     const overlayTarget = document.getElementById('studio-canvas-interactive-overlay');
@@ -551,8 +585,8 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(img);
 
         // Control buttons
-        const controls = document.createElement('div');
-        controls.classList.add('element-controls');
+        const controlsDiv = document.createElement('div');
+        controlsDiv.classList.add('element-controls');
 
         // Delete button
         const del = document.createElement('div');
@@ -563,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper.remove();
             recalculateStudioCost();
         });
-        controls.appendChild(del);
+        controlsDiv.appendChild(del);
 
         // Rotate button (rotate 45deg on click)
         let currentRotation = 0;
@@ -575,16 +609,16 @@ document.addEventListener('DOMContentLoaded', () => {
             currentRotation = (currentRotation + 45) % 360;
             img.style.transform = `rotate(${currentRotation}deg)`;
         });
-        controls.appendChild(rotate);
+        controlsDiv.appendChild(rotate);
 
-        wrapper.appendChild(controls);
+        wrapper.appendChild(controlsDiv);
 
         // Resizer Handle
         const resizer = document.createElement('div');
         resizer.classList.add('element-resizer');
         wrapper.appendChild(resizer);
 
-        overlayTarget.appendChild(wrapper);
+        if (overlayTarget) overlayTarget.appendChild(wrapper);
 
         // Drag events
         setupStampDrags(wrapper);
@@ -615,7 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         window.addEventListener('mousemove', (e) => {
-            if (!dragging) return;
+            if (!dragging || !overlayTarget) return;
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
             const w = overlayTarget.clientWidth;
@@ -664,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // SMART COST CALCULATOR & INVOICING ENGINE
+    // SMART COST CALCULATOR & INVOICING ENGINE (Safeguarded)
     // ==========================================================================
     const recalculateStudioCost = () => {
         // 1. Dimensions setup (Using fixed defaults or sliders)
@@ -702,12 +736,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let decorationCost = 0;
 
         document.querySelectorAll('.draggable-element').forEach(stamp => {
-            const price = parseInt(stamp.dataset.price.replace('$', '').replace(',', ''));
-            const type = stamp.dataset.type;
+            const priceVal = stamp.dataset.price;
+            if (priceVal) {
+                const price = parseInt(priceVal.replace('$', '').replace(',', ''));
+                const type = stamp.dataset.type;
 
-            if (type === 'Lighting') lightingCost += price;
-            else if (type === 'Furniture') furnitureCost += price;
-            else if (type === 'Decoration') decorationCost += price;
+                if (type === 'Lighting') lightingCost += price;
+                else if (type === 'Furniture') furnitureCost += price;
+                else if (type === 'Decoration') decorationCost += price;
+            }
         });
 
         // Add base lighting fixture if none dropped
@@ -736,20 +773,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const tax = subtotal * 0.08; // 8% delivery + tax
         const grandTotal = subtotal + designFee + tax;
 
-        // 6. Update UI labels
-        document.getElementById('bill-floor').textContent = `$${Math.round(floorCost).toLocaleString()}`;
-        document.getElementById('bill-wall').textContent = `$${Math.round(wallCost).toLocaleString()}`;
-        document.getElementById('bill-ceil').textContent = `$${Math.round(ceilCost).toLocaleString()}`;
-        document.getElementById('bill-light').textContent = `$${Math.round(lightingCost).toLocaleString()}`;
-        document.getElementById('bill-furn').textContent = `$${Math.round(furnitureCost).toLocaleString()}`;
-        document.getElementById('bill-decor').textContent = `$${Math.round(decorationCost).toLocaleString()}`;
-        document.getElementById('bill-labor').textContent = `$${Math.round(laborCost).toLocaleString()}`;
+        // 6. Update UI labels (safely)
+        setSafeText('bill-floor', `$${Math.round(floorCost).toLocaleString()}`);
+        setSafeText('bill-wall', `$${Math.round(wallCost).toLocaleString()}`);
+        setSafeText('bill-ceil', `$${Math.round(ceilCost).toLocaleString()}`);
+        setSafeText('bill-light', `$${Math.round(lightingCost).toLocaleString()}`);
+        setSafeText('bill-furn', `$${Math.round(furnitureCost).toLocaleString()}`);
+        setSafeText('bill-decor', `$${Math.round(decorationCost).toLocaleString()}`);
+        setSafeText('bill-labor', `$${Math.round(laborCost).toLocaleString()}`);
         
-        document.getElementById('bill-tax').textContent = `$${Math.round(tax).toLocaleString()}`;
-        document.getElementById('bill-fee').textContent = `$${Math.round(designFee).toLocaleString()}`;
-        document.getElementById('bill-total').textContent = `$${Math.round(grandTotal).toLocaleString()}`;
+        setSafeText('bill-tax', `$${Math.round(tax).toLocaleString()}`);
+        setSafeText('bill-fee', `$${Math.round(designFee).toLocaleString()}`);
+        setSafeText('bill-total', `$${Math.round(grandTotal).toLocaleString()}`);
 
-        // 7. Update budget allocation bar filling heights
+        // 7. Update budget allocation bar filling heights (safely)
         updateBudgetFillBars(floorCost, wallCost, ceilCost, lightingCost, furnitureCost, decorationCost, laborCost, grandTotal);
     };
 
@@ -759,23 +796,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const lightPct = ((light + furn + decor) / total) * 100;
         const laborPct = (labor / total) * 100;
 
-        document.getElementById('meter-floor-fill').style.width = `${floorPct}%`;
-        document.getElementById('meter-wall-fill').style.width = `${wallPct}%`;
-        document.getElementById('meter-fit-fill').style.width = `${lightPct}%`;
-        document.getElementById('meter-labor-fill').style.width = `${laborPct}%`;
+        setSafeWidth('meter-floor-fill', `${floorPct}%`);
+        setSafeWidth('meter-wall-fill', `${wallPct}%`);
+        setSafeWidth('meter-fit-fill', `${lightPct}%`);
+        setSafeWidth('meter-labor-fill', `${laborPct}%`);
         
-        document.getElementById('meter-floor-val').textContent = `${Math.round(floorPct)}%`;
-        document.getElementById('meter-wall-val').textContent = `${Math.round(wallPct)}%`;
-        document.getElementById('meter-fit-val').textContent = `${Math.round(lightPct)}%`;
-        document.getElementById('meter-labor-val').textContent = `${Math.round(laborPct)}%`;
+        setSafeText('meter-floor-val', `${Math.round(floorPct)}%`);
+        setSafeText('meter-wall-val', `${Math.round(wallPct)}%`);
+        setSafeText('meter-fit-val', `${Math.round(lightPct)}%`);
+        setSafeText('meter-labor-val', `${Math.round(laborPct)}%`);
     };
 
-    // Trigger initial calculation
+    // Trigger initial calculation (safely)
     recalculateStudioCost();
 
 
     // ==========================================================================
-    // ONE-CLICK DESIGN STYLE GENERATOR
+    // ONE-CLICK DESIGN STYLE PRESET GENERATOR (Safeguarded)
     // ==========================================================================
     const stylePresetCards = document.querySelectorAll('.select-card[data-group="studio-style"]');
     
@@ -871,7 +908,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // AI RECOMMENDATIONS & DYNAMIC REPORT GENERATOR
+    // AI RECOMMENDATIONS & DYNAMIC REPORT GENERATOR (Safeguarded)
     // ==========================================================================
     const recEngineBtn = document.getElementById('studio-rec-btn');
 
@@ -939,12 +976,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     reportContainer.style.opacity = '1';
                     
-                    document.getElementById('report-wall').textContent = report.color;
-                    document.getElementById('report-floor').textContent = report.floor;
-                    document.getElementById('report-ceil').textContent = report.ceil;
-                    document.getElementById('report-light').textContent = report.light;
-                    document.getElementById('report-furn').textContent = report.furn;
-                    document.getElementById('report-cost').textContent = report.est;
+                    setSafeText('report-wall', report.color);
+                    setSafeText('report-floor', report.floor);
+                    setSafeText('report-ceil', report.ceil);
+                    setSafeText('report-light', report.light);
+                    setSafeText('report-furn', report.furn);
+                    setSafeText('report-cost', report.est);
                     
                     alert('AI Design Recommendation Report generated! Values applied to preview ledger.');
                 }, 600);
@@ -957,7 +994,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveBtn) {
         saveBtn.addEventListener('click', () => {
             const activeStyle = document.querySelector('.select-card[data-group="studio-style"].selected')?.dataset.value || 'modern';
-            const activeCost = document.getElementById('bill-total').textContent;
+            const totalEl = document.getElementById('bill-total');
+            const activeCost = totalEl ? totalEl.textContent : '$0';
             
             localStorage.setItem('value001_saved_design', JSON.stringify({
                 style: activeStyle,
@@ -966,6 +1004,106 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
             
             alert('Luxury Room configuration saved to local user profile!');
+        });
+    }
+
+
+    // ==========================================================================
+    // BRIDGING DESIGNER.HTML CONTROLS TO 3D SANDBOX
+    // ==========================================================================
+    
+    // 1. Wall Colors click
+    document.querySelectorAll('.swatch-btn[data-group="wall-color"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const hexColor = btn.style.backgroundColor;
+            if (hexColor) {
+                update3DWallColor(hexColor);
+            }
+        });
+    });
+
+    // 2. Wall Materials click
+    document.querySelectorAll('.texture-card[data-group="wall-tex"]').forEach(card => {
+        card.addEventListener('click', () => {
+            const val = card.dataset.value;
+            if (val) {
+                update3DWallMaterial(val);
+            }
+        });
+    });
+
+    // 3. Flooring materials click
+    document.querySelectorAll('.texture-card[data-group="floor"]').forEach(card => {
+        card.addEventListener('click', () => {
+            const val = card.dataset.value;
+            if (val) {
+                update3DFlooring(val);
+            }
+        });
+    });
+
+    // 4. Ceiling Materials & styles click
+    document.querySelectorAll('.select-card[data-group="ceiling"]').forEach(card => {
+        card.addEventListener('click', () => {
+            const val = card.dataset.value;
+            if (val === 'flat') {
+                update3DCeiling('#f8fafc');
+            } else if (val === 'coffered') {
+                update3DCeiling('#c5a059');
+            } else if (val === 'beams') {
+                update3DCeiling('#8b5a2b');
+            } else if (val === 'molding') {
+                update3DCeiling('#e2e8f0');
+            }
+        });
+    });
+
+    // 5. Light Intensity & Temperature updates
+    const designerIntensity = document.getElementById('light-intensity');
+    const designerTemp = document.getElementById('light-temp');
+
+    const update3DLightFromDesigner = () => {
+        const brightness = designerIntensity ? parseInt(designerIntensity.value) : 75;
+        const temp = designerTemp ? parseInt(designerTemp.value) : 3000;
+        update3DIllumination('day', brightness, temp);
+    };
+
+    if (designerIntensity) designerIntensity.addEventListener('input', update3DLightFromDesigner);
+    if (designerTemp) designerTemp.addEventListener('input', update3DLightFromDesigner);
+
+    // 6. Camera Sandbox Controls (Zoom, Rotate, Fullscreen)
+    const camZoomInput = document.getElementById('cam-zoom');
+    if (camZoomInput) {
+        camZoomInput.addEventListener('input', () => {
+            const zoomVal = parseInt(camZoomInput.value);
+            if (camera) {
+                // Adjust field of view: 50 is initial FOV
+                camera.fov = 50 / (zoomVal / 100);
+                camera.updateProjectionMatrix();
+            }
+        });
+    }
+
+    const camRotateInput = document.getElementById('cam-rotate');
+    if (camRotateInput) {
+        camRotateInput.addEventListener('input', () => {
+            const rotateDeg = parseInt(camRotateInput.value);
+            if (roomGroup) {
+                roomGroup.rotation.y = THREE.MathUtils.degToRad(rotateDeg);
+            }
+        });
+    }
+
+    const camFullscreenBtn = document.getElementById('cam-fullscreen');
+    if (camFullscreenBtn && canvasContainer) {
+        camFullscreenBtn.addEventListener('click', () => {
+            if (canvasContainer.requestFullscreen) {
+                canvasContainer.requestFullscreen();
+            } else if (canvasContainer.webkitRequestFullscreen) { // Safari
+                canvasContainer.webkitRequestFullscreen();
+            } else if (canvasContainer.msRequestFullscreen) { // IE11
+                canvasContainer.msRequestFullscreen();
+            }
         });
     }
 });

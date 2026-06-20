@@ -373,3 +373,40 @@ body {
         align-items: stretch;
     }
 }
+
+/* 3D Card Tilt & Luxury Gold Sweep */
+.material-card {
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.gold-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: screen;
+    border-radius: 12px;
+    transition: opacity 0.3s;
+    opacity: 0.85;
+}
+
+/* Glassmorphism & Slide-scale Transitions for Quick Preview Modal */
+.modal {
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.mat-modal-content {
+    transform: translateY(40px) scale(0.96);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 30px 70px rgba(8, 13, 26, 0.35);
+}
+
+.modal.active .mat-modal-content {
+    transform: translateY(0) scale(1);
+}
+

@@ -20,6 +20,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="designer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP & ScrollTrigger CDN links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js & OrbitControls CDN links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
     <script src="whatsapp-helper.js"></script>
 </head>
 <body>
@@ -492,79 +501,97 @@
                 <!-- Right Visual Rendering Panel -->
                 <section class="canvas-panel">
                     
-                    <!-- Rendering Canvas Area -->
-                    <div id="slider-container" class="slider-container">
+                    <!-- Visual Mode Tabs -->
+                    <div class="canvas-tabs" style="margin-bottom: 20px; display: flex; gap: 10px; background: rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <button class="canvas-tab active" data-view="view-ai-render" style="flex: 1; text-align: center; padding: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.9rem; border-radius: 6px; transition: var(--transition-smooth);"><i class="fas fa-magic" style="margin-right: 6px;"></i> AI Render</button>
+                        <button class="canvas-tab" data-view="view-3d" style="flex: 1; text-align: center; padding: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.9rem; border-radius: 6px; transition: var(--transition-smooth);"><i class="fas fa-cubes" style="margin-right: 6px;"></i> 3D Sandbox</button>
+                    </div>
+
+                    <!-- Rendering Canvas Area Wrapper -->
+                    <div class="canvas-wrapper" style="position: relative; width: 100%; border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 12px; overflow: hidden; background-color: #0c1220; aspect-ratio: 16 / 10; box-shadow: 0 20px 50px rgba(0,0,0,0.35);">
                         
-                        <!-- Upload Overlay State -->
-                        <div id="upload-overlay" class="upload-canvas-overlay">
-                            <div id="upload-box" class="upload-box">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <h4>Upload Room Photography</h4>
-                                <p>Drag and drop your files here or click to browse. Max size 8MB.</p>
-                                <button class="btn btn-outline-white">Browse Files</button>
-                                <input type="file" id="file-input" class="file-input" accept="image/*">
+                        <!-- AI Render View Pane -->
+                        <div id="view-ai-render" class="studio-view-pane active" style="position: absolute; top:0; left:0; width:100%; height:100%; display:block;">
+                            <div id="slider-container" class="slider-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+                                <!-- Upload Overlay State -->
+                                <div id="upload-overlay" class="upload-canvas-overlay">
+                                    <div id="upload-box" class="upload-box">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <h4>Upload Room Photography</h4>
+                                        <p>Drag and drop your files here or click to browse. Max size 8MB.</p>
+                                        <button class="btn btn-outline-white">Browse Files</button>
+                                        <input type="file" id="file-input" class="file-input" accept="image/*">
+                                    </div>
+                                </div>
+
+                                <!-- AI Processing Stages Overlay -->
+                                <div id="render-loading-overlay" class="render-loading-overlay">
+                                    <div class="luxury-spinner">
+                                        <div class="spinner-ring"></div>
+                                        <div class="spinner-ring-inner"></div>
+                                        <div class="luxury-spinner-logo">V</div>
+                                    </div>
+                                    <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 25px; letter-spacing: 1px;">Generating Luxury Interior</h4>
+                                    
+                                    <div class="loading-timeline">
+                                        <div class="loading-phase active">
+                                            <i class="status-icon fas fa-circle-notch fa-spin"></i>
+                                            <span>Analyzing Room Geometry</span>
+                                        </div>
+                                        <div class="loading-phase">
+                                            <i class="status-icon far fa-circle"></i>
+                                            <span>Depth-Mapping & Structural Lock</span>
+                                        </div>
+                                        <div class="loading-phase">
+                                            <i class="status-icon far fa-circle"></i>
+                                            <span>Slicing Material Boundaries</span>
+                                        </div>
+                                        <div class="loading-phase">
+                                            <i class="status-icon far fa-circle"></i>
+                                            <span>Generating Photorealistic Textures</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Before / After Images -->
+                                <div class="slider-img slider-img-after" id="slider-img-after" style="position: absolute; top:0; left:0; width:50%; height:100%; overflow:hidden;">
+                                    <img id="after-img" src="assets/images/living.png" alt="AI Redesigned Interior View" style="height: 100%; width: auto; max-width: none; object-fit: cover;">
+                                    <div id="lighting-tint" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 15; mix-blend-mode: color; opacity: 0; transition: background-color 0.2s, opacity 0.2s;"></div>
+                                    <svg id="room-svg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;" viewBox="0 0 800 600" preserveAspectRatio="none">
+                                        <defs>
+                                            <pattern id="pat-carrara" width="120" height="120" patternUnits="userSpaceOnUse">
+                                                <image href="assets/images/mat-carrara.png" x="0" y="0" width="120" height="120"></image>
+                                            </pattern>
+                                            <pattern id="pat-oak" width="120" height="120" patternUnits="userSpaceOnUse">
+                                                <image href="assets/images/mat-oak.png" x="0" y="0" width="120" height="120"></image>
+                                            </pattern>
+                                            <pattern id="pat-brick" width="120" height="120" patternUnits="userSpaceOnUse">
+                                                <image href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" x="0" y="0" width="120" height="120"></image>
+                                            </pattern>
+                                        </defs>
+                                        <polygon id="poly-wall" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
+                                        <polygon id="poly-floor" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="slider-img slider-img-before" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+                                    <img id="before-img" src="assets/images/living.png" alt="Original User Room View" style="height: 100%; width: 100%; object-fit: cover;">
+                                </div>
+
+                                <!-- Interactive Drag overlay stamp target -->
+                                <div id="canvas-interactive-overlay" class="canvas-interactive-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 17;"></div>
+
+                                <!-- Sliding Handle Divider -->
+                                <div id="slider-handle" class="slider-handle">
+                                    <div class="slider-handle-button"><i class="fas fa-arrows-alt-h"></i></div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- AI Processing Stages Overlay -->
-                        <div id="render-loading-overlay" class="render-loading-overlay">
-                            <div class="luxury-spinner">
-                                <div class="spinner-ring"></div>
-                                <div class="spinner-ring-inner"></div>
-                                <div class="luxury-spinner-logo">V</div>
-                            </div>
-                            <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 25px; letter-spacing: 1px;">Generating Luxury Interior</h4>
-                            
-                            <div class="loading-timeline">
-                                <div class="loading-phase active">
-                                    <i class="status-icon fas fa-circle-notch fa-spin"></i>
-                                    <span>Analyzing Room Geometry</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Depth-Mapping & Structural Lock</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Slicing Material Boundaries</span>
-                                </div>
-                                <div class="loading-phase">
-                                    <i class="status-icon far fa-circle"></i>
-                                    <span>Generating Photorealistic Textures</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Before / After Images -->
-                        <div class="slider-img slider-img-after" id="slider-img-after">
-                            <img id="after-img" src="assets/images/living.png" alt="AI Redesigned Interior View">
-                            <div id="lighting-tint" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 15; mix-blend-mode: color; opacity: 0; transition: background-color 0.2s, opacity 0.2s;"></div>
-                            <svg id="room-svg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;" viewBox="0 0 800 600" preserveAspectRatio="none">
-                                <defs>
-                                    <pattern id="pat-carrara" width="120" height="120" patternUnits="userSpaceOnUse">
-                                        <image href="assets/images/mat-carrara.png" x="0" y="0" width="120" height="120"></image>
-                                    </pattern>
-                                    <pattern id="pat-oak" width="120" height="120" patternUnits="userSpaceOnUse">
-                                        <image href="assets/images/mat-oak.png" x="0" y="0" width="120" height="120"></image>
-                                    </pattern>
-                                    <pattern id="pat-brick" width="120" height="120" patternUnits="userSpaceOnUse">
-                                        <image href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" x="0" y="0" width="120" height="120"></image>
-                                    </pattern>
-                                </defs>
-                                <polygon id="poly-wall" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
-                                <polygon id="poly-floor" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
-                            </svg>
-                        </div>
-                        <div class="slider-img slider-img-before">
-                            <img id="before-img" src="assets/images/living.png" alt="Original User Room View">
-                        </div>
-
-                        <!-- Interactive Drag overlay stamp target -->
-                        <div id="canvas-interactive-overlay" class="canvas-interactive-overlay"></div>
-
-                        <!-- Sliding Handle Divider -->
-                        <div id="slider-handle" class="slider-handle">
-                            <div class="slider-handle-button"><i class="fas fa-arrows-alt-h"></i></div>
+                        <!-- 3D Room Sandbox View Pane (Three.js WebGL canvas) -->
+                        <div id="view-3d" class="studio-view-pane" style="position: absolute; top:0; left:0; width:100%; height:100%; display:none;">
+                            <div id="canvas-3d" style="width: 100%; height: 100%; outline: none; cursor: grab;"></div>
+                            <span class="canvas-mode-badge" style="position: absolute; top: 15px; right: 15px; background: rgba(15, 23, 42, 0.85); color: var(--white); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid var(--accent-gold); z-index: 20;"><i class="fas fa-cubes"></i> 3D Real-Time Sandbox</span>
+                            <div class="night-filter-overlay" id="night-filter-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.35); mix-blend-mode: multiply; pointer-events: none; z-index: 12; opacity: 0; transition: var(--transition-smooth);"></div>
                         </div>
                     </div>
 
@@ -707,5 +734,7 @@
 
     <!-- Interactive script bindings -->
     <script src="designer.js"></script>
+    <script src="studio.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
