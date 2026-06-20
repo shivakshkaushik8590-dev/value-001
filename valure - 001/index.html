@@ -5,1227 +5,2427 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valure Studio | Premium Marble, Granite & Stone Supplier in India</title>
     <meta name="description" content="Premium marble, granite, quartz, onyx & travertine supplier. Italian Statuario, Makrana White, Black Galaxy granite at best prices. Get free quotes. ☎ +91 7454853045">
-    <meta name="author" content="Shivaksh Kaushik">
-    <meta name="keywords" content="Marble Supplier, Italian Marble, Marble Price in India, Granite Supplier, Premium Marble Collection, Quartz Countertops, Onyx Stone, Travertine">
     <link rel="canonical" href="https://value-001.vercel.app/" />
     
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Valure Studio | Premium Marble, Granite & Stone Supplier in India" />
     <meta property="og:description" content="Premium marble, granite, quartz & stone collection at competitive prices. Get instant quotes." />
     <meta property="og:image" content="assets/images/hero.png" />
     <meta property="og:url" content="https://value-001.vercel.app/" />
     <meta property="og:site_name" content="Valure Studio" />
-    <meta property="og:locale" content="en_IN" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Valure Studio | Premium Marble & Stone Supplier" />
-    <meta property="twitter:description" content="Premium marble, granite & stone at competitive prices in India." />
-    <meta property="twitter:image" content="assets/images/hero.png" />
-    <meta name="twitter:site" content="@valurestudio" />
-    <meta name="twitter:creator" content="@valurestudio" />
-
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Valure Studio — Premium Marble & Stone Supplier",
-      "image": "https://value-001.vercel.app/assets/images/hero.png",
-      "url": "https://value-001.vercel.app/",
-      "telephone": "+917454853045",
-      "email": "shivakshkaushik8590@gmail.com",
-      "description": "Premium marble, granite, quartz, onyx and travertine supplier in India at competitive prices.",
-      "priceRange": "₹₹₹",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Kishangarh Marble Zone",
-        "addressLocality": "Ajmer",
-        "addressRegion": "Rajasthan",
-        "postalCode": "305801",
-        "addressCountry": "IN"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          ],
-          "opens": "09:00",
-          "closes": "19:00"
-        }
-      ],
-      "areaServed": [
-        "Delhi NCR",
-        "Mumbai",
-        "Bangalore",
-        "Hyderabad",
-        "Chennai",
-        "Jaipur"
-      ],
-      "sameAs": [
-        "https://wa.me/917454853045"
-      ]
-    }
-    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="collection.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- GSAP & ScrollTrigger CDN links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
-    <!-- Three.js & OrbitControls CDN links -->
+    <!-- Three.js CDN links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
     <script src="whatsapp-helper.js"></script>
+
+    <style>
+        :root {
+            --bg-charcoal: #1a1a1a;
+            --off-white: #f5f0e8;
+            --accent-gold: #c9a84c;
+            --accent-gold-hover: #b08d35;
+            --text-light: #f5f0e8;
+            --text-dark: #1a1a1a;
+            --text-muted: rgba(245, 240, 232, 0.7);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-charcoal);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fullscreen WebGL Canvas */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Top Bar */
+        .top-contact-bar {
+            background: rgba(15, 15, 15, 0.9);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 10px 5%;
+            font-size: 0.8rem;
+            position: relative;
+            z-index: 100;
+        }
+        .top-contact-bar a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: var(--transition-smooth);
+        }
+        .top-contact-bar a:hover {
+            color: var(--accent-gold);
+        }
+        .top-contact-bar .whatsapp-link {
+            color: #25D366;
+            font-weight: 600;
+            float: right;
+        }
+
+        /* Frosted Glass Navigation */
+        #navbar {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            transition: var(--transition-smooth);
+        }
+        #navbar.scrolled {
+            padding: 15px 5%;
+            background: rgba(26, 26, 26, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--accent-gold);
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 5px 0;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-gold);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition-smooth);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+        }
+        .btn-outline {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+        }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+        }
+        .btn-gold:hover {
+            background: var(--accent-gold-hover);
+            border-color: var(--accent-gold-hover);
+            color: var(--text-light);
+        }
+        .btn-outline-white {
+            border-color: var(--text-light);
+            color: var(--text-light);
+            background: transparent;
+        }
+        .btn-outline-white:hover {
+            background: var(--text-light);
+            color: var(--text-dark);
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--bg-charcoal);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            z-index: 101;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transition: var(--transition-smooth);
+        }
+        .mobile-menu.active {
+            right: 0;
+        }
+        .close-menu {
+            align-self: flex-end;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        .mobile-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .mobile-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Section Layouts */
+        .scroll-section {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+        .webgl-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            pointer-events: none;
+            padding: 120px 0;
+        }
+        .interactive {
+            pointer-events: auto;
+        }
+
+        /* Specific Sections overlays */
+        /* Section 1 - Hero */
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-content .cta-row {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Section 2 - Tunnel */
+        .tunnel-content {
+            text-align: center;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        /* projected label styles */
+        .projected-label {
+            position: absolute;
+            z-index: 15;
+            background: rgba(26,26,26,0.85);
+            border: 1px solid var(--accent-gold);
+            padding: 8px 18px;
+            border-radius: 4px;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        .projected-label.visible {
+            opacity: 1;
+        }
+
+        /* Section 3 - Before/After */
+        .ba-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .ba-instructions {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            pointer-events: none;
+        }
+
+        /* Section 4 - Gallery */
+        .gallery-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10,10,10,0.9);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .gallery-details-content {
+            background: var(--bg-charcoal);
+            border: 1px solid var(--accent-gold);
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .gallery-details-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .gallery-details-content p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        .gallery-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* Section 5 - Room Walkthrough */
+        .room-panel {
+            position: absolute;
+            background: rgba(26,26,26,0.9);
+            border-left: 3px solid var(--accent-gold);
+            padding: 20px 30px;
+            max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        .room-panel h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .room-panel p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .panel-1 { top: 25%; left: 10%; }
+        .panel-2 { top: 25%; right: 10%; }
+        .panel-3 { bottom: 25%; left: 15%; }
+        .panel-4 { bottom: 25%; right: 15%; }
+
+        /* Section 6 - Estimator Teaser */
+        .teaser-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .teaser-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .teaser-text p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        .counter-badge {
+            display: inline-block;
+            background: rgba(201, 168, 76, 0.1);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Section 7 - Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        .stat-item h3 {
+            height: 120px; /* offset for WebGL text */
+        }
+        .stat-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-top: 10px;
+        }
+        .stat-item span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Section 8 - Testimonials */
+        .testimonials-overlay {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .dot.active {
+            background: var(--accent-gold);
+            transform: scale(1.2);
+        }
+
+        /* Section 9 - Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 25px;
+        }
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .contact-item div h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .contact-item div p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .contact-form {
+            background: rgba(26, 26, 26, 0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 4px;
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Section 10 - Globe / Footer */
+        .globe-content {
+            text-align: center;
+        }
+        .globe-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-top: 30px;
+        }
+
+        .footer {
+            background: #111;
+            padding: 80px 5% 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 10;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .footer-logo span {
+            color: var(--accent-gold);
+            font-weight: 300;
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 400px;
+        }
+        .footer-links h4, .footer-newsletter h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        .footer-links a:hover {
+            color: var(--text-light);
+        }
+        .footer-newsletter p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .newsletter-form {
+            display: flex;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light);
+            font-family: inherit;
+            border-radius: 4px 0 0 4px;
+        }
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+        .newsletter-form button {
+            background: var(--accent-gold);
+            border: none;
+            color: var(--text-dark);
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .newsletter-form button:hover {
+            background: var(--accent-gold-hover);
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .footer-bottom a:hover {
+            color: var(--text-light);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #20ba5a;
+        }
+
+        /* Global Canvas transitions overlay */
+        #transition-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        /* Responsive design rules */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            .teaser-grid, .contact-grid, .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- Shared fixed Canvas for multi-view scissor rendering -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Transition Canvas -->
+    <canvas id="transition-canvas"></canvas>
+
     <!-- Top Contact Bar -->
     <div class="top-contact-bar">
-        <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-            <div style="display:flex;align-items:center;gap:20px;font-size:0.78rem;">
-                <a href="tel:+917454853045" style="color:rgba(255,255,255,0.85);text-decoration:none;"><i class="fas fa-phone-alt" style="margin-right:5px;color:var(--accent-gold);"></i> +91 7454853045</a>
-                <a href="mailto:shivakshkaushik8590@gmail.com" style="color:rgba(255,255,255,0.85);text-decoration:none;"><i class="fas fa-envelope" style="margin-right:5px;color:var(--accent-gold);"></i> shivakshkaushik8590@gmail.com</a>
-            </div>
-            <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" target="_blank" style="color:#25D366;font-size:0.78rem;text-decoration:none;font-weight:600;"><i class="fab fa-whatsapp" style="margin-right:5px;"></i> WhatsApp Us</a>
-        </div>
+        <a href="tel:+917454853045"><i class="fas fa-phone-alt" style="margin-right: 5px; color: var(--accent-gold);"></i> +91 7454853045</a>
+        <a href="mailto:hello@valure.in"><i class="fas fa-envelope" style="margin-right: 5px; color: var(--accent-gold);"></i> hello@valure.in</a>
+        <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp" style="margin-right: 5px;"></i> WhatsApp Us</a>
     </div>
 
     <!-- Navigation -->
-    <nav id="navbar" role="navigation" aria-label="Main Navigation">
-        <div class="container nav-content">
-            <a href="#" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="designer.html" style="color:var(--accent-gold);font-weight:700;"><i class="fas fa-magic" aria-hidden="true" style="margin-right:4px;"></i> 3D Room Designer</a></li>
-                <li><a href="collection.html">Marble Collection</a></li>
-                <li><a href="calculator.html">Project Estimator</a></li>
-                <li><a href="#why-us">Why Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="tel:+917454853045" class="btn btn-outline" style="padding:10px 20px;font-size:0.72rem;"><i class="fas fa-phone-alt" style="margin-right:6px;"></i> Call Now</a>
-                <a href="#" id="login-trigger" class="btn btn-primary" style="padding:10px 24px;font-size:0.72rem;">Partner Portal</a>
-                <a href="admin.html" id="admin-link" class="btn btn-primary" style="padding:10px 24px;font-size:0.72rem;display:none;background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);">Admin CRM</a>
-                <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+    <nav id="navbar">
+        <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="designer.html">AI Room Designer</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="tel:+917454853045" class="btn btn-outline"><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> Call Now</a>
+            <button class="menu-toggle" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
-        <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu">
+        <div class="close-menu"><i class="fas fa-times"></i></div>
         <ul class="mobile-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="designer.html" style="color:var(--accent-gold);font-weight:700;"><i class="fas fa-magic"></i> 3D Room Designer</a></li>
-            <li><a href="collection.html">Marble Collection</a></li>
-            <li><a href="calculator.html">Project Estimator</a></li>
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="designer.html">AI Room Designer</a></li>
         </ul>
     </div>
 
-    <!-- ============================================================
-         HERO SECTION
-         ============================================================ -->
-    <section id="home" class="hero">
-        <div id="hero-3d-canvas"></div>
-        <div class="hero-background" style="background-color: var(--primary-blue);">
-            <img src="assets/images/hero.png" alt="Premium Marble Interior Visualizations — Valure Studio" style="opacity: 0.18; filter: blur(4px);">
-            <div class="overlay"></div>
-        </div>
-        <div class="container hero-content">
-            <div class="badge" style="background:rgba(212,175,55,0.15);color:var(--accent-gold);border:1px solid var(--accent-gold);display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:50px;font-weight:700;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:25px;">
-                <i class="fas fa-gem"></i> Premium Marble & Stone Sourcing Platform
+    <!-- SECTION 1 — Hero (3D Marble Slab Scene) -->
+    <section class="scroll-section" id="hero">
+        <div class="webgl-container" data-scene="hero"></div>
+        <div class="content-overlay hero-content">
+            <h1 class="reveal">Visualize Premium Marble Designs in Real Time</h1>
+            <p class="reveal">Experience direct-from-quarry luxury stone collections seamlessly overlayed on your space. Custom size configurations, bespoke marble finishes, and nationwide delivery.</p>
+            <div class="cta-row reveal interactive">
+                <a href="designer.html" class="btn btn-gold">Start Designing</a>
+                <a href="#contact" class="btn btn-outline-white">Get Free Quote</a>
             </div>
-            <h1 class="reveal">Visualize Premium <span class="highlight">Marble Designs</span> in Real Time</h1>
-            <p class="reveal">Customize walls, floors, kitchens, bathrooms, and interiors before making a purchase. Experience direct-from-quarry luxury stone collections seamlessly overlayed on your space.</p>
-            <div class="hero-btns reveal">
-                <a href="designer.html" class="btn btn-primary" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);"><i class="fas fa-magic" style="margin-right:8px;"></i> Start Designing</a>
-                <a href="#booking" class="btn btn-primary"><i class="fas fa-calendar-alt" style="margin-right:8px;"></i> Get Free Quote</a>
-                <a href="#contact" class="btn btn-outline-white"><i class="fas fa-envelope" style="margin-right:8px;"></i> Contact Us</a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse"><div class="wheel"></div></div>
-            <span>Scroll Down</span>
         </div>
     </section>
 
-    <!-- ============================================================
-         ACHIEVEMENTS & TRUST SHOWCASE
-         ============================================================ -->
-    <section style="padding:80px 0;background:linear-gradient(180deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);">
-        <div class="container">
-            <div class="achievements-grid">
-                <div class="achievement-item">
-                    <div class="achievement-icon"><i class="fas fa-boxes"></i></div>
-                    <span class="achievement-number">500+</span>
-                    <span class="achievement-label">Sourced Materials</span>
-                </div>
-                <div class="achievement-item">
-                    <div class="achievement-icon"><i class="fas fa-award"></i></div>
-                    <span class="achievement-number">100% A-Grade</span>
-                    <span class="achievement-label">Quality Certified</span>
-                </div>
-                <div class="achievement-item">
-                    <div class="achievement-icon"><i class="fas fa-truck"></i></div>
-                    <span class="achievement-number">Pan-India</span>
-                    <span class="achievement-label">Concierge Delivery</span>
-                </div>
-                <div class="achievement-item">
-                    <div class="achievement-icon"><i class="fas fa-handshake"></i></div>
-                    <span class="achievement-number">12+ Years</span>
-                    <span class="achievement-label">Direct Sourcing</span>
-                </div>
-            </div>
+    <!-- SECTION 2 — 3D Product Category Tunnel -->
+    <section class="scroll-section" id="tunnel">
+        <div class="webgl-container" data-scene="tunnel"></div>
+        <div class="content-overlay tunnel-content">
+            <span class="section-subtitle">Exquisite curation</span>
+            <h2 class="section-title">Browse Slabs by Category</h2>
+            <p class="section-desc">Fly through our selection of luxury natural stones. Click on any category slab in the tunnel below to view the collection.</p>
+        </div>
+        
+        <!-- projected category labels -->
+        <div id="labels-container"></div>
+    </section>
 
-            <!-- Interactive Before/After Showcase -->
-            <div class="section-header center" style="margin-top: 80px; margin-bottom: 40px;">
-                <span class="subtitle" style="color:var(--accent-gold);">Luxury Visualized</span>
-                <h2 style="color:var(--white);">From Raw Construction to Pure Luxury</h2>
-                <p style="color:rgba(255,255,255,0.7);max-width:550px;margin:10px auto 0;">Slide the divider to preview how our premium Statuario marble floor plans transform raw apartment shells into architectural masterpieces.</p>
+    <!-- SECTION 3 — Before/After Comparison in 3D Space -->
+    <section class="scroll-section" id="before-after">
+        <div class="webgl-container" data-scene="before-after"></div>
+        <div class="content-overlay ba-container">
+            <div style="text-align: center;">
+                <span class="section-subtitle">Aesthetic Transformation</span>
+                <h2 class="section-title">From Raw Concrete to Luxury Marble</h2>
+                <p class="section-desc">Hover and drag the golden center divider to reveal how raw apartments are transformed into timeless Statuario sanctuaries.</p>
+            </div>
+        </div>
+        <div class="ba-instructions">Drag Divider Left & Right</div>
+    </section>
+
+    <!-- SECTION 4 — Floating Product Cards (3D Billboard Gallery) -->
+    <section class="scroll-section" id="gallery">
+        <div class="webgl-container" data-scene="gallery"></div>
+        <div class="content-overlay" style="text-align: center;">
+            <span class="section-subtitle">Signature Collection</span>
+            <h2 class="section-title">Featured Stones Showcase</h2>
+            <p class="section-desc" style="margin-bottom: 20px;">Hover to pause rotation. Click any card to inspect pricing, origin specifications, and to request quotes.</p>
+        </div>
+    </section>
+
+    <!-- 3D Modal for Billboard Details -->
+    <div class="gallery-details-modal" id="details-modal">
+        <div class="gallery-details-content">
+            <div class="gallery-close" id="modal-close">&times;</div>
+            <h2 id="modal-name">Stone Name</h2>
+            <p style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;" id="modal-origin">Origin: Italy</p>
+            <p id="modal-price" style="font-size: 1.5rem; margin-bottom: 20px; font-weight: 700;">₹450 / sqft</p>
+            <p id="modal-desc" style="margin-bottom: 30px;">Detailed description of the marble material and its ideal applications.</p>
+            <a href="#contact" class="btn btn-gold" id="modal-quote-btn">Request Quote for this Material</a>
+        </div>
+    </div>
+
+    <!-- SECTION 5 — 3D Room Walkthrough (Why Choose Us) -->
+    <section class="scroll-section" id="room">
+        <div class="webgl-container" data-scene="room"></div>
+        <div class="content-overlay" style="height: 100%; position: relative;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span class="section-subtitle">Valure standards</span>
+                <h2 class="section-title">Commitment to Perfect Stone</h2>
             </div>
             
-            <div class="before-after-showcase" id="homepage-ba-slider">
-                <!-- Before (Shell) -->
-                <div class="ba-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=1200" alt="Raw construction living room shell">
-                    <span class="ba-badge ba-badge-before">Raw Concrete Space</span>
-                </div>
-                <!-- After (Finished Luxury Marble) -->
-                <div class="ba-img-wrapper ba-img-after" id="homepage-ba-after">
-                    <img src="assets/images/living.png" alt="Finished luxury living room with Statuario marble floors" style="width: 100vw; max-width: 1200px;">
-                    <span class="ba-badge ba-badge-after">Luxury Marble Finished</span>
-                </div>
-                <!-- Slid handle -->
-                <div class="ba-divider-bar" id="homepage-ba-divider">
-                    <div class="ba-divider-handle"><i class="fas fa-arrows-alt-h"></i></div>
+            <div class="room-panel panel-1" id="panel-1">
+                <h3><i class="fas fa-certificate"></i> Certified Quality</h3>
+                <p>Every single slab undergoes rigorous quality control and diamond profiling alignment. We guarantee structural integrity.</p>
+            </div>
+            <div class="room-panel panel-2" id="panel-2">
+                <h3><i class="fas fa-tags"></i> Direct Quarry Pricing</h3>
+                <p>Direct sourcing from Italian and Indian quarries eliminates intermediary markups, offering premium stones at standard costs.</p>
+            </div>
+            <div class="room-panel panel-3" id="panel-3">
+                <h3><i class="fas fa-shipping-fast"></i> Pan-India Logistics</h3>
+                <p>Insured door-to-door logistics in heavy-duty timber A-frames ensures zero fractures or cracks from quarry to residence.</p>
+            </div>
+            <div class="room-panel panel-4" id="panel-4">
+                <h3><i class="fas fa-user-tie"></i> Architectural Advisory</h3>
+                <p>Our senior consultants support bookmatching setups, select thickness parameters, and coordinate builder operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 — 3D Project Estimator Teaser -->
+    <section class="scroll-section" id="blueprint">
+        <div class="webgl-container" data-scene="blueprint"></div>
+        <div class="content-overlay teaser-grid">
+            <div class="teaser-text">
+                <span class="section-subtitle">Real-time Sourcing cost</span>
+                <h2>Architectural Project Costing</h2>
+                <p>Estimate your marble and labor costs instantly in our blueprint sandbox. See room areas dimensioned, slabs materialized, and structural quotes calculated.</p>
+                <div class="counter-badge" id="estimator-counter">0 SQFT</div>
+                <div class="interactive">
+                    <a href="calculator.html" class="btn btn-gold">Open Project Estimator →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================================
-         MARBLE CATEGORIES SHOWCASE
-         ============================================================ -->
-    <section id="categories" class="section bg-light">
-        <div class="container">
-            <div class="section-header center">
-                <span class="subtitle">Our Collection</span>
-                <h2>Browse by Category</h2>
-                <p style="color:var(--text-muted);max-width:550px;margin:10px auto 0;">Explore our premium stone categories — sourced from the finest quarries in India, Italy, Spain, Turkey and beyond.</p>
+    <!-- SECTION 7 — 3D Stats Counter -->
+    <section class="scroll-section" id="stats">
+        <div class="webgl-container" data-scene="stats"></div>
+        <div class="content-overlay stats-grid">
+            <div class="stat-item">
+                <h3 id="stat-1"></h3>
+                <p>Sourced Materials</p>
+                <span>Premium varieties</span>
             </div>
-            <div class="marble-categories-grid">
-                <a href="collection.html?cat=italian" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-archway"></i></div>
-                    <h3>Italian Marble</h3>
-                    <p>Statuario, Calacatta, Carrara</p>
-                </a>
-                <a href="collection.html?cat=indian" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-monument"></i></div>
-                    <h3>Indian Marble</h3>
-                    <p>Makrana, Rajnagar, Kishangarh</p>
-                </a>
-                <a href="collection.html?cat=imported" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-globe"></i></div>
-                    <h3>Imported Marble</h3>
-                    <p>Spanish, Turkish, Nero Marquina</p>
-                </a>
-                <a href="collection.html?cat=granite" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-mountain"></i></div>
-                    <h3>Granite</h3>
-                    <p>Black Galaxy, Kashmir White</p>
-                </a>
-                <a href="collection.html?cat=quartz" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-gem"></i></div>
-                    <h3>Quartz</h3>
-                    <p>Calacatta, Pure White, Black</p>
-                </a>
-                <a href="collection.html?cat=onyx" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-star"></i></div>
-                    <h3>Onyx</h3>
-                    <p>Honey, Forest Green, Backlit</p>
-                </a>
-                <a href="collection.html?cat=travertine" class="marble-cat-card">
-                    <div class="marble-cat-icon"><i class="fas fa-leaf"></i></div>
-                    <h3>Travertine</h3>
-                    <p>Classic Roman, Silver, Noce</p>
-                </a>
+            <div class="stat-item">
+                <h3 id="stat-2"></h3>
+                <p>Quality Guarantee</p>
+                <span>A-Grade certified</span>
+            </div>
+            <div class="stat-item">
+                <h3 id="stat-3"></h3>
+                <p>Indian Deliveries</p>
+                <span>All major metro hubs</span>
+            </div>
+            <div class="stat-item">
+                <h3 id="stat-4"></h3>
+                <p>Sourcing Experience</p>
+                <span>Trusted since 2014</span>
             </div>
         </div>
     </section>
 
-    <!-- ============================================================
-         FEATURED PRODUCTS
-         ============================================================ -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header center">
-                <span class="subtitle">Bestsellers</span>
-                <h2>Featured Marble Collection</h2>
-                <p style="color:var(--text-muted);max-width:550px;margin:10px auto 0;">Our most popular products — handpicked by our clients and design professionals.</p>
-            </div>
-            <div class="featured-products-grid" id="featured-products">
-                <!-- Rendered by JS -->
-            </div>
-            <div style="text-align:center;margin-top:40px;">
-                <a href="collection.html" class="btn btn-primary"><i class="fas fa-th" style="margin-right:8px;"></i> View Full Collection (25+ Products)</a>
+    <!-- SECTION 8 — 3D Testimonials Carousel -->
+    <section class="scroll-section" id="testimonials">
+        <div class="webgl-container" data-scene="testimonials"></div>
+        <div class="content-overlay testimonials-overlay">
+            <span class="section-subtitle">Patron Reviews</span>
+            <h2 class="section-title" style="margin-bottom: 50px;">Trusted by Architects & Homeowners</h2>
+            
+            <div class="nav-dots interactive" id="testimonials-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================================
-         WHY CHOOSE US
-         ============================================================ -->
-    <section id="why-us" class="section bg-light">
-        <div class="container">
-            <div class="section-header center">
-                <span class="subtitle">Our Promise</span>
-                <h2>Why Choose Valure Studio</h2>
-            </div>
-            <div class="why-us-grid">
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-award"></i></div>
-                    <h3>Certified Quality</h3>
-                    <p>Every slab is quality-tested and graded. We guarantee A-grade marble with natural veining consistency.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-tags"></i></div>
-                    <h3>Best Prices in India</h3>
-                    <p>Direct quarry sourcing means zero middlemen. We offer the most competitive prices with transparent billing.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-truck"></i></div>
-                    <h3>Pan India Delivery</h3>
-                    <p>Safe, insured delivery to all major cities. Free shipping on bulk orders over ₹50,000.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-headset"></i></div>
-                    <h3>Expert Guidance</h3>
-                    <p>Our stone experts help you choose the right marble for your project. Free consultation and sample service.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Get Free Quote CTA Banner -->
-    <section class="container" style="margin-top: 40px; margin-bottom: 40px;">
-        <div class="quote-cta-banner">
-            <h3>Ready to Elevate Your Space?</h3>
-            <p>Contact our design concierge today for premium material sourcing, bespoke pricing, and custom slab visualizers. Let's make your luxury project a reality.</p>
-            <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
-                <a href="#contact" class="btn btn-primary" style="background:var(--accent-gold); border-color:var(--accent-gold); color:var(--primary-blue); font-weight:700;">
-                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i> Get Free Quote
-                </a>
-                <a href="#booking" class="btn btn-outline-white">
-                    <i class="fas fa-calendar-alt" style="margin-right:8px;"></i> Book Luxury Consultation
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         PROJECT ESTIMATOR CTA
-         ============================================================ -->
-    <section style="padding:80px 0;background:radial-gradient(circle at center,var(--secondary-blue) 0%,var(--primary-blue) 100%);text-align:center;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:rgba(212,175,55,0.03);border-radius:50%;filter:blur(80px);"></div>
-        <div class="container" style="position:relative;z-index:2;">
-            <span class="subtitle" style="color:var(--accent-gold);">Project Estimator</span>
-            <h2 class="text-white" style="font-size:2.2rem;margin-bottom:15px;">Estimate Your Marble Project Cost</h2>
-            <p style="color:rgba(255,255,255,0.8);max-width:600px;margin:0 auto 35px;font-size:1.05rem;line-height:1.6;">
-                Enter your room dimensions and marble choice to get an instant cost estimate. Simple, fast, and accurate pricing in Indian Rupees.
-            </p>
-            <a href="calculator.html" class="btn btn-primary" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);">
-                <i class="fas fa-calculator" style="margin-right:8px;"></i> Open Project Estimator
-            </a>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         CONSULTATION BOOKING SECTION
-         ============================================================ -->
-    <section id="booking" class="section booking-section">
-        <div class="container">
-            <div class="booking-grid">
-                <div>
-                    <span class="subtitle" style="color:var(--accent-gold);">Private Concierge</span>
-                    <h2 class="booking-title" style="color:white;">Schedule a Luxury Consultation</h2>
-                    <p class="booking-desc">Book a private video call or a showroom walkthrough with our senior stone consultants. Select your date, project scope, and design choices to begin.</p>
-                    
-                    <div style="display:flex;flex-direction:column;gap:16px;">
-                        <div style="display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.9);">
-                            <i class="fas fa-check-circle" style="color:var(--accent-gold);"></i>
-                            <span>Explore 500+ customized slab variations</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.9);">
-                            <i class="fas fa-check-circle" style="color:var(--accent-gold);"></i>
-                            <span>Get direct factory-to-site supply quotes</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.9);">
-                            <i class="fas fa-check-circle" style="color:var(--accent-gold);"></i>
-                            <span>Free sample logistics to your address</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="booking-calendar-wrapper">
-                    <form id="consultation-booking-form">
-                        <div style="display:none;">
-                            <input type="text" id="book-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                            <div class="form-group">
-                                <label for="book-name" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Full Name *</label>
-                                <input type="text" id="book-name" placeholder="John Doe" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
-                            </div>
-                            <div class="form-group">
-                                <label for="book-phone" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Phone Number *</label>
-                                <input type="tel" id="book-phone" placeholder="+91 XXXXX XXXXX" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
-                            </div>
-                        </div>
-                        
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                            <div class="form-group">
-                                <label for="book-email" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Email Address *</label>
-                                <input type="email" id="book-email" placeholder="john@example.com" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
-                            </div>
-                            <div class="form-group">
-                                <label for="book-project" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Project Type</label>
-                                <select id="book-project" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
-                                    <option value="Residential Villa" style="background:var(--primary-blue);">Residential Villa</option>
-                                    <option value="Commercial Office" style="background:var(--primary-blue);">Commercial Office</option>
-                                    <option value="Hospitality Hotel" style="background:var(--primary-blue);">Hospitality / Hotel</option>
-                                    <option value="Retail Showroom" style="background:var(--primary-blue);">Retail Showroom</option>
-                                    <option value="Religious Temple" style="background:var(--primary-blue);">Religious Temple</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group" style="margin-bottom:16px;">
-                            <label for="book-date" style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Date *</label>
-                            <input type="date" id="book-date" required aria-required="true" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;padding:10px 14px;border-radius:6px;width:100%;font-size:0.85rem;">
-                        </div>
- 
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label style="color:white;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;">Select Time Slot *</label>
-                            <div class="slots-grid" id="booking-slots">
-                                <div class="slot-chip selected" data-value="10:00 AM - 11:30 AM">10:00 AM</div>
-                                <div class="slot-chip" data-value="12:00 PM - 01:30 PM">12:00 PM</div>
-                                <div class="slot-chip" data-value="03:00 PM - 04:30 PM">03:00 PM</div>
-                                <div class="slot-chip" data-value="05:00 PM - 06:30 PM">05:00 PM</div>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;"><i class="fas fa-check-circle" style="margin-right:8px;"></i> Book Appointment</button>
-                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Book Consultation on WhatsApp</a>
-                    </form>
-                    <div class="form-success-toast" id="booking-success" role="alert" aria-live="polite" style="margin-top: 16px;">
-                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
-                        <span>Thank you. Your consultation request has been received successfully. Our team will contact you shortly.</span>
-                    </div>
-                    <div class="form-error-toast" id="booking-error" role="alert" aria-live="polite" style="margin-top: 16px;">
-                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
-                        <span id="booking-error-text">An error occurred while processing your booking. Please try again.</span>
-                    </div>            </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         CUSTOMER TESTIMONIALS
-         ============================================================ -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header center">
-                <span class="subtitle">Customer Reviews</span>
-                <h2>What Our Clients Say</h2>
-            </div>
-            <div class="testimonials-slider">
-                <div class="testimonial-card">
-                    <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <i class="fas fa-quote-right quote-icon"></i>
-                    <p>"Excellent quality Italian Statuario marble at the best price I found in India. The delivery was safe and on time. Highly recommended for premium projects."</p>
-                    <div class="client-info">
-                        <div style="width:60px;height:60px;border-radius:50%;background:var(--light-beige);display:flex;align-items:center;justify-content:center;"><i class="fas fa-user" style="font-size:1.5rem;color:var(--accent-gold);"></i></div>
+    <!-- SECTION 9 — 3D Contact / Quote Section -->
+    <section class="scroll-section" id="contact">
+        <div class="webgl-container" data-scene="contact"></div>
+        <div class="content-overlay contact-grid">
+            <div class="contact-info">
+                <span class="section-subtitle">Get In Touch</span>
+                <h2>Request a Free Consultation</h2>
+                <p>Our luxury stone specialists are available to review floor plans, arrange slab inspections, and provide detailed shipping proposals.</p>
+                
+                <div class="contact-details">
+                    <a href="tel:+917454853045" class="contact-item interactive">
+                        <i class="fas fa-phone-alt"></i>
                         <div>
-                            <h4>Rajesh Sharma</h4>
-                            <span>Interior Designer, Delhi</span>
+                            <h4>Phone Advisory</h4>
+                            <p>+91 7454853045</p>
                         </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <i class="fas fa-quote-right quote-icon"></i>
-                    <p>"We ordered Black Galaxy granite for 3 kitchens in our project. Perfect cuts, no wastage, and the price was 20% lower than local dealers. Amazing service!"</p>
-                    <div class="client-info">
-                        <div style="width:60px;height:60px;border-radius:50%;background:var(--light-beige);display:flex;align-items:center;justify-content:center;"><i class="fas fa-user" style="font-size:1.5rem;color:var(--accent-gold);"></i></div>
+                    </a>
+                    <a href="mailto:hello@valure.in" class="contact-item interactive">
+                        <i class="fas fa-envelope"></i>
                         <div>
-                            <h4>Priya Mehta</h4>
-                            <span>Builder, Mumbai</span>
+                            <h4>Email Sourcing</h4>
+                            <p>hello@valure.in</p>
                         </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="star-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <i class="fas fa-quote-right quote-icon"></i>
-                    <p>"The Makrana White marble for our temple project was absolutely flawless. Shivaksh and team provided excellent guidance on choosing the right quality grade."</p>
-                    <div class="client-info">
-                        <div style="width:60px;height:60px;border-radius:50%;background:var(--light-beige);display:flex;align-items:center;justify-content:center;"><i class="fas fa-user" style="font-size:1.5rem;color:var(--accent-gold);"></i></div>
+                    </a>
+                    <a href="https://wa.me/917454853045" class="contact-item interactive" target="_blank">
+                        <i class="fab fa-whatsapp" style="color: #25D366;"></i>
                         <div>
-                            <h4>Amit Patel</h4>
-                            <span>Contractor, Ahmedabad</span>
+                            <h4>WhatsApp Channel</h4>
+                            <p>Chat Live with Experts</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
+            </div>
+            
+            <div class="contact-form interactive">
+                <form id="quote-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Shivaksh Kaushik" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="client@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="+91 7454853045" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Project Requirements</label>
+                        <textarea id="message" class="form-control" rows="4" placeholder="Mention slab area, marble choices, and timeline..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-gold" style="width: 100%;">Request Proposal</button>
+                </form>
             </div>
         </div>
     </section>
 
-    <!-- ============================================================
-         FAQ SECTION
-         ============================================================ -->
-    <section class="section" id="faq-section" style="background: var(--light-beige); border-top: 1px solid rgba(0,0,0,0.05);">
-        <div class="container" style="max-width: 800px;">
-            <div class="section-header center" style="margin-bottom: 50px;">
-                <span class="subtitle">Got Questions?</span>
-                <h2>Frequently Asked Questions</h2>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item" style="margin-bottom: 15px; background: #fff; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 8px; overflow: hidden; transition: all 0.3s ease;">
-                    <div class="faq-question">
-                        <span>Do you offer door-to-door delivery across India?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Yes, we provide fully insured door-to-door transportation to all major cities across India, including Delhi NCR, Mumbai, Bangalore, Hyderabad, and Chennai. Our slabs are packed securely in standard A-frame wooden crates to ensure zero damage during transit.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item" style="margin-bottom: 15px; background: #fff; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 8px; overflow: hidden; transition: all 0.3s ease;">
-                    <div class="faq-question">
-                        <span>What is the average thickness of your imported Italian marble slabs?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Our imported Italian marble slabs (such as Statuario, Calacatta, and Carrara) are processed and quarried primarily in 18mm to 20mm thicknesses, aligning with standard premium interior design guidelines for structural integrity and strength.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item" style="margin-bottom: 15px; background: #fff; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 8px; overflow: hidden; transition: all 0.3s ease;">
-                    <div class="faq-question">
-                        <span>Do you provide professional installation services?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Yes, we offer premium craftsmanship and professional floor installation services. Our certified team manages bookmatching alignment, custom edge profiling, epoxy resin joint filling, diamond polishing, and protective waterproof sealing.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item" style="margin-bottom: 15px; background: #fff; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 8px; overflow: hidden; transition: all 0.3s ease;">
-                    <div class="faq-question">
-                        <span>How can I get physical samples of the stone?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            You can request physical samples directly from our Material Library page or by contacting our design concierge on WhatsApp. We dispatch 4"x4" physical stone samples via priority courier to help you assess color and texture in your space.
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- SECTION 10 — 3D Footer Globe -->
+    <section class="scroll-section" id="globe">
+        <div class="webgl-container" data-scene="globe"></div>
+        <div class="content-overlay globe-content">
+            <span class="section-subtitle">Insured Cargo Supply</span>
+            <h2 class="section-title">We Deliver Slabs Nationwide</h2>
+            <div class="globe-label">Pan-India Delivery — We ship everywhere</div>
         </div>
     </section>
 
-    <!-- ============================================================
-         CONTACT SECTION
-         ============================================================ -->
-    <section id="contact" class="section bg-light">
-        <div class="container">
-            <div class="section-header center">
-                <span class="subtitle">Get in Touch</span>
-                <h2>Request a Free Quote</h2>
-            </div>
-            <div class="contact-grid">
-                <div>
-                    <h3 style="font-size:1.5rem;margin-bottom:20px;">Contact Information</h3>
-                    <p style="color:var(--text-muted);line-height:1.7;margin-bottom:30px;">Get in touch with us for marble quotes, sample requests, or project consultations. We respond within 2 hours.</p>
-                    <div class="contact-details">
-                        <a href="tel:+917454853045" class="detail-item" style="text-decoration:none;color:inherit;">
-                            <i class="fas fa-phone-alt"></i>
-                            <div>
-                                <h4>Phone (Click to Call)</h4>
-                                <p>+91 7454853045</p>
-                            </div>
-                        </a>
-                        <a href="mailto:shivakshkaushik8590@gmail.com" class="detail-item" style="text-decoration:none;color:inherit;">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <p>shivakshkaushik8590@gmail.com</p>
-                            </div>
-                        </a>
-                        <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" target="_blank" class="detail-item" style="text-decoration:none;color:inherit;">
-                            <i class="fab fa-whatsapp" style="color:#25D366;"></i>
-                            <div>
-                                <h4>WhatsApp</h4>
-                                <p>Chat with us instantly</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://wa.me/917454853045" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:shivakshkaushik8590@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                        <a href="tel:+917454853045" aria-label="Call"><i class="fas fa-phone-alt"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form glass">
-                    <form id="homepage-enquiry-form">
-                        <div style="display:none;">
-                            <input type="text" id="hp-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-name">Full Name *</label>
-                            <input type="text" id="hp-name" placeholder="Your name" required aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-phone">Phone Number *</label>
-                            <input type="tel" id="hp-phone" placeholder="+91 XXXXX XXXXX" required aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-email">Email *</label>
-                            <input type="email" id="hp-email" placeholder="your@email.com" required aria-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-product">Product Interest *</label>
-                            <select id="hp-product" required aria-required="true">
-                                <option value="">Select...</option>
-                                <option value="Italian Marble">Italian Marble</option>
-                                <option value="Indian Marble">Indian Marble</option>
-                                <option value="Imported Marble">Imported Marble</option>
-                                <option value="Granite">Granite</option>
-                                <option value="Quartz">Quartz</option>
-                                <option value="Onyx">Onyx</option>
-                                <option value="Travertine">Travertine</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="hp-message">Message *</label>
-                            <textarea id="hp-message" rows="4" placeholder="Tell us about your project..." required aria-required="true"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane" style="margin-right:8px;"></i> Request Free Quote</button>
-                        <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Get Instant Quote on WhatsApp</a>
-                    </form>
-                    <div class="form-success-toast" id="hp-enquiry-success" role="alert" aria-live="polite" style="margin-top: 16px;">
-                        <i class="fas fa-check-circle" style="font-size:1.2rem;"></i>
-                        <span>Thank you! Your enquiry has been received and sent successfully. Our team will contact you within 2 hours.</span>
-                    </div>
-                    <div class="form-error-toast" id="hp-enquiry-error" role="alert" aria-live="polite" style="margin-top: 16px;">
-                        <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
-                        <span id="hp-enquiry-error-text">An error occurred while sending your request. Please try again.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer class="footer" role="contentinfo">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
-                <p>Premium marble, granite & stone supplier. Quality materials for luxury spaces at competitive prices across India.</p>
-                <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-                    <a href="tel:+917454853045" style="color:var(--accent-gold);text-decoration:none;font-size:0.85rem;"><i class="fas fa-phone-alt" style="margin-right:5px;"></i> +91 7454853045</a>
-                    <a href="mailto:shivakshkaushik8590@gmail.com" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;"><i class="fas fa-envelope" style="margin-right:5px;"></i> shivakshkaushik8590@gmail.com</a>
-                </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <a href="index.html" class="footer-logo">VALURE <span>STUDIO</span></a>
+                <p class="footer-desc">Direct source provider of premium Italian marble, granite, quartz, onyx, and travertine slabs. Partnering with architects to execute luxury developments across India.</p>
+                <p style="font-size: 0.9rem; color: var(--accent-gold); font-weight: 600;"><i class="fas fa-map-marker-alt"></i> Kishangarh Marble Zone, Rajasthan, India</p>
             </div>
             <div class="footer-links">
-                <h4>Quick Links</h4>
+                <h4>Sitemap</h4>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="collection.html">Marble Collection</a></li>
-                    <li><a href="calculator.html">Project Estimator</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="calculator.html">Project Cost Calculator</a></li>
+                    <li><a href="designer.html">AI Room Configurator</a></li>
                 </ul>
             </div>
             <div class="footer-newsletter">
-                <h4>Get Free Quote</h4>
-                <p>Share your email for the best marble deals.</p>
-                <form class="newsletter-form" aria-label="Newsletter Subscription" onsubmit="event.preventDefault();alert('Thank you! We will contact you shortly.');">
-                    <input type="email" placeholder="Your email" required aria-label="Email Address">
-                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
+                <h4>Sourcing Newsletter</h4>
+                <p>Receive monthly stone imports lists and exclusive A-grade inventory notifications.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to Valure stone newsletter.'); this.reset();">
+                    <input type="email" placeholder="email@address.com" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
-                <div>
-                    <p style="margin:0;color:var(--accent-gold);font-weight:600;">Valure Studio — Premium Stone Supplier</p>
-                    <p style="margin:0;opacity:0.7;font-size:0.85rem;">Quality Marble & Granite for Luxury Spaces</p>
-                </div>
-                <div style="text-align:right;">
-                    <p style="margin:0;font-weight:600;">☎ +91 7454853045</p>
-                    <p style="margin:0;opacity:0.7;font-size:0.85rem;">shivakshkaushik8590@gmail.com</p>
-                </div>
+            <p>&copy; 2026 Valure Studio India. All rights reserved.</p>
+            <div>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="cookies.html">Cookie Policy</a>
             </div>
-            <p style="margin-top:30px;opacity:0.5;font-size:0.8rem;text-align:center;">
-                &copy; 2026 Valure Studio. All rights reserved.
-            </p>
         </div>
     </footer>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <!-- WhatsApp float -->
+    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" class="whatsapp-float" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
-        <div class="whatsapp-tooltip">
-            <span>Online</span>
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
     </a>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content-card">
-            <span id="close-modal" class="close-modal-icon">&times;</span>
-            <div class="auth-tabs-header">
-                <button class="auth-tab-btn active" data-tab="login">Login</button>
-                <button class="auth-tab-btn" data-tab="signup">Request Access</button>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="login-form">
-                <div class="auth-form-group">
-                    <label for="login-email">Email Address</label>
-                    <input type="email" id="login-email" class="auth-input" placeholder="name@example.com" required>
-                </div>
-                <div class="auth-form-group">
-                    <label for="login-pass">Password</label>
-                    <input type="password" id="login-pass" class="auth-input" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;margin-top:10px;">Login to Portal</button>
-                <p style="font-size:0.75rem;opacity:0.6;margin-top:15px;text-align:center;">Demo Admin Email: <code>admin@valure.com</code> (any password)</p>
-            </form>
-            
-            <!-- Signup Form -->
-            <form id="signup-form" style="display:none;">
-                <div class="auth-form-group">
-                    <label for="signup-name">Company Name</label>
-                    <input type="text" id="signup-name" class="auth-input" placeholder="Lux Interiors Ltd" required>
-                </div>
-                <div class="auth-form-group">
-                    <label for="signup-email">Email Address</label>
-                    <input type="email" id="signup-email" class="auth-input" placeholder="designer@lux.com" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full" style="background:var(--accent-gold);border-color:var(--accent-gold);color:var(--primary-blue);font-weight:700;margin-top:10px;">Submit Partner Request</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="marble-data.js"></script>
+    <!-- Core 3D Script -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Featured products
-        const featured = getFeaturedProducts(6);
-        const grid = document.getElementById('featured-products');
-        if (grid && featured.length) {
-            grid.innerHTML = featured.map(p => {
-                const catLabel = categoryInfo[p.category]?.label || p.category;
-                return `
-                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer;">
-                    <div class="card-img-wrap">
-                        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
-                        <div class="card-badges">
-                            ${p.isNew ? '<span class="badge-new">New</span>' : ''}
-                            ${p.isPopular ? '<span class="badge-popular">Popular</span>' : ''}
-                        </div>
-                        <div class="card-quick-view"><i class="fas fa-eye" style="margin-right:6px;"></i> View Details</div>
-                    </div>
-                    <div class="card-body">
-                        <span class="card-category">${catLabel}</span>
-                        <h3 class="card-name">${p.name}</h3>
-                        <p class="card-desc">${p.shortDesc}</p>
-                        <div class="card-price-row">
-                            <span class="price-inr">₹${p.price}</span>
-                            <span class="price-unit">/ sq.ft.</span>
-                            ${p.originalPrice ? `<span class="price-original">₹${p.originalPrice}</span>` : ''}
-                        </div>
-                        <div class="card-actions" onclick="event.stopPropagation();">
-                            <a href="product.html?id=${p.id}" class="btn-enquire"><i class="fas fa-paper-plane"></i> Enquire</a>
-                            <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i></a>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
+        // Setup GSAP
+        gsap.registerPlugin(ScrollTrigger);
 
-        // --- Lead Collection & Storage ---
-        const saveInquiry = (inquiry) => {
-            let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-            inquiries.unshift(inquiry);
-            localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
-        };
+        // Mobile device detection helper
+        const isMobile = window.innerWidth < 768;
 
-        const saveBooking = (booking) => {
-            let bookings = JSON.parse(localStorage.getItem('valure_bookings')) || [];
-            bookings.unshift(booking);
-            localStorage.setItem('valure_bookings', JSON.stringify(bookings));
-        };
-
-        // Enquiry form submit
-        const form = document.getElementById('homepage-enquiry-form');
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const successToast = document.getElementById('hp-enquiry-success');
-                const errorToast = document.getElementById('hp-enquiry-error');
-                const errorText = document.getElementById('hp-enquiry-error-text');
-                
-                if (successToast) successToast.classList.remove('show');
-                if (errorToast) errorToast.classList.remove('show');
-
-                const nameVal = document.getElementById('hp-name').value.trim();
-                const phoneVal = document.getElementById('hp-phone').value.trim();
-                const emailVal = document.getElementById('hp-email').value.trim();
-                const productVal = document.getElementById('hp-product').value || 'General Sourcing Inquiry';
-                const messageVal = document.getElementById('hp-message').value.trim();
-                const honeypotVal = document.getElementById('hp-honeypot').value;
-
-                // Check duplicates locally (prevent duplicate clicks)
-                const existingInquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-                const isDuplicate = existingInquiries.some(inq => 
-                    inq.name === nameVal && inq.phone === phoneVal && inq.message === messageVal
-                );
-
-                if (isDuplicate) {
-                    if (errorToast && errorText) {
-                        errorText.textContent = "You have already submitted this enquiry request.";
-                        errorToast.classList.add('show');
-                    }
-                    return;
-                }
-
-                const btnSubmit = form.querySelector('button[type="submit"]');
-                const originalBtnContent = btnSubmit.innerHTML;
-                btnSubmit.disabled = true;
-                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
-
-                const inquiry = {
-                    id: 'inq_' + Date.now(),
-                    name: nameVal,
-                    phone: phoneVal,
-                    email: emailVal,
-                    product: productVal,
-                    message: messageVal,
-                    date: new Date().toLocaleDateString('en-IN'),
-                    status: 'New'
-                };
-
-                try {
-                    const response = await fetch('/api/contact', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: nameVal,
-                            phone: phoneVal,
-                            email: emailVal,
-                            product: productVal,
-                            message: messageVal,
-                            honeypot: honeypotVal
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok && data.success) {
-                        saveInquiry(inquiry);
-                        if (successToast) successToast.classList.add('show');
-                        redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'quote');
-                        form.reset();
-                    } else {
-                        throw new Error(data.error || 'Server failed to save enquiry.');
-                    }
-                } catch (err) {
-                    console.error("Enquiry API error (offline fallback):", err);
-                    saveInquiry(inquiry);
-                    if (successToast) successToast.classList.add('show');
-                    redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'quote');
-                    form.reset();
-                } finally {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = originalBtnContent;
-                }
-            });
-
-            // Handle secondary WhatsApp button inside form
-            const wpCta = form.querySelector('.btn-whatsapp-cta');
-            if (wpCta) {
-                wpCta.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (form.reportValidity()) {
-                        form.requestSubmit();
-                    }
-                });
-            }
-        }
-
-        // Booking form submit
-        const bookingForm = document.getElementById('consultation-booking-form');
-        if (bookingForm) {
-            // Manage slots chips
-            const chips = document.querySelectorAll('#booking-slots .slot-chip');
-            let selectedSlot = "10:00 AM - 11:30 AM";
-            chips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    chips.forEach(c => c.classList.remove('selected'));
-                    chip.classList.add('selected');
-                    selectedSlot = chip.dataset.value;
-                });
-            });
-
-            bookingForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const successToast = document.getElementById('booking-success');
-                const errorToast = document.getElementById('booking-error');
-                const errorText = document.getElementById('booking-error-text');
-                
-                // Reset toasts
-                if (successToast) successToast.classList.remove('show');
-                if (errorToast) errorToast.classList.remove('show');
-                
-                const booking = {
-                    id: 'book_' + Date.now(),
-                    name: document.getElementById('book-name').value.trim(),
-                    phone: document.getElementById('book-phone').value.trim(),
-                    email: document.getElementById('book-email').value.trim(),
-                    project: document.getElementById('book-project').value,
-                    date: document.getElementById('book-date').value,
-                    slot: selectedSlot,
-                    honeypot: document.getElementById('book-honeypot').value,
-                    status: 'New'
-                };
-
-                // Validate Date (Today or Future)
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const selectedDate = new Date(booking.date);
-                selectedDate.setHours(0, 0, 0, 0);
-                if (selectedDate < today) {
-                    if (errorToast && errorText) {
-                        errorText.textContent = "Please select today's date or a future date.";
-                        errorToast.classList.add('show');
-                    }
-                    return;
-                }
-
-                // Check for duplicates in client storage
-                const existingBookings = JSON.parse(localStorage.getItem('valure_bookings')) || [];
-                const isDuplicate = existingBookings.some(b => 
-                    b.date === booking.date && 
-                    b.slot === booking.slot && 
-                    (b.phone === booking.phone || b.email === booking.email)
-                );
-                
-                if (isDuplicate) {
-                    if (errorToast && errorText) {
-                        errorText.textContent = "You have already submitted a booking request for this date and time slot.";
-                        errorToast.classList.add('show');
-                    }
-                    return;
-                }
-
-                // Setup loading state on submit button
-                const btnSubmit = bookingForm.querySelector('button[type="submit"]');
-                const originalBtnContent = btnSubmit.innerHTML;
-                btnSubmit.disabled = true;
-                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Processing...';
-
-                try {
-                    // Send to backend API
-                    const response = await fetch('/api/booking', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(booking)
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok && data.success) {
-                        // Success paths
-                        saveBooking(booking);
-                        
-                        // Save to inquiry ledger so it shows on local Admin Lead board
-                        const inquiry = {
-                            id: 'inq_' + Date.now(),
-                            name: booking.name,
-                            phone: booking.phone,
-                            email: booking.email || 'N/A',
-                            product: `Booking: ${booking.project} (${booking.slot})`,
-                            message: `Consultation booked for ${booking.date} at ${booking.slot}. Contact email: ${booking.email}`,
-                            date: new Date().toLocaleDateString('en-IN'),
-                            status: 'New'
-                        };
-                        saveInquiry(inquiry);
-
-                        // Success notification
-                        if (successToast) successToast.classList.add('show');
-                        redirectToWhatsApp(booking.name, booking.phone, booking.email, booking.project, `Consultation scheduled for ${booking.date} at ${booking.slot}`, 'consultation');
-                        bookingForm.reset();
-                    } else {
-                        // Error returned from server
-                        throw new Error(data.error || 'Server failed to save booking.');
-                    }
-                } catch (err) {
-                    console.error("Booking API error (attempting offline fallback):", err);
-                    
-                    // Offline fallback: save locally if the server is not running
-                    saveBooking(booking);
-                    const inquiry = {
-                        id: 'inq_' + Date.now(),
-                        name: booking.name,
-                        phone: booking.phone,
-                        email: booking.email || 'N/A',
-                        product: `Booking: ${booking.project} (${booking.slot})`,
-                        message: `Consultation booked for ${booking.date} at ${booking.slot}. (Offline fallback storage - Email & WhatsApp pending)`,
-                        date: new Date().toLocaleDateString('en-IN'),
-                        status: 'New'
-                    };
-                    saveInquiry(inquiry);
-                    
-                    if (successToast) successToast.classList.add('show');
-                    redirectToWhatsApp(booking.name, booking.phone, booking.email, booking.project, `Consultation scheduled for ${booking.date} at ${booking.slot}`, 'consultation');
-                    bookingForm.reset();
-                } finally {
-                    // Reset button state
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = originalBtnContent;
-                }
-            });
-
-            // Handle secondary WhatsApp button inside bookingForm
-            const wpBookingCta = bookingForm.querySelector('.btn-whatsapp-cta');
-            if (wpBookingCta) {
-                wpBookingCta.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (bookingForm.reportValidity()) {
-                        bookingForm.requestSubmit();
-                    }
-                });
-            }
-        }
-
-        // --- Before/After Homepage Slider logic ---
-        const baSlider = document.getElementById('homepage-ba-slider');
-        const baAfter = document.getElementById('homepage-ba-after');
-        const baDivider = document.getElementById('homepage-ba-divider');
-        let baResizing = false;
-
-        if (baSlider && baAfter && baDivider) {
-            const setBaPos = (clientX) => {
-                const rect = baSlider.getBoundingClientRect();
-                let pct = ((clientX - rect.left) / rect.width) * 100;
-                if (pct < 0) pct = 0;
-                if (pct > 100) pct = 100;
-                baDivider.style.left = `${pct}%`;
-                baAfter.style.width = `${pct}%`;
-            };
-
-            baDivider.addEventListener('mousedown', (e) => {
-                baResizing = true;
-                e.preventDefault();
-            });
-
-            baDivider.addEventListener('touchstart', () => { baResizing = true; });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!baResizing) return;
-                setBaPos(e.clientX);
-            });
-
-            window.addEventListener('touchmove', (e) => {
-                if (!baResizing) return;
-                if (e.touches.length) setBaPos(e.touches[0].clientX);
-            });
-
-            window.addEventListener('mouseup', () => { baResizing = false; });
-            window.addEventListener('touchend', () => { baResizing = false; });
-        }
-
-        // --- Partner Portal Auth Logic ---
-        const authModal = document.getElementById('auth-modal');
-        const loginTrigger = document.getElementById('login-trigger');
-        const closeModal = document.getElementById('close-modal');
-        const authTabBtns = document.querySelectorAll('.auth-tab-btn');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const adminLink = document.getElementById('admin-link');
-
-        if (loginTrigger && authModal && closeModal) {
-            // Check if already logged in as admin
-            const loggedInUser = sessionStorage.getItem('valure_user');
-            if (loggedInUser === 'admin') {
-                adminLink.style.display = 'inline-flex';
-                loginTrigger.textContent = 'Portal Dashboard';
-            }
-
-            loginTrigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (sessionStorage.getItem('valure_user') === 'admin') {
-                    window.location.href = 'admin.html';
-                } else {
-                    authModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-
-            closeModal.addEventListener('click', () => {
-                authModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-
-            // Tab toggling
-            authTabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    authTabBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const tab = btn.dataset.tab;
-                    if (tab === 'login') {
-                        loginForm.style.display = 'block';
-                        signupForm.style.display = 'none';
-                    } else {
-                        loginForm.style.display = 'none';
-                        signupForm.style.display = 'block';
-                    }
-                });
-            });
-
-            // Login submit
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const submitBtn = loginForm.querySelector('button');
-                
-                submitBtn.textContent = 'Authenticating...';
-                submitBtn.disabled = true;
-
-                setTimeout(() => {
-                    submitBtn.textContent = 'Login to Portal';
-                    submitBtn.disabled = false;
-                    authModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    
-                    if (email.toLowerCase().includes('admin')) {
-                        sessionStorage.setItem('valure_user', 'admin');
-                        adminLink.style.display = 'inline-flex';
-                        loginTrigger.textContent = 'Portal Dashboard';
-                        alert('Welcome back, Admin! CRM links are now unlocked.');
-                        window.location.href = 'admin.html';
-                    } else {
-                        sessionStorage.setItem('valure_user', 'partner');
-                        loginTrigger.textContent = 'Partner Portal';
-                        alert('Logged in successfully as Partner Designer.');
-                    }
-                }, 1000);
-            });
-
-            // Signup submit
-            signupForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Thank you! Your portal partner request has been sent. Our team will review and email login credentials.');
-                signupForm.reset();
-                authModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+        // Texture Cache System
+        function generateMarbleCanvas(baseColor, veinColor) {
+            const canvas = document.createElement('canvas');
+            canvas.width = isMobile ? 512 : 1024;
+            canvas.height = isMobile ? 512 : 1024;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = baseColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Close on background click
-            window.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    authModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
+            ctx.strokeStyle = veinColor;
+            // Draw soft background veins
+            for (let i = 0; i < (isMobile ? 6 : 12); i++) {
+                ctx.beginPath();
+                let x = Math.random() * canvas.width;
+                let y = 0;
+                ctx.moveTo(x, y);
+                ctx.lineWidth = 1 + Math.random() * 4;
+                ctx.globalAlpha = 0.05 + Math.random() * 0.12;
+                while (y < canvas.height) {
+                    x += (Math.random() - 0.5) * 35;
+                    y += Math.random() * 80 + 20;
+                    ctx.lineTo(x, y);
                 }
-            });
+                ctx.stroke();
+            }
+            // Draw crisp front veins
+            for (let i = 0; i < (isMobile ? 4 : 8); i++) {
+                ctx.beginPath();
+                let x = Math.random() * canvas.width;
+                let y = 0;
+                ctx.moveTo(x, y);
+                ctx.lineWidth = 0.5 + Math.random() * 1.5;
+                ctx.globalAlpha = 0.25 + Math.random() * 0.35;
+                while (y < canvas.height) {
+                    x += (Math.random() - 0.5) * 25;
+                    y += Math.random() * 40 + 15;
+                    ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+            return canvas;
         }
 
-        // Navbar scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 80);
+        function generateGraniteCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const numDots = isMobile ? 15000 : 35000;
+            for (let i = 0; i < numDots; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const r = Math.random();
+                if (r < 0.3) ctx.fillStyle = '#111111';
+                else if (r < 0.6) ctx.fillStyle = '#c9a84c';
+                else ctx.fillStyle = '#888888';
+                ctx.fillRect(x, y, 1 + Math.random() * 2, 1 + Math.random() * 2);
+            }
+            return canvas;
+        }
+
+        function generateTravertineCanvas() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#d7ccc8';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let y = 0; y < canvas.height; y += 4) {
+                ctx.fillStyle = ['#efe5fd', '#d7ccc8', '#bcaaa4', '#efe5fd'][Math.floor(Math.random() * 4)];
+                ctx.globalAlpha = 0.15;
+                ctx.fillRect(0, y + (Math.random() - 0.5) * 2, canvas.width, 2 + Math.random() * 4);
+            }
+            ctx.globalAlpha = 1.0;
+            return canvas;
+        }
+
+        const TextureCache = {
+            textures: {},
+            get(type) {
+                if (this.textures[type]) return this.textures[type];
+                let canvas;
+                if (type === 'white' || type === 'statuario') canvas = generateMarbleCanvas('#f5f0e8', '#8c8c8c');
+                else if (type === 'black' || type === 'black_marquina') canvas = generateMarbleCanvas('#121212', '#ffffff');
+                else if (type === 'grey') canvas = generateMarbleCanvas('#555555', '#bbbbbb');
+                else if (type === 'cream') canvas = generateMarbleCanvas('#fcf7e6', '#c4b595');
+                else if (type === 'green') canvas = generateMarbleCanvas('#1b4a25', '#8bc34a');
+                else if (type === 'beige') canvas = generateMarbleCanvas('#efe0c8', '#a89470');
+                else if (type === 'dark_grey') canvas = generateMarbleCanvas('#2c2c2c', '#888888');
+                else if (type === 'granite') canvas = generateGraniteCanvas();
+                else if (type === 'travertine') canvas = generateTravertineCanvas();
+                else if (type === 'onyx') canvas = generateMarbleCanvas('#e0b541', '#473100'); // amber base, brown veins
+                else if (type === 'concrete') canvas = generateMarbleCanvas('#4d4d4d', '#2c2c2c');
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                this.textures[type] = texture;
+                return texture;
+            }
+        };
+
+        // Shared WebGL Engine Initialisation
+        const canvasElement = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas: canvasElement, antialias: true, alpha: true, powerPreference: "high-performance" });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.localClippingEnabled = true;
+
+        const scenes = [];
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            scenes.forEach(s => {
+                s.camera.aspect = s.element.clientWidth / s.element.clientHeight;
+                s.camera.updateProjectionMatrix();
+            });
         });
 
-        // Mobile menu
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const closeMenu = document.querySelector('.close-menu');
-        if (menuToggle && mobileMenu && closeMenu) {
-            menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
-            closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
-            document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
+        // Setup individual scene helper
+        function createSceneData(elementId, initFunc) {
+            const container = document.querySelector(`[data-scene="${elementId}"]`);
+            if (!container) return;
+            
+            const scene = new THREE.Scene();
+            const aspect = container.clientWidth / container.clientHeight;
+            const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
+            
+            const updateFunc = initFunc(scene, camera, container);
+            
+            scenes.push({
+                element: container,
+                scene: scene,
+                camera: camera,
+                update: updateFunc || (() => {})
+            });
         }
 
-        // Scroll reveal
-        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
+        // ==========================================================
+        // SECTION 1: HERO SCENE INITIALIZATION
+        // ==========================================================
+        createSceneData('hero', (scene, camera, container) => {
+            camera.position.set(0, 0, 8);
+            
+            // Marble Slab Mesh
+            const geom = new THREE.PlaneGeometry(10, 6, 2, 2);
+            const texture = TextureCache.get('statuario');
+            const mat = new THREE.MeshStandardMaterial({
+                map: texture,
+                roughness: 0.3,
+                metalness: 0.05
+            });
+            const slab = new THREE.Mesh(geom, mat);
+            slab.rotation.y = -0.26; // -15 deg
+            scene.add(slab);
+            
+            // Lights
+            const ambient = new THREE.AmbientLight(0x222222);
+            scene.add(ambient);
+            
+            const dirLight = new THREE.DirectionalLight(0xc9a84c, 4.0); // gold Tint
+            dirLight.position.set(-5, 5, 5);
+            scene.add(dirLight);
+            
+            // Particle dust system
+            const particleCount = isMobile ? 80 : 200;
+            const pGeom = new THREE.BufferGeometry();
+            const pPositions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                pPositions[i] = (Math.random() - 0.5) * 15;
+                pPositions[i+1] = (Math.random() - 0.5) * 10;
+                pPositions[i+2] = (Math.random() - 0.5) * 5;
+            }
+            pGeom.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+            
+            const pMat = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: isMobile ? 0.04 : 0.02,
+                transparent: true,
+                opacity: 0.6
+            });
+            const particles = new THREE.Points(pGeom, pMat);
+            scene.add(particles);
+            
+            // GSAP ScrollTrigger Animations
+            gsap.to(slab.rotation, {
+                x: 0,
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
                 }
             });
-        }, { threshold: 0.1 });
-        revealElements.forEach(el => observer.observe(el));
-    });
+            gsap.to(slab.scale, {
+                x: 1.3,
+                y: 1.3,
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Entrance effects
+            gsap.to(".hero-content h1", { opacity: 1, y: 0, duration: 1.2, delay: 0.2, ease: "power4.out" });
+            gsap.to(".hero-content p", { opacity: 1, y: 0, duration: 1.2, delay: 0.4, ease: "power4.out" });
+            gsap.to(".hero-content .cta-row", { opacity: 1, y: 0, duration: 1.2, delay: 0.6, ease: "power4.out" });
+            
+            return () => {
+                slab.rotation.y += 0.003;
+                
+                // Animate dust particles drifting up
+                const pos = pGeom.attributes.position.array;
+                for (let i = 1; i < pos.length; i += 3) {
+                    pos[i] += 0.005;
+                    if (pos[i] > 5) pos[i] = -5; // recycle
+                }
+                pGeom.attributes.position.needsUpdate = true;
+            };
+        });
+
+        // ==========================================================
+        // SECTION 2: CATEGORY TUNNEL INITIALIZATION
+        // ==========================================================
+        createSceneData('tunnel', (scene, camera, container) => {
+            // Generate a curve path for the tunnel
+            const points = [];
+            for (let i = 0; i < 5; i++) {
+                points.push(new THREE.Vector3(Math.sin(i * 1.5) * 2, Math.cos(i * 1.5) * 1.5, -i * 12));
+            }
+            const path = new THREE.CatmullRomCurve3(points);
+            
+            // Create tube geometry (tunnel)
+            const tubeGeom = new THREE.TubeGeometry(path, 60, 2.5, isMobile ? 12 : 24, false);
+            const tubeMat = new THREE.MeshBasicMaterial({
+                color: 0xc9a84c,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.1
+            });
+            const tunnel = new THREE.Mesh(tubeGeom, tubeMat);
+            scene.add(tunnel);
+            
+            // Floating Category Slabs
+            const categories = [
+                { type: 'white', label: 'Italian Marble', slug: 'italian' },
+                { type: 'black', label: 'Indian Marble', slug: 'indian' },
+                { type: 'grey', label: 'Imported Marble', slug: 'imported' },
+                { type: 'granite', label: 'Granite', slug: 'granite' },
+                { type: 'onyx', label: 'Onyx', slug: 'onyx' },
+                { type: 'travertine', label: 'Travertine', slug: 'travertine' },
+                { type: 'cream', label: 'Quartz', slug: 'quartz' }
+            ];
+            
+            const slabs = [];
+            const labelsContainer = document.getElementById('labels-container');
+            
+            categories.forEach((cat, index) => {
+                const slabGeom = new THREE.PlaneGeometry(1.5, 1);
+                const mat = new THREE.MeshStandardMaterial({
+                    map: TextureCache.get(cat.type),
+                    roughness: 0.4,
+                    emissive: new THREE.Color(0xc9a84c),
+                    emissiveIntensity: 0.0
+                });
+                const slab = new THREE.Mesh(slabGeom, mat);
+                
+                // Space evenly along the curve
+                const t = 0.15 + (index * 0.12);
+                const pos = path.getPointAt(t);
+                slab.position.copy(pos);
+                
+                // Tilt randomly
+                slab.rotation.set(Math.random() * 0.4 - 0.2, Math.random() * 0.4 - 0.2, Math.random() * 0.2 - 0.1);
+                scene.add(slab);
+                
+                // Create HTML labels overlay
+                const label = document.createElement('div');
+                label.className = 'projected-label';
+                label.textContent = cat.label;
+                label.style.color = '#c9a84c';
+                labelsContainer.appendChild(label);
+                
+                slabs.push({ mesh: slab, data: cat, labelElement: label, tValue: t });
+            });
+            
+            // Lights
+            scene.add(new THREE.AmbientLight(0x222222));
+            const light = new THREE.DirectionalLight(0xffffff, 2);
+            light.position.set(0, 5, 5);
+            scene.add(light);
+            
+            // Raycasting clicks on slabs
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            
+            container.addEventListener('click', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(slabs.map(s => s.mesh));
+                
+                if (intersects.length > 0) {
+                    const hitSlab = slabs.find(s => s.mesh === intersects[0].object);
+                    if (hitSlab) {
+                        PageTransition.play(`collection.html?cat=${hitSlab.data.slug}`);
+                    }
+                }
+            });
+            
+            // Camera position along curve ScrollTrigger animation
+            let scrollObj = { progress: 0 };
+            gsap.to(scrollObj, {
+                progress: 0.85,
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1.0
+                }
+            });
+            
+            const tempV3 = new THREE.Vector3();
+            
+            return () => {
+                // Set camera position along the curve
+                const camPos = path.getPointAt(scrollObj.progress);
+                camera.position.copy(camPos);
+                
+                // Look slightly ahead
+                const lookAtPos = path.getPointAt(Math.min(scrollObj.progress + 0.05, 1.0));
+                camera.lookAt(lookAtPos);
+                
+                // Update Slabs and projected text overlays
+                slabs.forEach(s => {
+                    s.mesh.rotation.y += 0.005;
+                    
+                    // Emissive intensity ramps up on proximity to camera
+                    const dist = camera.position.distanceTo(s.mesh.position);
+                    if (dist < 4) {
+                        s.mesh.material.emissiveIntensity = Math.max(0, 1.0 - (dist / 4.0));
+                    } else {
+                        s.mesh.material.emissiveIntensity = 0.0;
+                    }
+                    
+                    // Label projection
+                    tempV3.copy(s.mesh.position);
+                    tempV3.project(camera);
+                    
+                    // If behind camera, hide label
+                    const isBehind = tempV3.z > 1.0;
+                    if (isBehind || Math.abs(tempV3.x) > 1.0 || Math.abs(tempV3.y) > 1.0) {
+                        s.labelElement.classList.remove('visible');
+                    } else {
+                        s.labelElement.classList.add('visible');
+                        const x = (tempV3.x * .5 + .5) * container.clientWidth;
+                        const y = (-(tempV3.y * .5) + .5) * container.clientHeight;
+                        s.labelElement.style.left = `${x}px`;
+                        s.labelElement.style.top = `${y}px`;
+                    }
+                });
+            };
+        });
+
+        // ==========================================================
+        // SECTION 3: BEFORE/AFTER 3D SPACE
+        // ==========================================================
+        createSceneData('before-after', (scene, camera, container) => {
+            camera.position.set(0, 0, 5);
+            
+            // Concrete Slab (Left side)
+            const concreteGeom = new THREE.PlaneGeometry(4, 2.5, 2, 2);
+            const concreteMat = new THREE.MeshStandardMaterial({
+                map: TextureCache.get('concrete'),
+                roughness: 0.9,
+                metalness: 0.1
+            });
+            const leftPlane = new THREE.Mesh(concreteGeom, concreteMat);
+            scene.add(leftPlane);
+            
+            // Marble Slab (Right side)
+            const marbleMat = new THREE.MeshStandardMaterial({
+                map: TextureCache.get('statuario'),
+                roughness: 0.25,
+                metalness: 0.05
+            });
+            const rightPlane = new THREE.Mesh(concreteGeom, marbleMat);
+            scene.add(rightPlane);
+            
+            // Golden Divider
+            const dividerGeom = new THREE.BoxGeometry(0.04, 2.7, 0.05);
+            const dividerMat = new THREE.MeshBasicMaterial({ color: 0xc9a84c });
+            const divider = new THREE.Mesh(dividerGeom, dividerMat);
+            scene.add(divider);
+            
+            // Clipping planes to mask textures
+            let clipX = 0.0;
+            
+            leftPlane.material.clippingPlanes = [
+                new THREE.Plane(new THREE.Vector3(1, 0, 0), 0) // cuts right part
+            ];
+            rightPlane.material.clippingPlanes = [
+                new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0) // cuts left part
+            ];
+            
+            // Lights
+            scene.add(new THREE.AmbientLight(0x444444));
+            const light = new THREE.DirectionalLight(0xffffff, 2.0);
+            light.position.set(2, 2, 4);
+            scene.add(light);
+            
+            // GSAP ScrollTrigger Entrance slide-in
+            gsap.from([leftPlane.position, rightPlane.position], {
+                z: -5,
+                opacity: 0,
+                duration: 1.5,
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top bottom",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            
+            // Raycasting drag divider logic
+            let dragging = false;
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            
+            container.addEventListener('mousedown', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObject(divider);
+                if (intersects.length > 0) {
+                    dragging = true;
+                    container.style.cursor = 'grabbing';
+                }
+            });
+            
+            window.addEventListener('mouseup', () => {
+                dragging = false;
+                container.style.cursor = 'grab';
+            });
+            
+            container.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+                
+                const rect = container.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                // Project mouse coordinates to 3D Plane at z=0
+                const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
+                const dir = vec.sub(camera.position).normalize();
+                const distance = -camera.position.z / dir.z;
+                const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+                
+                // Clamp divider X position
+                clipX = Math.max(-1.95, Math.min(1.95, pos.x));
+                divider.position.x = clipX;
+            });
+            
+            return () => {
+                // Update clipping planes
+                leftPlane.material.clippingPlanes[0].constant = -clipX;
+                rightPlane.material.clippingPlanes[0].constant = clipX;
+            };
+        });
+
+        // ==========================================================
+        // SECTION 4: FLOATING PRODUCT CARDS (3D BILLBOARD GALLERY)
+        // ==========================================================
+        createSceneData('gallery', (scene, camera, container) => {
+            camera.position.set(0, 0, 6.5);
+            
+            const cardData = [
+                { name: 'Statuario White', origin: 'Apuan Alps, Italy', price: '₹450 / sqft', type: 'statuario', desc: 'Prestige white marble with deep grey branching veins.' },
+                { name: 'Black Galaxy', origin: 'Andhra Pradesh, India', price: '₹220 / sqft', type: 'black_marquina', desc: 'Durable jet-black granite speckled with golden star-like flecks.' },
+                { name: 'Calacatta Gold', origin: 'Apuan Alps, Italy', price: '₹520 / sqft', type: 'calacatta', desc: 'Rare and iconic white stone highlighted with bold grey and gold veining.' },
+                { name: 'Honey Onyx', origin: 'Erzurum, Turkey', price: '₹650 / sqft', type: 'onyx', desc: 'Beautiful translucent amber gemstone layer with unique backlit potential.' },
+                { name: 'Classic Travertine', origin: 'Tivoli, Italy', price: '₹350 / sqft', type: 'travertine', desc: 'Naturally porous banded beige stone with linear structural banding.' },
+                { name: 'Armani Grey', origin: 'Kastamonu, Turkey', price: '₹410 / sqft', type: 'grey', desc: 'Polished smoke-grey marble with fine white crystalline veining.' }
+            ];
+            
+            const cards = [];
+            const radius = 4.5;
+            const count = cardData.length;
+            
+            const group = new THREE.Group();
+            scene.add(group);
+            
+            cardData.forEach((c, idx) => {
+                // Create high-res canvas card text/render
+                const cardCanvas = document.createElement('canvas');
+                cardCanvas.width = 512;
+                cardCanvas.height = 640;
+                const ctx = cardCanvas.getContext('2d');
+                
+                // Draw luxury card design
+                ctx.fillStyle = '#1c1c1c';
+                ctx.fillRect(0, 0, 512, 640);
+                
+                // Draw stone preview thumbnail in upper half
+                const thumbCanvas = generateMarbleCanvas(
+                    c.type === 'black_marquina' ? '#121212' : '#ffffff',
+                    c.type === 'calacatta' ? '#c9a84c' : '#777777'
+                );
+                ctx.drawImage(thumbCanvas, 20, 20, 472, 340);
+                
+                // Text layouts
+                ctx.fillStyle = '#c9a84c';
+                ctx.font = "bold 26px 'Inter'";
+                ctx.fillText(c.name.toUpperCase(), 30, 410);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = "20px 'Inter'";
+                ctx.fillText(`Origin: ${c.origin}`, 30, 460);
+                
+                ctx.fillStyle = '#bcaaa4';
+                ctx.font = "bold 28px 'Inter'";
+                ctx.fillText(c.price, 30, 520);
+                
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.font = "16px 'Inter'";
+                ctx.fillText("Click to Enquire", 30, 590);
+                
+                const cTex = new THREE.CanvasTexture(cardCanvas);
+                const geom = new THREE.PlaneGeometry(1.8, 2.25);
+                const mat = new THREE.MeshBasicMaterial({ map: cTex, side: THREE.DoubleSide });
+                const card = new THREE.Mesh(geom, mat);
+                
+                // Position in semicircle
+                const angle = (idx / count) * Math.PI * 2;
+                card.position.set(Math.sin(angle) * radius, 0, Math.cos(angle) * radius);
+                group.add(card);
+                
+                // Highlight gold outline border on hover
+                const edges = new THREE.EdgesGeometry(geom);
+                const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xc9a84c }));
+                line.scale.set(1.02, 1.02, 1.02);
+                line.visible = false;
+                card.add(line);
+                
+                cards.push({ mesh: card, data: c, line: line, angle: angle });
+            });
+            
+            // Raycasting mouse interaction
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            let hoveredCard = null;
+            let rotating = true;
+            
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(cards.map(c => c.mesh));
+                
+                if (intersects.length > 0) {
+                    const card = cards.find(c => c.mesh === intersects[0].object);
+                    if (card && card !== hoveredCard) {
+                        if (hoveredCard) {
+                            gsap.to(hoveredCard.mesh.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 0.3 });
+                            hoveredCard.line.visible = false;
+                        }
+                        hoveredCard = card;
+                        gsap.to(card.mesh.scale, { x: 1.15, y: 1.15, z: 1.15, duration: 0.3 });
+                        card.line.visible = true;
+                        rotating = false;
+                        container.style.cursor = 'pointer';
+                    }
+                } else {
+                    if (hoveredCard) {
+                        gsap.to(hoveredCard.mesh.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 0.3 });
+                        hoveredCard.line.visible = false;
+                        hoveredCard = null;
+                        rotating = true;
+                        container.style.cursor = 'default';
+                    }
+                }
+            });
+            
+            // Detail modal hooks
+            const modal = document.getElementById('details-modal');
+            const modalName = document.getElementById('modal-name');
+            const modalOrigin = document.getElementById('modal-origin');
+            const modalPrice = document.getElementById('modal-price');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalQuoteBtn = document.getElementById('modal-quote-btn');
+            
+            container.addEventListener('click', (e) => {
+                if (hoveredCard) {
+                    const c = hoveredCard.data;
+                    modalName.textContent = c.name;
+                    modalOrigin.textContent = `Origin: ${c.origin}`;
+                    modalPrice.textContent = c.price;
+                    modalDesc.textContent = c.desc;
+                    modalQuoteBtn.href = `https://wa.me/917454853045?text=Hi%2C%20I%27m%20requesting%20a%20quote%20for%20${encodeURIComponent(c.name)}`;
+                    
+                    modal.style.display = 'flex';
+                }
+            });
+            
+            document.getElementById('modal-close').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            return () => {
+                if (rotating) {
+                    group.rotation.y += 0.002;
+                }
+                
+                // Slabs billboard towards camera always
+                cards.forEach(c => {
+                    c.mesh.lookAt(camera.position);
+                });
+            };
+        });
+
+        // ==========================================================
+        // SECTION 5: 3D ROOM WALKTHROUGH
+        // ==========================================================
+        createSceneData('room', (scene, camera, container) => {
+            camera.position.set(0, 0.5, 6);
+            
+            // Room box interior
+            const roomGeom = new THREE.BoxGeometry(8, 5, 12);
+            
+            // Assign different materials to interior faces
+            const floorMat = new THREE.MeshStandardMaterial({ map: TextureCache.get('statuario'), roughness: 0.2 });
+            const wallMat = new THREE.MeshStandardMaterial({ map: TextureCache.get('beige'), roughness: 0.9 });
+            const ceilMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
+            
+            const materials = [
+                wallMat, // right wall
+                wallMat, // left wall
+                ceilMat, // ceiling
+                floorMat, // floor
+                wallMat, // back wall
+                wallMat  // front wall
+            ];
+            
+            const room = new THREE.Mesh(roomGeom, materials);
+            room.position.set(0, 0, -3);
+            scene.add(room);
+            
+            // Invert normals to make interior faces visible
+            roomGeom.scale(-1, 1, 1);
+            
+            // Lights
+            scene.add(new THREE.AmbientLight(0x222222));
+            
+            // Golden LED strip coves along room edges
+            const coveGeom = new THREE.BoxGeometry(0.1, 0.1, 12);
+            const coveMat = new THREE.MeshBasicMaterial({ color: 0xc9a84c });
+            const coveL = new THREE.Mesh(coveGeom, coveMat);
+            coveL.position.set(-3.9, 2.4, -3);
+            scene.add(coveL);
+            const coveR = coveL.clone();
+            coveR.position.x = 3.9;
+            scene.add(coveR);
+            
+            // Proximity fades for HTML overlay panels on scroll
+            let scrollObj = { cameraZ: 6 };
+            gsap.to(scrollObj, {
+                cameraZ: -5,
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                    onUpdate: (self) => {
+                        const prog = self.progress;
+                        // Proximity checking for panel text overlays fading
+                        document.getElementById('panel-1').style.opacity = (prog > 0.15 && prog < 0.45) ? '1' : '0';
+                        document.getElementById('panel-2').style.opacity = (prog > 0.35 && prog < 0.65) ? '1' : '0';
+                        document.getElementById('panel-3').style.opacity = (prog > 0.55 && prog < 0.85) ? '1' : '0';
+                        document.getElementById('panel-4').style.opacity = (prog > 0.75) ? '1' : '0';
+                    }
+                }
+            });
+            
+            return () => {
+                camera.position.z = scrollObj.cameraZ;
+            };
+        });
+
+        // ==========================================================
+        // SECTION 6: 3D PROJECT ESTIMATOR TEASER
+        // ==========================================================
+        createSceneData('blueprint', (scene, camera, container) => {
+            camera.position.set(0, 3, 5);
+            camera.lookAt(0, 0, 0);
+            
+            // Grid texture representing floor plan
+            const gridCanvas = document.createElement('canvas');
+            gridCanvas.width = 512;
+            gridCanvas.height = 512;
+            const ctx = gridCanvas.getContext('2d');
+            ctx.fillStyle = '#080d1a';
+            ctx.fillRect(0, 0, 512, 512);
+            
+            ctx.strokeStyle = 'rgba(201,168,76,0.3)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 512; i += 32) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0); ctx.lineTo(i, 512);
+                ctx.moveTo(0, i); ctx.lineTo(512, i);
+                ctx.stroke();
+            }
+            // draw blueprint border
+            ctx.strokeStyle = '#c9a84c';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(4, 4, 504, 504);
+            
+            const gridTex = new THREE.CanvasTexture(gridCanvas);
+            const blueprintGeom = new THREE.PlaneGeometry(4, 4);
+            const blueprintMat = new THREE.MeshBasicMaterial({ map: gridTex, side: THREE.DoubleSide });
+            const blueprint = new THREE.Mesh(blueprintGeom, blueprintMat);
+            blueprint.rotation.x = -Math.PI / 2;
+            scene.add(blueprint);
+            
+            // Golden slab mesh (BoxGeometry)
+            const slabGeom = new THREE.BoxGeometry(2, 0.08, 1.2);
+            const slabMat = new THREE.MeshStandardMaterial({ map: TextureCache.get('statuario'), roughness: 0.2, metalness: 0.05 });
+            const slab = new THREE.Mesh(slabGeom, slabMat);
+            slab.position.set(0, -0.4, 0); // starts stowed
+            scene.add(slab);
+            
+            // Lights
+            scene.add(new THREE.AmbientLight(0x333333));
+            const light = new THREE.DirectionalLight(0xffffff, 2.5);
+            light.position.set(2, 4, 3);
+            scene.add(light);
+            
+            // 20-particle explosion system
+            const pCount = 20;
+            const particles = [];
+            for (let i = 0; i < pCount; i++) {
+                const p = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), new THREE.MeshBasicMaterial({ color: 0xc9a84c }));
+                p.visible = false;
+                scene.add(p);
+                particles.push(p);
+            }
+            
+            let animated = false;
+            
+            ScrollTrigger.create({
+                trigger: container,
+                start: "top center",
+                onEnter: () => {
+                    if (animated) return;
+                    animated = true;
+                    
+                    // Unfold blueprint
+                    gsap.from(blueprint.scale, { x: 1, y: 0.001, z: 1, duration: 1.0 });
+                    
+                    // Materialize slab
+                    gsap.to(slab.position, {
+                        y: 0.04,
+                        duration: 1.2,
+                        delay: 0.8,
+                        ease: "bounce.out",
+                        onComplete: () => {
+                            // trigger particle explosion burst
+                            particles.forEach(p => {
+                                p.position.set(0, 0.05, 0);
+                                p.visible = true;
+                                const theta = Math.random() * Math.PI * 2;
+                                const speed = 0.5 + Math.random() * 1.5;
+                                gsap.to(p.position, {
+                                    x: Math.cos(theta) * speed,
+                                    y: 0.01,
+                                    z: Math.sin(theta) * speed,
+                                    duration: 0.8,
+                                    ease: "power2.out",
+                                    onComplete: () => { p.visible = false; }
+                                });
+                            });
+                        }
+                    });
+                    
+                    // Count-up digits
+                    let countObj = { val: 0 };
+                    gsap.to(countObj, {
+                        val: 150,
+                        duration: 1.8,
+                        delay: 0.2,
+                        onUpdate: () => {
+                            document.getElementById('estimator-counter').textContent = `${Math.round(countObj.val)} SQFT`;
+                        }
+                    });
+                }
+            });
+            
+            return () => {
+                slab.rotation.y += 0.001;
+            };
+        });
+
+        // ==========================================================
+        // SECTION 7: 3D STATS COUNTER
+        // ==========================================================
+        createSceneData('stats', (scene, camera, container) => {
+            camera.position.set(0, 0, 5);
+            
+            // Star dust particles background
+            const count = 300;
+            const geom = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            for (let i = 0; i < count * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 15;
+                positions[i+1] = (Math.random() - 0.5) * 10;
+                positions[i+2] = -Math.random() * 5;
+            }
+            geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const points = new THREE.Points(geom, new THREE.PointsMaterial({ color: 0xffffff, size: 0.02, transparent: true, opacity: 0.4 }));
+            scene.add(points);
+            
+            // Helper to draw text numerals on PlaneGeometry
+            function createTextMesh(text, xPos) {
+                const texCanvas = document.createElement('canvas');
+                texCanvas.width = 256;
+                texCanvas.height = 256;
+                const ctx = texCanvas.getContext('2d');
+                ctx.clearRect(0, 0, 256, 256);
+                
+                ctx.fillStyle = '#c9a84c';
+                ctx.font = "bold 100px 'Playfair Display'";
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(text, 128, 128);
+                
+                const tex = new THREE.CanvasTexture(texCanvas);
+                const geom = new THREE.PlaneGeometry(1.5, 1.5);
+                const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+                const mesh = new THREE.Mesh(geom, mat);
+                mesh.position.set(xPos, 0.4, 0);
+                scene.add(mesh);
+                return { mesh, canvas: texCanvas, context: ctx, texture: tex };
+            }
+            
+            const stats = [
+                { obj: createTextMesh('0', -3), target: 500, label: '+' },
+                { obj: createTextMesh('0%', -1), target: 100, label: '%' },
+                { obj: createTextMesh('0', 1), target: 28, label: '' }, // Major delivery states
+                { obj: createTextMesh('0', 3), target: 12, label: '+' }
+            ];
+            
+            let animated = false;
+            ScrollTrigger.create({
+                trigger: container,
+                start: "top center",
+                onEnter: () => {
+                    if (animated) return;
+                    animated = true;
+                    
+                    stats.forEach(stat => {
+                        let countObj = { val: 0 };
+                        gsap.to(countObj, {
+                            val: stat.target,
+                            duration: 2.0,
+                            ease: "power2.out",
+                            onUpdate: () => {
+                                const rounded = Math.round(countObj.val);
+                                const ctx = stat.obj.context;
+                                ctx.clearRect(0, 0, 256, 256);
+                                ctx.fillStyle = '#c9a84c';
+                                ctx.fillText(rounded + stat.label, 128, 128);
+                                stat.obj.texture.needsUpdate = true;
+                            }
+                        });
+                    });
+                }
+            });
+            
+            return () => {
+                const time = Date.now() * 0.002;
+                stats.forEach((stat, idx) => {
+                    stat.obj.mesh.position.y = 0.4 + Math.sin(time + idx * 1.5) * 0.15; // Bobbing
+                });
+            };
+        });
+
+        // ==========================================================
+        // SECTION 8: 3D TESTIMONIALS CAROUSEL
+        // ==========================================================
+        createSceneData('testimonials', (scene, camera, container) => {
+            camera.position.set(0, 0.3, 4.5);
+            
+            const reviews = [
+                { name: 'Rajesh Sharma', role: 'Architect, Delhi', text: '"Outstanding Statuario quality at competitive costs. Concierge logistics was seamless."' },
+                { name: 'Priya Mehta', role: 'Designer, Mumbai', text: '"The materialization and custom slab profiles exceeded our penthouse requirements."' },
+                { name: 'Amit Patel', role: 'Builder, Ahmedabad', text: '"Trusted quarry-direct sourcing partners. Flawless Makrana and granite inventories."' }
+            ];
+            
+            const cards = [];
+            const r = 2.5;
+            const group = new THREE.Group();
+            scene.add(group);
+            
+            reviews.forEach((rev, idx) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 384;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#1c1c1c';
+                ctx.fillRect(0, 0, 512, 384);
+                
+                // Gold star rating
+                ctx.fillStyle = '#c9a84c';
+                ctx.font = "30px 'Font Awesome 6 Free'";
+                ctx.fillText("\uf005 \uf005 \uf005 \uf005 \uf005", 40, 70);
+                
+                // Review Text wrapped
+                ctx.fillStyle = '#ffffff';
+                ctx.font = "italic 22px 'Inter'";
+                // Simple wrapping logic
+                const words = rev.text.split(' ');
+                let line = '';
+                let y = 140;
+                words.forEach(w => {
+                    if ((line + w).length > 35) {
+                        ctx.fillText(line, 40, y);
+                        line = w + ' ';
+                        y += 35;
+                    } else {
+                        line += w + ' ';
+                    }
+                });
+                ctx.fillText(line, 40, y);
+                
+                // Reviewer Info
+                ctx.fillStyle = '#c9a84c';
+                ctx.font = "bold 24px 'Playfair Display'";
+                ctx.fillText(rev.name, 40, 290);
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.font = "18px 'Inter'";
+                ctx.fillText(rev.role, 40, 330);
+                
+                const tex = new THREE.CanvasTexture(canvas);
+                const card = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 1.5), new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
+                
+                const angle = (idx / 3) * Math.PI * 2;
+                card.position.set(Math.sin(angle) * r, 0, Math.cos(angle) * r);
+                group.add(card);
+                
+                cards.push({ mesh: card, targetAngle: angle });
+            });
+            
+            // Soft lights
+            scene.add(new THREE.AmbientLight(0x444444));
+            
+            // Handle pagination dots sync
+            let activeIdx = 0;
+            const dots = document.querySelectorAll('#testimonials-dots .dot');
+            
+            const rotateCarousel = (idx) => {
+                activeIdx = idx;
+                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                
+                const targetRotation = -(idx / 3) * Math.PI * 2;
+                gsap.to(group.rotation, {
+                    y: targetRotation,
+                    duration: 1.0,
+                    ease: "power2.inOut"
+                });
+                
+                // Scale active up and reset others
+                cards.forEach((c, i) => {
+                    gsap.to(c.mesh.scale, {
+                        x: i === idx ? 1.25 : 1.0,
+                        y: i === idx ? 1.25 : 1.0,
+                        z: i === idx ? 1.25 : 1.0,
+                        duration: 0.8
+                    });
+                });
+            };
+            
+            dots.forEach(d => {
+                d.addEventListener('click', () => {
+                    rotateCarousel(parseInt(d.dataset.index));
+                });
+            });
+            
+            // Auto rotate loop
+            setInterval(() => {
+                rotateCarousel((activeIdx + 1) % 3);
+            }, 4000);
+            
+            // Init first state scaling
+            cards[0].mesh.scale.set(1.25, 1.25, 1.25);
+            
+            return () => {
+                cards.forEach(c => {
+                    c.mesh.lookAt(camera.position);
+                });
+            };
+        });
+
+        // ==========================================================
+        // SECTION 9: CONTACT BACKDROP LIQUID MARBLE
+        // ==========================================================
+        createSceneData('contact', (scene, camera, container) => {
+            camera.position.set(0, 0, 2);
+            
+            // Custom GLSL Liquid Marble shader material
+            const shaderMat = new THREE.ShaderMaterial({
+                uniforms: {
+                    u_time: { value: 0 }
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    void main() {
+                        vUv = uv;
+                        gl_Position = vecLevel * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `.replace('vecLevel', 'projectionMatrix'),
+                fragmentShader: `
+                    uniform float u_time;
+                    varying vec2 vUv;
+                    
+                    float hash(vec2 p) {
+                        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+                    }
+                    
+                    float noise(vec2 p) {
+                        vec2 i = floor(p);
+                        vec2 f = fract(p);
+                        vec2 u = f * f * (3.0 - 2.0 * f);
+                        return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                                   mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+                    }
+                    
+                    float fbm(vec2 p) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        vec2 shift = vec2(100.0);
+                        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+                        for (int i = 0; i < 5; ++i) {
+                            v += a * noise(p);
+                            p = rot * p * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+                    
+                    void main() {
+                        vec2 p = vUv * 3.0;
+                        float t = u_time * 0.04;
+                        
+                        vec2 q = vec2(fbm(p + vec2(0.0, 0.0) + t), fbm(p + vec2(5.2, 1.3) + t));
+                        vec2 r = vec2(fbm(p + 3.0*q + vec2(1.7, 9.2) + t), fbm(p + 3.0*q + vec2(8.3, 2.8) + t));
+                        
+                        float f = fbm(p + 3.0*r);
+                        
+                        vec3 baseColor = vec3(0.10, 0.10, 0.10);
+                        vec3 veinColor = vec3(0.96, 0.94, 0.91);
+                        vec3 goldColor = vec3(0.79, 0.66, 0.30);
+                        
+                        vec3 color = mix(baseColor, veinColor, clamp(f * f * 2.0, 0.0, 1.0));
+                        color = mix(color, goldColor, clamp(length(q) * 0.15, 0.0, 1.0));
+                        
+                        gl_FragColor = vec4(color, 1.0);
+                    }
+                `
+            });
+            
+            const screenPlane = new THREE.Mesh(new THREE.PlaneGeometry(6, 4), shaderMat);
+            scene.add(screenPlane);
+            
+            // Submission feedback popup details
+            document.getElementById('quote-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you! Your quotation proposal details have been captured successfully. A specialist will call you shortly.');
+                e.target.reset();
+            });
+            
+            return () => {
+                shaderMat.uniforms.u_time.value = performance.now() * 0.001;
+            };
+        });
+
+        // ==========================================================
+        // SECTION 10: FOOTER GLOBE
+        // ==========================================================
+        createSceneData('globe', (scene, camera, container) => {
+            camera.position.set(0, 0, 3.5);
+            
+            // Main Sphere Globe
+            const globeGeom = new THREE.SphereGeometry(1.3, 32, 32);
+            const globeMat = new THREE.MeshStandardMaterial({
+                color: 0x111111,
+                roughness: 0.8,
+                metalness: 0.2
+            });
+            const globe = new THREE.Mesh(globeGeom, globeMat);
+            scene.add(globe);
+            
+            // Delivery Route coordinates mapped to 3D on Sphere (Agra center)
+            const agra = new THREE.Vector3(0, 0.7, 1.1).normalize().multiplyScalar(1.3);
+            
+            const destinations = [
+                { name: 'Mumbai', vec: new THREE.Vector3(-0.4, 0.2, 1.23).normalize().multiplyScalar(1.3) },
+                { name: 'Delhi', vec: new THREE.Vector3(0.0, 0.82, 1.01).normalize().multiplyScalar(1.3) },
+                { name: 'Bangalore', vec: new THREE.Vector3(-0.25, -0.2, 1.26).normalize().multiplyScalar(1.3) },
+                { name: 'Hyderabad', vec: new THREE.Vector3(0.05, 0.0, 1.29).normalize().multiplyScalar(1.3) },
+                { name: 'Chennai', vec: new THREE.Vector3(0.12, -0.3, 1.25).normalize().multiplyScalar(1.3) },
+                { name: 'Kolkata', vec: new THREE.Vector3(0.55, 0.4, 1.09).normalize().multiplyScalar(1.3) },
+                { name: 'Pune', vec: new THREE.Vector3(-0.35, 0.1, 1.24).normalize().multiplyScalar(1.3) }
+            ];
+            
+            const routes = [];
+            
+            destinations.forEach(dest => {
+                // Draw arc
+                const midPoint = new THREE.Vector3().addVectors(agra, dest.vec).multiplyScalar(0.5);
+                const dist = agra.distanceTo(dest.vec);
+                midPoint.normalize().multiplyScalar(1.3 + dist * 0.25);
+                
+                const curve = new THREE.QuadraticBezierCurve3(agra, midPoint, dest.vec);
+                const points = curve.getPoints(30);
+                const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+                const lineMat = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.6 });
+                const line = new THREE.Line(lineGeom, lineMat);
+                globe.add(line);
+                
+                // Add traveling particle dot along arc curve
+                const dotGeom = new THREE.SphereGeometry(0.02, 8, 8);
+                const dotMat = new THREE.MeshBasicMaterial({ color: 0xc9a84c });
+                const dot = new THREE.Mesh(dotGeom, dotMat);
+                globe.add(dot);
+                
+                routes.push({ curve, dot, speed: 0.8 + Math.random() * 0.8, offset: Math.random() });
+            });
+            
+            // Lights
+            scene.add(new THREE.AmbientLight(0x222222));
+            const light = new THREE.DirectionalLight(0xc9a84c, 2.5);
+            light.position.set(-2, 3, 2);
+            scene.add(light);
+            
+            return () => {
+                globe.rotation.y += 0.002;
+                
+                const time = Date.now() * 0.001;
+                routes.forEach(route => {
+                    const t = (time * route.speed + route.offset) % 1.0;
+                    route.dot.position.copy(route.curve.getPointAt(t));
+                });
+            };
+        });
+
+        // ==========================================================
+        // GLOBAL RENDER LOOP (Scissor Rendering)
+        // ==========================================================
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Clear WebGL state
+            renderer.clear();
+            
+            scenes.forEach(sceneData => {
+                const rect = sceneData.element.getBoundingClientRect();
+                
+                // Only render if element is visible in window viewport frustum
+                if (rect.bottom < 0 || rect.top > window.innerHeight ||
+                    rect.right < 0 || rect.left > window.innerWidth) {
+                    return; // Skip rendering
+                }
+                
+                const width = rect.right - rect.left;
+                const height = rect.bottom - rect.top;
+                const left = rect.left;
+                const bottom = renderer.domElement.clientHeight - rect.bottom;
+                
+                renderer.setViewport(left, bottom, width, height);
+                renderer.setScissor(left, bottom, width, height);
+                renderer.setScissorTest(true);
+                
+                renderer.render(sceneData.scene, sceneData.camera);
+                sceneData.update();
+            });
+        }
+        
+        // Start Render sequence
+        animate();
+
+        // ==========================================================
+        // PAGE TRANSITIONS SYSTEM & OTHER PAGE HOOKS
+        // ==========================================================
+        const PageTransition = {
+            canvas: null,
+            ctx: null,
+            particles: [],
+            animating: false,
+            init() {
+                this.canvas = document.getElementById('transition-canvas');
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                
+                // Intercept nav links and CTA click redirect events
+                document.addEventListener('click', (e) => {
+                    const anchor = e.target.closest('a');
+                    if (!anchor) return;
+                    
+                    const href = anchor.getAttribute('href');
+                    if (!href) return;
+                    
+                    // Skip conditions (anchors, blank targets, call and whatsapp links)
+                    if (href.startsWith('#') || anchor.getAttribute('target') === '_blank' || href.startsWith('tel:') || href.startsWith('mailto:') || href.includes('wa.me')) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    this.play(href);
+                });
+            },
+            resize() {
+                if (!this.canvas) return;
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            },
+            play(href) {
+                if (this.animating) return;
+                this.animating = true;
+                this.canvas.style.pointerEvents = 'auto';
+                
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                this.particles = [];
+                for (let i = 0; i < 200; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 3 + Math.random() * 15;
+                    this.particles.push({
+                        x: centerX,
+                        y: centerY,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: 6 + Math.random() * 16,
+                        color: Math.random() > 0.35 ? '#c9a84c' : '#f5f0e8',
+                        rotation: Math.random() * Math.PI,
+                        vrot: (Math.random() - 0.5) * 0.25,
+                        alpha: 1
+                    });
+                }
+                
+                const startTime = performance.now();
+                const duration = 600;
+                
+                const tick = (now) => {
+                    const elapsed = now - startTime;
+                    this.ctx.fillStyle = 'rgba(26, 26, 26, 0.35)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    this.particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.25; // gravity
+                        p.rotation += p.vrot;
+                        p.alpha = Math.max(0, 1 - (elapsed / duration));
+                        
+                        this.ctx.save();
+                        this.ctx.translate(p.x, p.y);
+                        this.ctx.rotate(p.rotation);
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        this.ctx.restore();
+                    });
+                    
+                    if (elapsed < duration) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        window.location.href = href;
+                    }
+                };
+                requestAnimationFrame(tick);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            PageTransition.init();
+            
+            // Active section navbar highlighter logic
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+            
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}` || (id === 'hero' && link.getAttribute('href') === 'index.html'));
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('section[id]').forEach(sec => observer.observe(sec));
+            
+            // Mobile Menu interactions
+            const toggleBtn = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeBtn = document.querySelector('.close-menu');
+            
+            toggleBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+            closeBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+            document.querySelectorAll('.mobile-links a').forEach(a => {
+                a.addEventListener('click', () => mobileMenu.classList.remove('active'));
+            });
+        });
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

@@ -3,738 +3,1036 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Design Studio | Valure Luxury Interior Studio</title>
-    <meta name="description" content="Design your luxury interior spaces with our proprietary AI Design Studio. Redraw ceilings, walls, lighting, and drag high-end styling components in real time.">
-    <link rel="canonical" href="https://valure.designdistrict.com/designer.html" />
+    <title>3D Room Designer | Valure Studio</title>
+    <meta name="description" content="Design your luxury interior spaces with our real-time 3D room configurator. Swap premium marble floor and wall textures instantly.">
+    <link rel="canonical" href="https://value-001.vercel.app/designer.html" />
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="AI Design Studio | Valure Luxury Interior Studio" />
-    <meta property="og:description" content="Design your luxury interior spaces with our proprietary AI Design Studio. Redraw ceilings, walls, lighting, and drag high-end styling components in real time." />
-    <meta property="og:image" content="assets/images/hero.png" />
-    <meta property="og:url" content="https://valure.designdistrict.com/designer.html" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="designer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- GSAP & ScrollTrigger CDN links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Three.js & OrbitControls CDN links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
     <script src="whatsapp-helper.js"></script>
+
+    <style>
+        :root {
+            --bg-charcoal: #1a1a1a;
+            --off-white: #f5f0e8;
+            --accent-gold: #c9a84c;
+            --accent-gold-hover: #b08d35;
+            --text-light: #f5f0e8;
+            --text-dark: #1a1a1a;
+            --text-muted: rgba(245, 240, 232, 0.7);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-charcoal);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-contact-bar {
+            background: rgba(15, 15, 15, 0.9);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 10px 5%;
+            font-size: 0.8rem;
+            position: relative;
+            z-index: 100;
+        }
+        .top-contact-bar a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: var(--transition-smooth);
+        }
+        .top-contact-bar a:hover {
+            color: var(--accent-gold);
+        }
+        .top-contact-bar .whatsapp-link {
+            color: #25D366;
+            font-weight: 600;
+            float: right;
+        }
+
+        /* Navigation */
+        #navbar {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--accent-gold);
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-gold);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn {
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+        }
+        .btn-outline {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+        }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+        }
+        .btn-gold:hover {
+            background: var(--accent-gold-hover);
+            color: var(--text-light);
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--bg-charcoal);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            z-index: 101;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transition: var(--transition-smooth);
+        }
+        .mobile-menu.active {
+            right: 0;
+        }
+        .close-menu {
+            align-self: flex-end;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        .mobile-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .mobile-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Workspace Layout */
+        .designer-wrapper {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 120px);
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar config */
+        .config-sidebar {
+            width: 350px;
+            background: rgba(20, 20, 20, 0.95);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 10;
+            overflow-y: auto;
+        }
+        .config-sidebar h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--accent-gold);
+        }
+
+        .config-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .config-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 700;
+        }
+
+        /* Material selector thumbnail grids */
+        .material-thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .material-thumb {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+        .material-thumb .color-dot {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .material-thumb span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .material-thumb:hover, .material-thumb.active {
+            border-color: var(--accent-gold);
+            background: rgba(201, 168, 76, 0.05);
+        }
+        .material-thumb.active span {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        /* View toggles */
+        .toggle-row {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .toggle-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 0;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+            text-align: center;
+        }
+        .toggle-tab.active {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+        }
+
+        /* Target selectors (Floor or Wall) */
+        .target-row {
+            display: flex;
+            gap: 10px;
+        }
+        .target-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            padding: 10px 0;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .target-btn.active {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        /* 3D Canvas Box */
+        #designer-canvas {
+            flex: 1;
+            height: 100%;
+            outline: none;
+        }
+
+        /* Toolbar overlays on Canvas */
+        .canvas-toolbar {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .instructions-panel {
+            position: absolute;
+            top: 30px;
+            left: 380px;
+            background: rgba(20,20,20,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Footer styling */
+        .footer {
+            background: #111;
+            padding: 80px 5% 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 10;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .footer-logo span {
+            color: var(--accent-gold);
+            font-weight: 300;
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 400px;
+        }
+        .footer-links h4, .footer-newsletter h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        .footer-links a:hover {
+            color: var(--text-light);
+        }
+        .footer-newsletter p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .newsletter-form {
+            display: flex;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light);
+            font-family: inherit;
+            border-radius: 4px 0 0 4px;
+        }
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+        .newsletter-form button {
+            background: var(--accent-gold);
+            border: none;
+            color: var(--text-dark);
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .newsletter-form button:hover {
+            background: var(--accent-gold-hover);
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .footer-bottom a:hover {
+            color: var(--text-light);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        /* Page Transition overlay */
+        #transition-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        @media (max-width: 992px) {
+            .designer-wrapper {
+                flex-direction: column;
+                height: auto;
+            }
+            .config-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                padding: 30px 5%;
+            }
+            #designer-canvas {
+                height: 60vh;
+                min-height: 400px;
+            }
+            .instructions-panel {
+                left: 5%;
+                top: auto;
+                bottom: 100px;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Transition Canvas -->
+    <canvas id="transition-canvas"></canvas>
+
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar">
+        <a href="tel:+917454853045"><i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i> +91 7454853045</a>
+        <a href="mailto:hello@valure.in"><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> hello@valure.in</a>
+        <a href="https://wa.me/917454853045" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+    </div>
+
     <!-- Navigation -->
-    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation"> <!-- Force scrolled layout to match dark theme header -->
-        <div class="container nav-content">
-            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-                <li><a href="#" id="dashboard-nav-link" class="nav-designer-link">Designer Dashboard</a></li>
-                <li><a href="#" id="workspace-nav-link">AI Studio Workspace</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="index.html#contact" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.75rem;">Book Consultation</a>
-            </div>
+    <nav id="navbar">
+        <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="designer.html" class="active">AI Room Designer</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="tel:+917454853045" class="btn btn-outline"><i class="fas fa-phone-alt"></i> Call Now</a>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
-    <main class="designer-container">
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu">
+        <div class="close-menu"><i class="fas fa-times"></i></div>
+        <ul class="mobile-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="designer.html">AI Room Designer</a></li>
+        </ul>
+    </div>
+
+    <!-- Designer Configurator Panel -->
+    <div class="designer-wrapper">
         
-        <!-- ==================================================================
-             DASHBOARD VIEW
-             ================================================================== -->
-        <section id="dashboard-view" class="dashboard-view">
-            <!-- User Profile Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                    <div class="stat-info">
-                        <h3>24</h3>
-                        <p>Remaining Credits</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-cubes"></i></div>
-                    <div class="stat-info">
-                        <h3>8</h3>
-                        <p>Total Designs</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
-                    <div class="stat-info">
-                        <h3>2</h3>
-                        <p>Studio Bookings</p>
-                    </div>
+        <!-- Left configuration sidebar -->
+        <aside class="config-sidebar">
+            <h2>Configurator</h2>
+            
+            <!-- Target Selector (Floor or Wall) -->
+            <div class="config-section">
+                <span class="config-label">Select Surface to Apply</span>
+                <div class="target-row">
+                    <button class="target-btn active" id="target-floor">Floor Slab</button>
+                    <button class="target-btn" id="target-wall">Wall Face</button>
                 </div>
             </div>
 
-            <!-- CTA Banner -->
-            <div class="start-project-banner">
-                <h2>AI Design Studio</h2>
-                <p>Upload a photograph of your existing space and immediately experiment with room configurations, customized ceiling setups, lighting designs, and furniture styles.</p>
-                <button id="start-project-banner-btn" class="btn btn-primary">Start New Design <i class="fas fa-plus" style="margin-left: 10px;"></i></button>
-            </div>
-
-            <!-- Recent Projects -->
-            <div class="recent-projects-header">
-                <h3>Your Design Archive</h3>
-                <button id="start-project-btn" class="btn btn-outline">New Project</button>
-            </div>
-
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-preview-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6199f7a099?auto=format&fit=crop&q=80&w=1000" alt="Penthouse Minimalist">
-                        <span class="before-after-badge">Minimalist</span>
-                        <div class="project-actions-overlay">
-                            <a href="#" class="btn btn-primary btn-mini">Open Workspace</a>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <h4>Malibu Penthouse Redesign</h4>
-                        <div class="project-meta">
-                            <span><i class="far fa-calendar-alt"></i> June 12, 2026</span>
-                            <span><i class="fas fa-couch"></i> Living Room</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-preview-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1000" alt="Royal Bed">
-                        <span class="before-after-badge">Classical</span>
-                        <div class="project-actions-overlay">
-                            <a href="#" class="btn btn-primary btn-mini">Open Workspace</a>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <h4>Royal Classic Suite</h4>
-                        <div class="project-meta">
-                            <span><i class="far fa-calendar-alt"></i> May 28, 2026</span>
-                            <span><i class="fas fa-bed"></i> Bedroom</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-preview-wrapper">
-                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=1000" alt="Zen retreat">
-                        <span class="before-after-badge">Zen</span>
-                        <div class="project-actions-overlay">
-                            <a href="#" class="btn btn-primary btn-mini">Open Workspace</a>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <h4>Kyoto Garden Pavilion</h4>
-                        <div class="project-meta">
-                            <span><i class="far fa-calendar-alt"></i> May 14, 2026</span>
-                            <span><i class="fas fa-spa"></i> Tea Room</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================================================================
-             WORKSPACE VIEW
-             ================================================================== -->
-        <section id="workspace-view" class="workspace-view hidden">
-            <div class="workspace-grid">
-                
-                <!-- Left Control Panel Sidebar -->
-                <aside class="workspace-sidebar">
-                    <div class="sidebar-header">
-                        <h3><i class="fas fa-sliders-h"></i> Control Center</h3>
-                        <button id="back-to-dash" class="btn-back"><i class="fas fa-arrow-left"></i> Dashboard</button>
-                    </div>
-
-                    <!-- Steps Status Nodes -->
-                    <div class="stepper">
-                        <div class="step-node completed" title="Upload Room Photo">1</div>
-                        <div class="step-node active" title="Select Design Settings">2</div>
-                        <div class="step-node" title="AI Generation">3</div>
-                    </div>
-
-                    <!-- Input Accordions -->
-                    <div class="designer-accordion">
-                        
-                        <!-- Accordion 1: Room Type Selection -->
-                        <div class="accordion-item active">
-                            <div class="accordion-header">
-                                <span>Room Type & Style</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Select Room Function</label>
-                                <div class="grid-select-3">
-                                    <div class="select-card selected" data-group="room-type" data-value="living">
-                                        <i class="fas fa-couch"></i>
-                                        <span>Living</span>
-                                    </div>
-                                    <div class="select-card" data-group="room-type" data-value="bedroom">
-                                        <i class="fas fa-bed"></i>
-                                        <span>Bedroom</span>
-                                    </div>
-                                    <div class="select-card" data-group="room-type" data-value="dining">
-                                        <i class="fas fa-utensils"></i>
-                                        <span>Dining</span>
-                                    </div>
-                                </div>
-                                <div class="grid-select-2">
-                                    <div class="select-card" data-group="room-type" data-value="office">
-                                        <i class="fas fa-briefcase"></i>
-                                        <span>Office</span>
-                                    </div>
-                                    <div class="select-card" data-group="room-type" data-value="kitchen">
-                                        <i class="fas fa-sink"></i>
-                                        <span>Kitchen</span>
-                                    </div>
-                                </div>
-
-                                <label class="input-label" style="margin-top: 15px;">Luxury Archetype</label>
-                                <div class="grid-select-2">
-                                    <div class="select-card selected" data-group="style" data-value="minimalist">
-                                        <span>Minimalist</span>
-                                    </div>
-                                    <div class="select-card" data-group="style" data-value="classical">
-                                        <span>Classical</span>
-                                    </div>
-                                    <div class="select-card" data-group="style" data-value="scandinavian">
-                                        <span>Nordic</span>
-                                    </div>
-                                    <div class="select-card" data-group="style" data-value="zen">
-                                        <span>Zen</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 2: Wall Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Wall Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Paint Color Swatch</label>
-                                <div class="swatch-grid">
-                                    <button class="swatch-btn selected" data-group="wall-color" style="background-color: #f5f5f4;" title="Warm Alabaster"></button>
-                                    <button class="swatch-btn" data-group="wall-color" style="background-color: #e2e8f0;" title="Slate Mist"></button>
-                                    <button class="swatch-btn" data-group="wall-color" style="background-color: #0f172a;" title="Primary Blue"></button>
-                                    <button class="swatch-btn" data-group="wall-color" style="background-color: #1e293b;" title="Secondary Blue"></button>
-                                    <button class="swatch-btn" data-group="wall-color" style="background-color: #f1ebd9;" title="Champagne Gold"></button>
-                                    <button class="swatch-btn" data-group="wall-color" style="background-color: #e5e5e5;" title="Concrete Grey"></button>
-                                </div>
-
-                                <label class="input-label" style="margin-top: 15px;">Material & Texture</label>
-                                <div class="texture-grid">
-                                    <div class="texture-card selected" data-group="wall-tex" data-value="plaster">
-                                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=150" alt="Smooth Plaster">
-                                        <span>Plaster</span>
-                                    </div>
-                                    <div class="texture-card" data-group="wall-tex" data-value="wood-panels">
-                                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=150" alt="Wood Paneling">
-                                        <span>Wood Paneled</span>
-                                    </div>
-                                    <div class="texture-card" data-group="wall-tex" data-value="brick">
-                                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" alt="Exposed Brick">
-                                        <span>Brick</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 3: Ceiling Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Ceiling Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Ceiling Structure Style</label>
-                                <div class="grid-select-2">
-                                    <div class="select-card selected" data-group="ceiling" data-value="flat">
-                                        <span>Minimal Flat</span>
-                                    </div>
-                                    <div class="select-card" data-group="ceiling" data-value="coffered">
-                                        <span>Coffered</span>
-                                    </div>
-                                    <div class="select-card" data-group="ceiling" data-value="beams">
-                                        <span>Wooden Beams</span>
-                                    </div>
-                                    <div class="select-card" data-group="ceiling" data-value="molding">
-                                        <span>Crown Moldings</span>
-                                    </div>
-                                </div>
-                                <div class="toggle-group" style="margin-top: 15px;">
-                                    <span class="input-label" style="margin-bottom:0;">Perimeter LED Cove</span>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 4: Flooring Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Flooring Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Select Floor Material</label>
-                                <div class="texture-grid">
-                                    <div class="texture-card selected" data-group="floor" data-value="hardwood">
-                                        <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=150" alt="Oak Hardwood">
-                                        <span>Oak Hardwood</span>
-                                    </div>
-                                    <div class="texture-card" data-group="floor" data-value="marble">
-                                        <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=150" alt="Calacatta Marble">
-                                        <span>Marble Slab</span>
-                                    </div>
-                                    <div class="texture-card" data-group="floor" data-value="concrete">
-                                        <img src="https://images.unsplash.com/photo-1544078751-58feb2dcbda2?auto=format&fit=crop&q=80&w=150" alt="Polished Concrete">
-                                        <span>Concrete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 5: Lighting Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Lighting Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Primary Light Source</label>
-                                <div class="grid-select-3">
-                                    <div class="select-card selected" data-group="lighting" data-value="chandelier">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <span>Pendant</span>
-                                    </div>
-                                    <div class="select-card" data-group="lighting" data-value="recessed">
-                                        <i class="fas fa-border-all"></i>
-                                        <span>Spotlights</span>
-                                    </div>
-                                    <div class="select-card" data-group="lighting" data-value="sconces">
-                                        <i class="fas fa-hockey-puck"></i>
-                                        <span>Sconces</span>
-                                    </div>
-                                </div>
-
-                                <div class="slider-group" style="margin-top: 15px;">
-                                    <div class="slider-labels">
-                                        <span>Light Intensity</span>
-                                        <span id="light-intensity-val" class="slider-val">75%</span>
-                                    </div>
-                                    <input type="range" id="light-intensity" class="designer-range" min="10" max="100" value="75">
-                                </div>
-
-                                <div class="slider-group">
-                                    <div class="slider-labels">
-                                        <span>Color Temperature</span>
-                                        <span id="light-temp-val" class="slider-val">3000K</span>
-                                    </div>
-                                    <input type="range" id="light-temp" class="designer-range" min="2000" max="6000" step="500" value="3000">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 5.5: Camera Sandbox -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Camera Sandbox</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <div class="slider-group">
-                                    <div class="slider-labels">
-                                        <span>Camera Zoom</span>
-                                        <span id="cam-zoom-val" class="slider-val">100%</span>
-                                    </div>
-                                    <input type="range" id="cam-zoom" class="designer-range" min="50" max="200" value="100">
-                                </div>
-                                <div class="slider-group">
-                                    <div class="slider-labels">
-                                        <span>3D Orbit Rotate</span>
-                                        <span id="cam-rotate-val" class="slider-val">0°</span>
-                                    </div>
-                                    <input type="range" id="cam-rotate" class="designer-range" min="-45" max="45" value="0">
-                                </div>
-                                <button id="cam-fullscreen" class="btn btn-outline btn-full" style="margin-top: 15px;"><i class="fas fa-expand"></i> Enter Fullscreen Sandbox</button>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 6: Furniture Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Furniture Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <label class="input-label">Primary Furniture Style</label>
-                                <div class="grid-select-2">
-                                    <div class="select-card selected" data-group="furniture" data-value="italian-modern">
-                                        <span>Italian Low-profile</span>
-                                    </div>
-                                    <div class="select-card" data-group="furniture" data-value="midcentury">
-                                        <span>Mid-Century</span>
-                                    </div>
-                                </div>
-
-                                <label class="input-label" style="margin-top: 15px;">Upholstery & Color</label>
-                                <div class="swatch-grid">
-                                    <button class="swatch-btn selected" data-group="fab-color" style="background-color: #d2c5b3;" title="Boucle Beige"></button>
-                                    <button class="swatch-btn" data-group="fab-color" style="background-color: #3b4e43;" title="Forest Velvet"></button>
-                                    <button class="swatch-btn" data-group="fab-color" style="background-color: #2b394a;" title="Royal Linen"></button>
-                                    <button class="swatch-btn" data-group="fab-color" style="background-color: #ffffff;" title="White Cotton"></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 7: Decoration Designer -->
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                <span>Decoration Designer</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content">
-                                <div class="toggle-group">
-                                    <span class="input-label" style="margin-bottom:0;">Include Foliage & Plants</span>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-group">
-                                    <span class="input-label" style="margin-bottom:0;">Abstract Framed Art</span>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="toggle-group">
-                                    <span class="input-label" style="margin-bottom:0;">Plush Floor Rugs</span>
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Accordion 8: Drag and Drop Elements -->
-                        <div class="accordion-item">
-                            <div class="accordion-header" style="color: var(--accent-gold);">
-                                <span>Drag & Drop Stamps</span>
-                                <i class="fas fa-chevron-down chevron"></i>
-                            </div>
-                            <div class="accordion-content" style="background-color: var(--light-beige);">
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3;">
-                                    Drag these luxury designer pieces from this tray directly onto the room canvas overlay on the right to position them customly.
-                                </p>
-                                <div class="drag-items-grid">
-                                    <!-- Stamp 1 -->
-                                    <div class="drag-item" draggable="true" 
-                                         data-img="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=300"
-                                         data-title="Halo Chandelier" data-price="$1,800" data-type="Lighting">
-                                        <img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=150" alt="Chandelier">
-                                        <span>Halo Lamp</span>
-                                    </div>
-                                    <!-- Stamp 2 -->
-                                    <div class="drag-item" draggable="true"
-                                         data-img="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=300"
-                                         data-title="Velvet Armchair" data-price="$1,450" data-type="Furniture">
-                                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=150" alt="Armchair">
-                                        <span>Velvet Chair</span>
-                                    </div>
-                                    <!-- Stamp 3 -->
-                                    <div class="drag-item" draggable="true"
-                                         data-img="https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&q=80&w=300"
-                                         data-title="Marble Pedestal Vase" data-price="$650" data-type="Decoration">
-                                        <img src="https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&q=80&w=150" alt="Vase">
-                                        <span>Marble Vase</span>
-                                    </div>
-                                    <!-- Stamp 4 -->
-                                    <div class="drag-item" draggable="true"
-                                         data-img="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=300"
-                                         data-title="Canvas Abstract Painting" data-price="$1,200" data-type="Decoration">
-                                        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=150" alt="Painting">
-                                        <span>Abstract Art</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Custom Prompt Tweaker -->
-                    <label class="input-label">AI Prompt Adjuster</label>
-                    <textarea class="prompt-area" rows="3" placeholder="E.g., Replace the sofa with a white boucle modular sectional, warm afternoon sunlight beams."></textarea>
-
-                    <!-- Sidebar actions -->
-                    <div class="sidebar-actions">
-                        <button id="generate-btn" class="btn btn-primary btn-full">Generate Luxury Design <i class="fas fa-magic" style="margin-left: 8px;"></i></button>
-                        <button id="reset-btn" class="btn btn-outline btn-full">Reset Space</button>
-                    </div>
-                </aside>
-
-                <!-- Right Visual Rendering Panel -->
-                <section class="canvas-panel">
+            <!-- Material thumbnail lists -->
+            <div class="config-section">
+                <span class="config-label">Select Luxury Marble</span>
+                <div class="material-thumb-grid">
                     
-                    <!-- Visual Mode Tabs -->
-                    <div class="canvas-tabs" style="margin-bottom: 20px; display: flex; gap: 10px; background: rgba(255, 255, 255, 0.05); padding: 5px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-                        <button class="canvas-tab active" data-view="view-ai-render" style="flex: 1; text-align: center; padding: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.9rem; border-radius: 6px; transition: var(--transition-smooth);"><i class="fas fa-magic" style="margin-right: 6px;"></i> AI Render</button>
-                        <button class="canvas-tab" data-view="view-3d" style="flex: 1; text-align: center; padding: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.9rem; border-radius: 6px; transition: var(--transition-smooth);"><i class="fas fa-cubes" style="margin-right: 6px;"></i> 3D Sandbox</button>
+                    <div class="material-thumb active" data-material="statuario">
+                        <div class="color-dot" style="background: #f5f0e8;"></div>
+                        <span>Statuario</span>
+                    </div>
+                    
+                    <div class="material-thumb" data-material="black_marquina">
+                        <div class="color-dot" style="background: #111111;"></div>
+                        <span>Black Marquina</span>
                     </div>
 
-                    <!-- Rendering Canvas Area Wrapper -->
-                    <div class="canvas-wrapper" style="position: relative; width: 100%; border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 12px; overflow: hidden; background-color: #0c1220; aspect-ratio: 16 / 10; box-shadow: 0 20px 50px rgba(0,0,0,0.35);">
-                        
-                        <!-- AI Render View Pane -->
-                        <div id="view-ai-render" class="studio-view-pane active" style="position: absolute; top:0; left:0; width:100%; height:100%; display:block;">
-                            <div id="slider-container" class="slider-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-                                <!-- Upload Overlay State -->
-                                <div id="upload-overlay" class="upload-canvas-overlay">
-                                    <div id="upload-box" class="upload-box">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                        <h4>Upload Room Photography</h4>
-                                        <p>Drag and drop your files here or click to browse. Max size 8MB.</p>
-                                        <button class="btn btn-outline-white">Browse Files</button>
-                                        <input type="file" id="file-input" class="file-input" accept="image/*">
-                                    </div>
-                                </div>
-
-                                <!-- AI Processing Stages Overlay -->
-                                <div id="render-loading-overlay" class="render-loading-overlay">
-                                    <div class="luxury-spinner">
-                                        <div class="spinner-ring"></div>
-                                        <div class="spinner-ring-inner"></div>
-                                        <div class="luxury-spinner-logo">V</div>
-                                    </div>
-                                    <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: 25px; letter-spacing: 1px;">Generating Luxury Interior</h4>
-                                    
-                                    <div class="loading-timeline">
-                                        <div class="loading-phase active">
-                                            <i class="status-icon fas fa-circle-notch fa-spin"></i>
-                                            <span>Analyzing Room Geometry</span>
-                                        </div>
-                                        <div class="loading-phase">
-                                            <i class="status-icon far fa-circle"></i>
-                                            <span>Depth-Mapping & Structural Lock</span>
-                                        </div>
-                                        <div class="loading-phase">
-                                            <i class="status-icon far fa-circle"></i>
-                                            <span>Slicing Material Boundaries</span>
-                                        </div>
-                                        <div class="loading-phase">
-                                            <i class="status-icon far fa-circle"></i>
-                                            <span>Generating Photorealistic Textures</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Before / After Images -->
-                                <div class="slider-img slider-img-after" id="slider-img-after" style="position: absolute; top:0; left:0; width:50%; height:100%; overflow:hidden;">
-                                    <img id="after-img" src="assets/images/living.png" alt="AI Redesigned Interior View" style="height: 100%; width: auto; max-width: none; object-fit: cover;">
-                                    <div id="lighting-tint" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 15; mix-blend-mode: color; opacity: 0; transition: background-color 0.2s, opacity 0.2s;"></div>
-                                    <svg id="room-svg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;" viewBox="0 0 800 600" preserveAspectRatio="none">
-                                        <defs>
-                                            <pattern id="pat-carrara" width="120" height="120" patternUnits="userSpaceOnUse">
-                                                <image href="assets/images/mat-carrara.png" x="0" y="0" width="120" height="120"></image>
-                                            </pattern>
-                                            <pattern id="pat-oak" width="120" height="120" patternUnits="userSpaceOnUse">
-                                                <image href="assets/images/mat-oak.png" x="0" y="0" width="120" height="120"></image>
-                                            </pattern>
-                                            <pattern id="pat-brick" width="120" height="120" patternUnits="userSpaceOnUse">
-                                                <image href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=150" x="0" y="0" width="120" height="120"></image>
-                                            </pattern>
-                                        </defs>
-                                        <polygon id="poly-wall" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
-                                        <polygon id="poly-floor" points="" style="mix-blend-mode: multiply; opacity: 0.85; transition: all 0.3s;" fill="transparent"></polygon>
-                                    </svg>
-                                </div>
-                                <div class="slider-img slider-img-before" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-                                    <img id="before-img" src="assets/images/living.png" alt="Original User Room View" style="height: 100%; width: 100%; object-fit: cover;">
-                                </div>
-
-                                <!-- Interactive Drag overlay stamp target -->
-                                <div id="canvas-interactive-overlay" class="canvas-interactive-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 17;"></div>
-
-                                <!-- Sliding Handle Divider -->
-                                <div id="slider-handle" class="slider-handle">
-                                    <div class="slider-handle-button"><i class="fas fa-arrows-alt-h"></i></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3D Room Sandbox View Pane (Three.js WebGL canvas) -->
-                        <div id="view-3d" class="studio-view-pane" style="position: absolute; top:0; left:0; width:100%; height:100%; display:none;">
-                            <div id="canvas-3d" style="width: 100%; height: 100%; outline: none; cursor: grab;"></div>
-                            <span class="canvas-mode-badge" style="position: absolute; top: 15px; right: 15px; background: rgba(15, 23, 42, 0.85); color: var(--white); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid var(--accent-gold); z-index: 20;"><i class="fas fa-cubes"></i> 3D Real-Time Sandbox</span>
-                            <div class="night-filter-overlay" id="night-filter-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.35); mix-blend-mode: multiply; pointer-events: none; z-index: 12; opacity: 0; transition: var(--transition-smooth);"></div>
-                        </div>
+                    <div class="material-thumb" data-material="calacatta">
+                        <div class="color-dot" style="background: #ffffff; border: 2px solid #c9a84c;"></div>
+                        <span>Calacatta Gold</span>
                     </div>
 
-                    <!-- Canvas Metadata Toolbar -->
-                    <div class="canvas-toolbar">
-                        <div class="active-design-info">
-                            <h4>Interactive Sandbox View</h4>
-                            <p>Drag the center divider handle to examine the before/after structural modifications.</p>
-                        </div>
-                        <div class="canvas-actions">
-                            <button id="btn-save-design" class="btn btn-outline"><i class="fas fa-save"></i> Save Design</button>
-                            <button id="btn-share-design" class="btn btn-outline"><i class="fas fa-share-alt"></i> Share Link</button>
-                            <button id="btn-download-pdf" class="btn btn-outline"><i class="fas fa-file-pdf"></i> Download PDF</button>
-                            <button id="btn-email-design" class="btn btn-primary"><i class="fas fa-envelope"></i> Email Proposal</button>
-                        </div>
+                    <div class="material-thumb" data-material="armani_grey">
+                        <div class="color-dot" style="background: #555555;"></div>
+                        <span>Armani Grey</span>
                     </div>
 
-                    <!-- AI Suggestions suggestions-box -->
-                    <div class="suggestions-box">
-                        <h3><i class="fas fa-lightbulb"></i> Designer Recommendations</h3>
-                        <ul class="suggestions-list">
-                            <li><i class="fas fa-magic"></i> <span>Ready to render. Select a room type and style from the left controls, click Generate, or drop styling stamp elements to begin.</span></li>
-                        </ul>
+                    <div class="material-thumb" data-material="travertine">
+                        <div class="color-dot" style="background: #efe0c8;"></div>
+                        <span>Travertine</span>
                     </div>
 
-                    <!-- Sourcing Ledger -->
-                    <div id="contact-ledger" class="sourcing-ledger">
-                        <div class="sourcing-header">
-                            <h3>Bespoke Sourcing Ledger</h3>
-                            <button class="btn btn-outline btn-mini" onclick="alert('Inquiry sent to design concierge team!')"><i class="fas fa-paper-plane"></i> Request Batch Quote</button>
-                        </div>
-                        <div class="ledger-wrapper">
-                            <table class="ledger-table">
-                                <thead>
-                                    <tr>
-                                        <th>Identified Element</th>
-                                        <th>Category</th>
-                                        <th>Estimated Cost</th>
-                                        <th>Concierge Sourcing</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Dynamic rows loaded here -->
-                                    <tr>
-                                        <td colspan="4" style="text-align: center; color: var(--text-muted); font-style: italic; padding: 20px;">
-                                            No materials sourced yet. Render a design or drop decor stamps onto the canvas to populate.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="material-thumb" data-material="onyx">
+                        <div class="color-dot" style="background: #e0b541;"></div>
+                        <span>Honey Onyx</span>
                     </div>
-                </section>
+
+                </div>
             </div>
-        </section>
-    </main>
+
+            <!-- View Camera mode toggles -->
+            <div class="config-section">
+                <span class="config-label">Configurator View Angle</span>
+                <div class="toggle-row">
+                    <button class="toggle-tab active" id="view-room">Room Orbit</button>
+                    <button class="toggle-tab" id="view-floor">Floor Plan</button>
+                    <button class="toggle-tab" id="view-wall">Wall Face</button>
+                </div>
+            </div>
+
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                <button class="btn btn-gold btn-full" id="btn-save-quote"><i class="fas fa-calculator" style="margin-right: 8px;"></i> Get Sourcing Quote</button>
+            </div>
+        </aside>
+
+        <!-- 3D Room Visualizer Canvas -->
+        <div id="designer-canvas"></div>
+        
+        <!-- Hover instructions overlay -->
+        <div class="instructions-panel">
+            <i class="fas fa-cube"></i> Click and drag to orbit room space. Scroll to zoom.
+        </div>
+
+        <!-- Float actions toolbar -->
+        <div class="canvas-toolbar">
+            <button class="btn btn-outline" id="btn-screenshot"><i class="fas fa-camera" style="margin-right: 8px;"></i> Save Design PNG</button>
+        </div>
+
+    </div>
 
     <!-- Footer -->
-    <footer class="footer" style="margin-top: 80px;" role="contentinfo">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
-                <p>Empowering interior visualizations with proprietary Web3D interfaces and high-fidelity AI render engines.</p>
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <a href="index.html" class="footer-logo">VALURE <span>STUDIO</span></a>
+                <p class="footer-desc">Direct source provider of premium Italian marble, granite, quartz, onyx, and travertine slabs. Partnering with architects to execute luxury developments across India.</p>
+                <p style="font-size: 0.9rem; color: var(--accent-gold); font-weight: 600;"><i class="fas fa-map-marker-alt"></i> Kishangarh Marble Zone, Rajasthan, India</p>
             </div>
             <div class="footer-links">
-                <h4>Quick Links</h4>
+                <h4>Sitemap</h4>
                 <ul>
-                    <li><a href="index.html#home">Home</a></li>
-                    <li><a href="index.html#about">About</a></li>
-                    <li><a href="index.html#services">Services</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
-                    <li><a href="index.html#srs-docs">Project SRS</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="collection.html">Marble Collection</a></li>
+                    <li><a href="calculator.html">Project Cost Calculator</a></li>
+                    <li><a href="designer.html">AI Room Configurator</a></li>
                 </ul>
             </div>
             <div class="footer-newsletter">
-                <h4>Newsletter</h4>
-                <p>Join our elite list for interior inspiration.</p>
-                <form class="newsletter-form" aria-label="Newsletter Subscription">
-                    <input type="email" placeholder="Your email" required aria-label="Email Address">
-                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
+                <h4>Sourcing Newsletter</h4>
+                <p>Receive monthly stone imports lists and exclusive A-grade inventory notifications.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed.'); this.reset();">
+                    <input type="email" placeholder="email@address.com" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <div class="student-info">
-                    <p style="margin: 0; color: var(--accent-gold); font-weight: 600;">Prepared By: Shivaksh Kaushik</p>
-                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">BBA | Geeta University, Panipat</p>
-                </div>
-                <div class="project-info" style="text-align: right;">
-                    <p style="margin: 0; font-weight: 600;">Project: Valure Studio Platform</p>
-                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">Academic Submission - May 2026</p>
-                </div>
+            <p>&copy; 2026 Valure Studio India. All rights reserved.</p>
+            <div>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="cookies.html">Cookie Policy</a>
             </div>
-            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
-                &copy; 2026 Valure Studio Platform. All rights reserved. | 
-                <a href="index.html#privacy-link" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
-                <a href="index.html#terms-link" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
-                <a href="index.html#cookie-policy-link" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
-            </p>
         </div>
     </footer>
 
-    <!-- Email Design Modal -->
-    <div id="email-design-modal" class="qv-modal" style="display: none;" role="dialog" aria-modal="true">
-        <div class="qv-modal-overlay" id="email-modal-overlay"></div>
-        <div class="qv-modal-content" style="max-width: 500px; padding: 30px;">
-            <button class="qv-close-btn" id="email-modal-close" aria-label="Close">&times;</button>
-            <h3 style="font-family: 'Outfit', sans-serif; color: var(--primary-blue); margin-bottom: 10px;">Email Your Design Proposal</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Send this customized room visual and spec ledger directly to your email or share it with our design concierge team.</p>
-            <form id="email-design-form" style="display: flex; flex-direction: column; gap: 15px;">
-                <div style="display:none;">
-                    <input type="text" id="design-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label class="input-label" style="margin-bottom: 5px;">Client Name *</label>
-                    <input type="text" id="email-client-name" placeholder="E.g. Shivaksh Kaushik" required aria-required="true" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
-                </div>
-                <div class="form-group">
-                    <label class="input-label" style="margin-bottom: 5px;">Phone Number *</label>
-                    <input type="tel" id="email-client-phone" placeholder="E.g. 7454853045" required aria-required="true" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
-                </div>
-                <div class="form-group">
-                    <label class="input-label" style="margin-bottom: 5px;">Email Address *</label>
-                    <input type="email" id="email-client-email" placeholder="E.g. client@example.com" required aria-required="true" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; background: white; color: var(--text-dark);">
-                </div>
-                <button type="submit" class="btn btn-primary btn-full" style="margin-top: 10px;">Send Design Proposal</button>
-                <a href="#" class="btn-whatsapp-cta btn-whatsapp-cta-full"><i class="fab fa-whatsapp"></i> Send Proposal on WhatsApp</a>
-            </form>
-            <div class="form-success-toast" id="design-success" role="alert" aria-live="polite" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
-                <i class="fas fa-check-circle" style="font-size:1rem;"></i>
-                <span>Design proposal sent successfully!</span>
-            </div>
-            <div class="form-error-toast" id="design-error" role="alert" aria-live="polite" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
-                <i class="fas fa-exclamation-circle" style="font-size:1rem;"></i>
-                <span id="design-error-text">Failed to send proposal.</span>
-            </div>
-        </div>
-    </div>
+    <!-- WhatsApp float -->
+    <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" class="whatsapp-float" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-    <!-- Interactive script bindings -->
-    <script src="designer.js"></script>
-    <script src="studio.js"></script>
-    <script src="script.js"></script>
+    <!-- Configurator Logic Script -->
+    <script>
+        // Procedural Texture System
+        function generateMarbleCanvas(baseColor, veinColor) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = baseColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = veinColor;
+            for (let i = 0; i < 12; i++) {
+                ctx.beginPath();
+                let x = Math.random() * canvas.width;
+                let y = 0;
+                ctx.moveTo(x, y);
+                ctx.lineWidth = 2 + Math.random() * 4;
+                ctx.globalAlpha = 0.05 + Math.random() * 0.12;
+                while (y < canvas.height) {
+                    x += (Math.random() - 0.5) * 40;
+                    y += Math.random() * 80 + 20;
+                    ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                let x = Math.random() * canvas.width;
+                let y = 0;
+                ctx.moveTo(x, y);
+                ctx.lineWidth = 0.8 + Math.random() * 1.5;
+                ctx.globalAlpha = 0.25 + Math.random() * 0.35;
+                while (y < canvas.height) {
+                    x += (Math.random() - 0.5) * 25;
+                    y += Math.random() * 40 + 15;
+                    ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1.0;
+            return canvas;
+        }
+
+        const TextureCache = {
+            textures: {},
+            get(type) {
+                if (this.textures[type]) return this.textures[type];
+                let canvas;
+                if (type === 'statuario') canvas = generateMarbleCanvas('#f5f0e8', '#8c8c8c');
+                else if (type === 'black_marquina') canvas = generateMarbleCanvas('#121212', '#ffffff');
+                else if (type === 'calacatta') canvas = generateMarbleCanvas('#ffffff', '#c9a84c');
+                else if (type === 'armani_grey') canvas = generateMarbleCanvas('#555555', '#bbbbbb');
+                else if (type === 'travertine') canvas = generateMarbleCanvas('#efe0c8', '#a89470');
+                else if (type === 'onyx') canvas = generateMarbleCanvas('#e0b541', '#473100');
+                else if (type === 'plaster') {
+                    // beige wall paint canvas
+                    canvas = document.createElement('canvas');
+                    canvas.width = 256; canvas.height = 256;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#efe5fd';
+                    ctx.fillRect(0, 0, 256, 256);
+                }
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                this.textures[type] = texture;
+                return texture;
+            }
+        };
+
+        // 3D Setup
+        const container = document.getElementById('designer-canvas');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a1a);
+        
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+        camera.position.set(4, 3, 5);
+        
+        // preserveDrawingBuffer: true is required to execute renderer.domElement.toDataURL() screenshotting
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+        
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.05; // limit polar so camera doesn't dip under floor
+        controls.target.set(0, 1.0, 0);
+
+        // Building the 3D interior Room Box
+        const roomGeom = new THREE.BoxGeometry(6, 4, 8);
+        
+        // Define initial materials
+        let activeFloorMat = new THREE.MeshStandardMaterial({ map: TextureCache.get('statuario'), roughness: 0.2 });
+        let activeWallMat = new THREE.MeshStandardMaterial({ map: TextureCache.get('plaster'), roughness: 0.95 });
+        const ceilMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+        
+        const materials = [
+            activeWallMat, // right wall
+            activeWallMat, // left wall
+            ceilMat,       // ceiling
+            activeFloorMat, // floor
+            activeWallMat, // back wall
+            activeWallMat  // front wall
+        ];
+        
+        const room = new THREE.Mesh(roomGeom, materials);
+        room.position.set(0, 2, 0);
+        scene.add(room);
+        
+        // Invert room geometry to make inner walls visible
+        roomGeom.scale(-1, 1, 1);
+        
+        // Lights
+        scene.add(new THREE.AmbientLight(0x333333));
+        const lightL = new THREE.DirectionalLight(0xffffff, 2.0);
+        lightL.position.set(-3, 3, 2);
+        scene.add(lightL);
+        const lightR = new THREE.DirectionalLight(0xffffff, 1.5);
+        lightR.position.set(3, 3, 2);
+        scene.add(lightR);
+
+        // Decorative LED lights coves
+        const coveGeom = new THREE.BoxGeometry(0.08, 0.08, 8);
+        const coveMat = new THREE.MeshBasicMaterial({ color: 0xc9a84c });
+        const coveL = new THREE.Mesh(coveGeom, coveMat);
+        coveL.position.set(-2.9, 3.9, 0);
+        scene.add(coveL);
+        const coveR = coveL.clone();
+        coveR.position.x = 2.9;
+        scene.add(coveR);
+
+        // State Trackers
+        let activeTarget = 'floor'; // 'floor' or 'wall'
+        let selectedFloorMaterial = 'statuario';
+        
+        // Target buttons selectors
+        const btnTargetFloor = document.getElementById('target-floor');
+        const btnTargetWall = document.getElementById('target-wall');
+        
+        btnTargetFloor.addEventListener('click', () => {
+            activeTarget = 'floor';
+            btnTargetFloor.classList.add('active');
+            btnTargetWall.classList.remove('active');
+        });
+        
+        btnTargetWall.addEventListener('click', () => {
+            activeTarget = 'wall';
+            btnTargetWall.classList.add('active');
+            btnTargetFloor.classList.remove('active');
+        });
+
+        // Swap material selection handler
+        const thumbs = document.querySelectorAll('.material-thumb');
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                thumbs.forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                
+                const matType = thumb.dataset.material;
+                const newTexture = TextureCache.get(matType);
+                
+                if (activeTarget === 'floor') {
+                    selectedFloorMaterial = matType;
+                    // Swap floor material texture map (index 3 corresponds to floor in multi-material)
+                    room.material[3].map = newTexture;
+                    room.material[3].needsUpdate = true;
+                } else {
+                    // Swap wall materials (indices 0, 1, 4, 5 correspond to walls)
+                    [0, 1, 4, 5].forEach(idx => {
+                        room.material[idx].map = newTexture;
+                        room.material[idx].needsUpdate = true;
+                    });
+                }
+            });
+        });
+
+        // Camera animators view modes
+        const tabRoom = document.getElementById('view-room');
+        const tabFloor = document.getElementById('view-floor');
+        const tabWall = document.getElementById('view-wall');
+        const tabs = [tabRoom, tabFloor, tabWall];
+
+        const animateCamera = (camX, camY, camZ, lookX, lookY, lookZ, enableControls) => {
+            controls.enabled = false;
+            gsap.to(camera.position, {
+                x: camX, y: camY, z: camZ,
+                duration: 1.2,
+                ease: "power2.inOut"
+            });
+            gsap.to(controls.target, {
+                x: lookX, y: lookY, z: lookZ,
+                duration: 1.2,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    controls.enabled = enableControls;
+                }
+            });
+        };
+
+        tabRoom.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabRoom.classList.add('active');
+            // standard perspective orbit view
+            animateCamera(4, 3, 5, 0, 1.5, 0, true);
+        });
+
+        tabFloor.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabFloor.classList.add('active');
+            // top-down orthographic-like view looking down at floor slab
+            animateCamera(0.01, 5, 0, 0, 0, 0, false);
+        });
+
+        tabWall.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabWall.classList.add('active');
+            // straight on perspective view focusing back wall
+            animateCamera(0, 2, 5.5, 0, 2, -4, false);
+        });
+
+        // Screenshot PNG exporter hook
+        document.getElementById('btn-screenshot').addEventListener('click', () => {
+            // Render one clean frame immediately before taking toDataURL snapshot
+            renderer.render(scene, camera);
+            const dataUrl = renderer.domElement.toDataURL("image/png");
+            
+            const link = document.createElement('a');
+            link.download = `Valure_Studio_Custom_Room_Design_${Date.now()}.png`;
+            link.href = dataUrl;
+            link.click();
+        });
+
+        // Redirect & Pre-fill quote cost estimator
+        document.getElementById('btn-save-quote').addEventListener('click', () => {
+            // Prepopulate selected material to localStorage context
+            localStorage.setItem('valure_selected_floor', selectedFloorMaterial);
+            PageTransition.play('calculator.html');
+        });
+
+        // Resize window trigger
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Conf ticker loops
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Mobile drawer toggles
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeBtn = document.querySelector('.close-menu');
+        toggleBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeBtn.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+        // Page Transitions overlay
+        const PageTransition = {
+            canvas: null,
+            ctx: null,
+            particles: [],
+            animating: false,
+            init() {
+                this.canvas = document.getElementById('transition-canvas');
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                
+                document.addEventListener('click', (e) => {
+                    const anchor = e.target.closest('a');
+                    if (!anchor) return;
+                    const href = anchor.getAttribute('href');
+                    if (!href) return;
+                    if (href.startsWith('#') || anchor.getAttribute('target') === '_blank' || href.startsWith('tel:') || href.startsWith('mailto:') || href.includes('wa.me')) {
+                        return;
+                    }
+                    e.preventDefault();
+                    this.play(href);
+                });
+            },
+            resize() {
+                if (!this.canvas) return;
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            },
+            play(href) {
+                if (this.animating) return;
+                this.animating = true;
+                this.canvas.style.pointerEvents = 'auto';
+                
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                this.particles = [];
+                for (let i = 0; i < 200; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 3 + Math.random() * 15;
+                    this.particles.push({
+                        x: centerX,
+                        y: centerY,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: 6 + Math.random() * 16,
+                        color: Math.random() > 0.35 ? '#c9a84c' : '#f5f0e8',
+                        rotation: Math.random() * Math.PI,
+                        vrot: (Math.random() - 0.5) * 0.25,
+                        alpha: 1
+                    });
+                }
+                
+                const startTime = performance.now();
+                const duration = 600;
+                
+                const tick = (now) => {
+                    const elapsed = now - startTime;
+                    this.ctx.fillStyle = 'rgba(26, 26, 26, 0.35)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    this.particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.25;
+                        p.rotation += p.vrot;
+                        p.alpha = Math.max(0, 1 - (elapsed / duration));
+                        
+                        this.ctx.save();
+                        this.ctx.translate(p.x, p.y);
+                        this.ctx.rotate(p.rotation);
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        this.ctx.restore();
+                    });
+                    
+                    if (elapsed < duration) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        window.location.href = href;
+                    }
+                };
+                requestAnimationFrame(tick);
+            }
+        };
+        PageTransition.init();
+    </script>
 </body>
 </html>

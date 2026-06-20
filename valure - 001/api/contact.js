@@ -115,7 +115,7 @@ module.exports = async (req, res) => {
         }
 
         // 5. Email Notification Delivery
-        const notificationEmail = process.env.NOTIFICATION_EMAIL || 'shivakshkaushik8590@gmail.com';
+        const notificationEmail = process.env.NOTIFICATION_EMAIL || 'hello@valure.in';
         const resendApiKey = process.env.RESEND_API_KEY;
 
         const emailHtml = `
