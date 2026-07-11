@@ -1,0 +1,50 @@
+[
+  {
+    "id": "statuario",
+    "name": "Italian Statuario Marble",
+    "category": "Italian Marble",
+    "texture": "assets/images/italian_statuario.png",
+    "price": 500,
+    "description": "Pure white background marble with elegant bold grey veining pattern. Luxury high-gloss polished marble finish."
+  },
+  {
+    "id": "calacatta",
+    "name": "Italian Calacatta Gold",
+    "category": "Italian Marble",
+    "texture": "assets/images/calacatta_gold.png",
+    "price": 550,
+    "description": "Premium white background marble with striking golden-brown and brassy veining pattern. Ultimate luxury polished finish."
+  },
+  {
+    "id": "black_marquina",
+    "name": "Black Marquina",
+    "category": "Luxury Marble",
+    "texture": "assets/images/black_marquina.png",
+    "price": 420,
+    "description": "Deep black marble slab accented with bright white linear calcite veins. Contemporary sophisticated dramatic contrast finish."
+  },
+  {
+    "id": "armani_grey",
+    "name": "Armani Grey",
+    "category": "Premium Granite",
+    "texture": "assets/images/armani_grey.png",
+    "price": 410,
+    "description": "Rich dark charcoal grey granite base with subtle spiderweb veining. Polished premium durable texture."
+  },
+  {
+    "id": "travertine",
+    "name": "Travertine Beige",
+    "category": "Travertine",
+    "texture": "assets/images/travertine_beige.png",
+    "price": 350,
+    "description": "Warm beige travertine stone with natural pits and linear bands. Matte organic texture."
+  },
+  {
+    "id": "panda_white",
+    "name": "Panda White Marble",
+    "category": "Luxury Marble",
+    "texture": "assets/images/panda_white.png",
+    "price": 480,
+    "description": "Stunning white background marble accented with bold flowing black streaks. Dramatic modern bookmatched texture."
+  }
+]

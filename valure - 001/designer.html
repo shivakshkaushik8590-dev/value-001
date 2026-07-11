@@ -293,19 +293,8 @@
                             </div>
                             <div class="accordion-content">
                                 <label class="input-label">Select Floor Material</label>
-                                <div class="texture-grid">
-                                    <div class="texture-card selected" data-group="floor" data-value="hardwood">
-                                        <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=150" alt="Oak Hardwood">
-                                        <span>Oak Hardwood</span>
-                                    </div>
-                                    <div class="texture-card" data-group="floor" data-value="marble">
-                                        <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=150" alt="Calacatta Marble">
-                                        <span>Marble Slab</span>
-                                    </div>
-                                    <div class="texture-card" data-group="floor" data-value="concrete">
-                                        <img src="https://images.unsplash.com/photo-1544078751-58feb2dcbda2?auto=format&fit=crop&q=80&w=150" alt="Polished Concrete">
-                                        <span>Concrete</span>
-                                    </div>
+                                <div class="texture-grid" id="flooring-material-grid">
+                                    <!-- Dynamically loaded via api/materials catalog -->
                                 </div>
                             </div>
                         </div>
@@ -479,6 +468,24 @@
                     </div>
 
                     <!-- Custom Prompt Tweaker -->
+                    <div class="config-section" id="brush-controls-section" style="margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;">
+                        <span class="config-label" style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-paint-brush"></i> In-Place Surface Mask Brush</span>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.3;">
+                            Draw directly on your uploaded image to mask the specific floor or wall area you want the AI to replace.
+                        </p>
+                        <div class="slider-group" style="margin-bottom: 12px;">
+                            <div class="slider-labels" style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px;">
+                                <span>Brush Size</span>
+                                <span id="brush-size-val" class="slider-val" style="color: var(--accent-gold); font-weight: 600;">30px</span>
+                            </div>
+                            <input type="range" id="brush-size" class="designer-range" min="5" max="100" value="30" style="width: 100%; accent-color: var(--accent-gold);">
+                        </div>
+                        <div class="target-row" style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-outline btn-mini" id="btn-clear-mask" style="flex: 1; padding: 8px 12px; font-size: 0.7rem; border-radius: 4px;"><i class="fas fa-eraser"></i> Clear Mask</button>
+                            <button type="button" class="btn btn-outline btn-mini" id="btn-toggle-mask-visibility" style="flex: 1; padding: 8px 12px; font-size: 0.7rem; border-radius: 4px;"><i class="fas fa-eye"></i> Show Mask</button>
+                        </div>
+                    </div>
+
                     <label class="input-label">AI Prompt Adjuster</label>
                     <textarea class="prompt-area" rows="3" placeholder="E.g., Replace the sofa with a white boucle modular sectional, warm afternoon sunlight beams."></textarea>
 
@@ -559,8 +566,11 @@
                             <img id="before-img" src="assets/images/living.png" alt="Original User Room View">
                         </div>
 
-                        <!-- Interactive Drag overlay stamp target -->
-                        <div id="canvas-interactive-overlay" class="canvas-interactive-overlay"></div>
+                         <!-- Canvas overlay for painting mask -->
+                         <canvas id="mask-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 18; cursor: crosshair; display: none;"></canvas>
+
+                         <!-- Interactive Drag overlay stamp target -->
+                         <div id="canvas-interactive-overlay" class="canvas-interactive-overlay"></div>
 
                         <!-- Sliding Handle Divider -->
                         <div id="slider-handle" class="slider-handle">
@@ -572,7 +582,13 @@
                     <div class="canvas-toolbar">
                         <div class="active-design-info">
                             <h4>Interactive Sandbox View</h4>
-                            <p>Drag the center divider handle to examine the before/after structural modifications.</p>
+                            <p id="slider-instructions-text">Drag the center divider handle to examine the before/after structural modifications.</p>
+                            <!-- Shoppable product card details -->
+                            <div id="shoppable-material-info" style="margin-top: 10px; padding: 10px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; text-align: left; display: none;">
+                                <span style="font-size: 0.65rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: block; margin-bottom: 2px;">Selected Material</span>
+                                <h4 id="shoppable-material-name" style="margin: 0; font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: white;">Italian Statuario Marble</h4>
+                                <p id="shoppable-material-price" style="font-size: 0.8rem; margin: 3px 0 0 0; color: #a0aec0;">Estimated Price: <span style="color: var(--accent-gold); font-weight: 600;">₹500 / sq.ft.</span></p>
+                            </div>
                         </div>
                         <div class="canvas-actions">
                             <button id="btn-save-design" class="btn btn-outline"><i class="fas fa-save"></i> Save Design</button>

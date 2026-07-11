@@ -9,6 +9,9 @@ const leadsHandler = require('./api/leads');
 const loginHandler = require('./api/auth/login');
 const ratesHandler = require('./api/rates');
 const sendFollowupHandler = require('./api/auth/send-followup');
+const materialsHandler = require('./api/materials');
+const generateRenderHandler = require('./api/generate-render');
+const renderStatusHandler = require('./api/render-status');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +31,9 @@ app.all('/api/leads', leadsHandler);
 app.all('/api/auth/login', loginHandler);
 app.all('/api/rates', ratesHandler);
 app.all('/api/auth/send-followup', sendFollowupHandler);
+app.all('/api/materials', materialsHandler);
+app.all('/api/generate-render', generateRenderHandler);
+app.all('/api/render-status', renderStatusHandler);
 
 // Catch-all route to serve index.html for undefined routes (for routing fallback)
 app.get('*', (req, res) => {
