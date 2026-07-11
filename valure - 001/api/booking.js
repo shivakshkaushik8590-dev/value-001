@@ -3,6 +3,7 @@ const twilio = require('twilio');
 const fs = require('fs');
 const path = require('path');
 const { Resend } = require('resend');
+const { pool, initDb, isPostgres } = require('./db');
 
 module.exports = async (req, res) => {
     // CORS Headers setup
@@ -54,28 +55,58 @@ module.exports = async (req, res) => {
             createdAt: new Date().toISOString()
         };
 
-        // 1. Storage: Try storing inside local bookings.json (normal on local environments)
+        // 1. Storage: Try storing in Postgres, fallback to local bookings.json
         let fileSaved = false;
-        try {
-            const dataFilePath = path.join(process.cwd(), 'data', 'bookings.json');
-            let bookingsList = [];
-            
-            if (fs.existsSync(dataFilePath)) {
-                const fileData = fs.readFileSync(dataFilePath, 'utf8');
-                bookingsList = JSON.parse(fileData || '[]');
+        let savedInDb = false;
+
+        if (isPostgres()) {
+            try {
+                await initDb();
+                await pool.query(
+                    `INSERT INTO leads (id, name, phone, email, product, message, date, status, type, consultation_date, slot) 
+                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+                    [
+                        bookingId,
+                        name.trim(),
+                        phone.trim(),
+                        email.trim(),
+                        project || 'Residential Villa',
+                        `Consultation scheduled for ${date} at ${slot}.`,
+                        date,
+                        'New',
+                        'booking',
+                        date,
+                        slot
+                    ]
+                );
+                savedInDb = true;
+            } catch (dbErr) {
+                console.error('Failed to save booking to Postgres database, falling back to file:', dbErr);
             }
-            
-            bookingsList.unshift(newBooking);
-            
-            const dataDir = path.dirname(dataFilePath);
-            if (!fs.existsSync(dataDir)) {
-                fs.mkdirSync(dataDir, { recursive: true });
+        }
+
+        if (!savedInDb) {
+            try {
+                const dataFilePath = path.join(process.cwd(), 'data', 'bookings.json');
+                let bookingsList = [];
+                
+                if (fs.existsSync(dataFilePath)) {
+                    const fileData = fs.readFileSync(dataFilePath, 'utf8');
+                    bookingsList = JSON.parse(fileData || '[]');
+                }
+                
+                bookingsList.unshift(newBooking);
+                
+                const dataDir = path.dirname(dataFilePath);
+                if (!fs.existsSync(dataDir)) {
+                    fs.mkdirSync(dataDir, { recursive: true });
+                }
+                
+                fs.writeFileSync(dataFilePath, JSON.stringify(bookingsList, null, 2), 'utf8');
+                fileSaved = true;
+            } catch (fileErr) {
+                console.warn('Local file storage writing skipped (expected in read-only serverless hosts):', fileErr.message);
             }
-            
-            fs.writeFileSync(dataFilePath, JSON.stringify(bookingsList, null, 2), 'utf8');
-            fileSaved = true;
-        } catch (fileErr) {
-            console.warn('Local file storage writing skipped (expected in read-only serverless hosts):', fileErr.message);
         }
 
         // 2. Email Notification (Resend with Nodemailer SMTP fallback)

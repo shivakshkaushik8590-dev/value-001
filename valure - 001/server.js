@@ -5,6 +5,10 @@ require('dotenv').config();
 
 const bookingHandler = require('./api/booking');
 const contactHandler = require('./api/contact');
+const leadsHandler = require('./api/leads');
+const loginHandler = require('./api/auth/login');
+const ratesHandler = require('./api/rates');
+const sendFollowupHandler = require('./api/auth/send-followup');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +24,10 @@ app.use(express.static(__dirname));
 // Mount the serverless function handler to local route
 app.post('/api/booking', bookingHandler);
 app.post('/api/contact', contactHandler);
+app.all('/api/leads', leadsHandler);
+app.all('/api/auth/login', loginHandler);
+app.all('/api/rates', ratesHandler);
+app.all('/api/auth/send-followup', sendFollowupHandler);
 
 // Catch-all route to serve index.html for undefined routes (for routing fallback)
 app.get('*', (req, res) => {

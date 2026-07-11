@@ -425,6 +425,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Fetch global rates from database on load
+    const fetchGlobalRates = async () => {
+        try {
+            const response = await fetch('/api/rates');
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('valure_rates_override', JSON.stringify(data));
+                recalculateCosts();
+            }
+        } catch (err) {
+            console.warn("Could not fetch global rates from database, using local settings:", err);
+        }
+    };
+    fetchGlobalRates();
+
     // Run initial rendering math
     recalculateCosts();
 });

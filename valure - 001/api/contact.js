@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const { Resend } = require('resend');
+const { pool, initDb, isPostgres } = require('./db');
 
 // In-memory duplicate protection cache (SHA/signature keys -> timestamp)
 const recentSubmissions = new Map();
@@ -90,28 +91,56 @@ module.exports = async (req, res) => {
             status: 'New'
         };
 
-        // 4. Local File Storage Logging
+        // 4. Storage Logging: Postgres with Local File fallback
         let savedLocally = false;
-        try {
-            const dataFilePath = path.join(process.cwd(), 'data', 'contacts.json');
-            let contactsList = [];
+        let savedInDb = false;
 
-            if (fs.existsSync(dataFilePath)) {
-                const fileData = fs.readFileSync(dataFilePath, 'utf8');
-                contactsList = JSON.parse(fileData || '[]');
+        if (isPostgres()) {
+            try {
+                await initDb();
+                await pool.query(
+                    `INSERT INTO leads (id, name, phone, email, product, message, date, status, type) 
+                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                    [
+                        enquiryId,
+                        name.trim(),
+                        phone.trim(),
+                        email.trim(),
+                        product.trim(),
+                        message.trim(),
+                        dateString,
+                        'New',
+                        'contact'
+                    ]
+                );
+                savedInDb = true;
+            } catch (dbErr) {
+                console.error('Failed to save contact to Postgres database, falling back to file:', dbErr);
             }
+        }
 
-            contactsList.unshift(newEnquiry);
+        if (!savedInDb) {
+            try {
+                const dataFilePath = path.join(process.cwd(), 'data', 'contacts.json');
+                let contactsList = [];
 
-            const dataDir = path.dirname(dataFilePath);
-            if (!fs.existsSync(dataDir)) {
-                fs.mkdirSync(dataDir, { recursive: true });
+                if (fs.existsSync(dataFilePath)) {
+                    const fileData = fs.readFileSync(dataFilePath, 'utf8');
+                    contactsList = JSON.parse(fileData || '[]');
+                }
+
+                contactsList.unshift(newEnquiry);
+
+                const dataDir = path.dirname(dataFilePath);
+                if (!fs.existsSync(dataDir)) {
+                    fs.mkdirSync(dataDir, { recursive: true });
+                }
+
+                fs.writeFileSync(dataFilePath, JSON.stringify(contactsList, null, 2), 'utf8');
+                savedLocally = true;
+            } catch (fileErr) {
+                console.warn('Local contact file storage writing skipped:', fileErr.message);
             }
-
-            fs.writeFileSync(dataFilePath, JSON.stringify(contactsList, null, 2), 'utf8');
-            savedLocally = true;
-        } catch (fileErr) {
-            console.warn('Local contact file storage writing skipped:', fileErr.message);
         }
 
         // 5. Email Notification Delivery

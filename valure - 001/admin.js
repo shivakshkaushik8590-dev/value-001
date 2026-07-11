@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const SECURE_PASSCODE = '1234';
 
     const checkSession = () => {
-        const isLogged = sessionStorage.getItem('valure_admin_logged') === 'true' || sessionStorage.getItem('valure_user') === 'admin';
-        if (isLogged) {
+        const token = sessionStorage.getItem('valure_admin_token');
+        if (token) {
             unlockPortal();
         } else {
             lockPortal();
@@ -37,19 +37,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lockScreen) lockScreen.style.display = 'flex';
         if (adminDashboard) adminDashboard.style.display = 'none';
         sessionStorage.removeItem('valure_admin_logged');
+        sessionStorage.removeItem('valure_admin_token');
         sessionStorage.removeItem('valure_user');
     };
 
     if (lockForm) {
-        lockForm.addEventListener('submit', (e) => {
+        lockForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (lockPasscode.value === SECURE_PASSCODE) {
-                lockError.style.display = 'none';
-                unlockPortal();
-            } else {
+            const passcodeVal = lockPasscode.value;
+            const btnSubmit = lockForm.querySelector('button[type="submit"]');
+            const originalText = btnSubmit.textContent;
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Verifying...';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ passcode: passcodeVal })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    lockError.style.display = 'none';
+                    sessionStorage.setItem('valure_admin_token', data.token);
+                    unlockPortal();
+                } else {
+                    throw new Error(data.error || 'Access Denied.');
+                }
+            } catch (err) {
+                lockError.textContent = err.message || 'Incorrect Passcode. Access Denied.';
                 lockError.style.display = 'block';
                 lockPasscode.value = '';
                 lockPasscode.focus();
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = originalText;
             }
         });
     }
@@ -100,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let materialsChartInstance = null;
     let leadsChartInstance = null;
 
-    window.initializeCRM = () => {
-        loadLocalStorageData();
+    window.initializeCRM = async () => {
+        await loadRealCRMData();
         renderKPIs();
         renderCharts();
         renderLeadsTable();
@@ -110,37 +132,49 @@ document.addEventListener('DOMContentLoaded', () => {
         initFollowupsWorkspace();
     };
 
-    const loadLocalStorageData = () => {
-        // Load Leads
-        leadsData = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
-        if (leadsData.length === 0) {
-            // Seed mock leads for demo demonstration
-            leadsData = [
-                { id: 'inq_1', name: 'Rohan Sharma', phone: '9812345678', email: 'rohan.sharma@gmail.com', product: 'Italian Statuario Marble', message: 'Need 1200 sq.ft. for luxury living room flooring. Please send slab photos.', date: new Date(Date.now() - 3600000 * 4).toLocaleDateString('en-IN'), status: 'New' },
-                { id: 'inq_2', name: 'Preeti Deshmukh', phone: '7023456789', email: 'preeti.d@gmail.com', product: 'Sample: Italian Calacatta Gold', message: 'Sample delivery requested to: Villa 12, Golf Links Road, New Delhi.', date: new Date(Date.now() - 3600000 * 20).toLocaleDateString('en-IN'), status: 'New' },
-                { id: 'inq_3', name: 'Vikram Malhotra', phone: '8098765432', email: 'vikram.m@luxuryhomes.in', product: '3D Designer Proposal: BEDROOM', message: 'Client requested full design package details. Active materials: Floor: hardwood.', date: new Date(Date.now() - 3600000 * 50).toLocaleDateString('en-IN'), status: 'Contacted' },
-                { id: 'inq_4', name: 'Ananya Goel', phone: '9988776655', email: 'ananya.goel@archdesign.com', product: 'Makrana White Alabaster', message: 'Sourcing quote needed for hotel lobby project. ~5000 sq.ft. required.', date: new Date(Date.now() - 3600000 * 120).toLocaleDateString('en-IN'), status: 'Quoted' },
-                { id: 'inq_5', name: 'Kabir Mehta', phone: '7454853045', email: 'kabir.mehta@yahoo.com', product: 'Italian Portoro Black', message: 'Interested in premium black marble blocks.', date: new Date(Date.now() - 3600000 * 240).toLocaleDateString('en-IN'), status: 'Closed' }
-            ];
-            localStorage.setItem('valure_inquiries', JSON.stringify(leadsData));
+    const loadRealCRMData = async () => {
+        const token = sessionStorage.getItem('valure_admin_token');
+        
+        // 1. Fetch real leads
+        try {
+            const response = await fetch('/api/leads', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (response.ok) {
+                leadsData = await response.json();
+            } else {
+                throw new Error('API failed to load leads');
+            }
+        } catch (err) {
+            console.warn('Failed to load leads from Postgres, falling back to local files:', err.message);
+            leadsData = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
         }
 
-        // Load Materials
+        // 2. Fetch global settings/rates
+        try {
+            const response = await fetch('/api/rates');
+            if (response.ok) {
+                ratesData = await response.json();
+            } else {
+                throw new Error('API failed to load rates');
+            }
+        } catch (err) {
+            console.warn('Failed to load rates from Postgres, using local storage fallback:', err.message);
+            ratesData = JSON.parse(localStorage.getItem('valure_rates_override')) || {
+                palace: 0.35,
+                gst: 18,
+                fee: 15
+            };
+        }
+
+        // 3. Load materials catalog
         materialsData = JSON.parse(localStorage.getItem('valure_custom_marbles')) || [];
         if (materialsData.length === 0) {
-            // Seed from hardcoded database
             if (typeof marbleProducts !== 'undefined') {
                 materialsData = [...marbleProducts];
                 localStorage.setItem('valure_custom_marbles', JSON.stringify(materialsData));
             }
         }
-
-        // Load Rates Surcharges
-        ratesData = JSON.parse(localStorage.getItem('valure_rates_override')) || {
-            palace: 0.35,
-            gst: 18,
-            fee: 15
-        };
     };
 
     window.resetDemoData = () => {
@@ -330,7 +364,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.updateLeadStatus = (leadId, newStatus) => {
+    window.updateLeadStatus = async (leadId, newStatus) => {
+        const token = sessionStorage.getItem('valure_admin_token');
+        try {
+            const response = await fetch('/api/leads', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ id: leadId, status: newStatus })
+            });
+            const data = await response.json();
+            if (response.ok && data.success) {
+                console.log(`Lead status successfully updated on server:`, leadId);
+            } else {
+                throw new Error(data.error || 'Server failed to update status');
+            }
+        } catch (err) {
+            console.warn('Postgres database status sync skipped, updating local state only:', err.message);
+        }
+
         leadsData = leadsData.map(l => {
             if (l.id === leadId) {
                 return { ...l, status: newStatus };
@@ -341,12 +395,31 @@ document.addEventListener('DOMContentLoaded', () => {
         renderKPIs();
         renderCharts();
         renderLeadsTable();
-        // Sync followup workspace too
         renderFollowupList();
     };
 
-    window.deleteLead = (leadId) => {
+    window.deleteLead = async (leadId) => {
         if (confirm('Are you sure you want to permanently delete this lead inquiry?')) {
+            const token = sessionStorage.getItem('valure_admin_token');
+            try {
+                const response = await fetch('/api/leads', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ id: leadId })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    console.log(`Lead successfully deleted on server:`, leadId);
+                } else {
+                    throw new Error(data.error || 'Server failed to delete lead');
+                }
+            } catch (err) {
+                console.warn('Postgres database delete sync skipped, updating local state only:', err.message);
+            }
+
             leadsData = leadsData.filter(l => l.id !== leadId);
             localStorage.setItem('valure_inquiries', JSON.stringify(leadsData));
             initializeCRM();
@@ -542,20 +615,43 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (ratesForm) {
-        ratesForm.addEventListener('submit', (e) => {
+        ratesForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const palaceVal = parseFloat(document.getElementById('rate-palace').value);
             const gstVal = parseInt(document.getElementById('rate-gst').value);
             const feeVal = parseInt(document.getElementById('rate-fee').value);
 
-            ratesData = {
-                palace: palaceVal,
-                gst: gstVal,
-                fee: feeVal
-            };
+            const token = sessionStorage.getItem('valure_admin_token');
+            const submitBtn = ratesForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
 
-            localStorage.setItem('valure_rates_override', JSON.stringify(ratesData));
-            alert('Global cost calculator rates updated! Surcharges are synchronized across the estimator ledger.');
+            try {
+                const response = await fetch('/api/rates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ palace: palaceVal, gst: gstVal, fee: feeVal })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    ratesData = { palace: palaceVal, gst: gstVal, fee: feeVal };
+                    localStorage.setItem('valure_rates_override', JSON.stringify(ratesData));
+                    alert('Global pricing rates updated successfully! Synchronized across live estimator and database.');
+                } else {
+                    throw new Error(data.error || 'Failed to save rates.');
+                }
+            } catch (err) {
+                alert('Database rate sync skipped, saving locally only: ' + err.message);
+                ratesData = { palace: palaceVal, gst: gstVal, fee: feeVal };
+                localStorage.setItem('valure_rates_override', JSON.stringify(ratesData));
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         });
     }
 
@@ -641,22 +737,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (followupForm) {
-        followupForm.addEventListener('submit', (e) => {
+        followupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!selectedFollowupLead) {
                 alert('Please select a lead item from the left pane first.');
                 return;
             }
 
-            alert(`Quick follow-up email simulated successfully!\n\nTo: ${followupTo.value}\nSubject: ${followupSubject.value}\n\nLead status updated to "Contacted".`);
-            
-            // Auto update status to "Contacted"
-            updateLeadStatus(selectedFollowupLead.id, 'Contacted');
-            
-            // Reset editor
-            selectedFollowupLead = null;
-            followupForm.reset();
-            renderFollowupList();
+            const token = sessionStorage.getItem('valure_admin_token');
+            const submitBtn = followupForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Sending Email...';
+
+            try {
+                const response = await fetch('/api/auth/send-followup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        to: followupTo.value,
+                        subject: followupSubject.value,
+                        body: followupBody.value
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    if (data.simulated) {
+                        alert(`Quick follow-up email simulated successfully!\n\nTo: ${followupTo.value}\nSubject: ${followupSubject.value}\n\nNote: ${data.message}\nLead status updated to "Contacted".`);
+                    } else {
+                        alert(`Quick follow-up email sent successfully to ${followupTo.value}!\nLead status updated to "Contacted".`);
+                    }
+                    
+                    // Auto update status to "Contacted"
+                    await updateLeadStatus(selectedFollowupLead.id, 'Contacted');
+                    
+                    // Reset editor
+                    selectedFollowupLead = null;
+                    followupForm.reset();
+                    renderFollowupList();
+                } else {
+                    throw new Error(data.error || 'Server failed to send email');
+                }
+            } catch (err) {
+                alert('Error sending follow-up email: ' + err.message + '\nUpdating local status to Contacted anyway.');
+                await updateLeadStatus(selectedFollowupLead.id, 'Contacted');
+                selectedFollowupLead = null;
+                followupForm.reset();
+                renderFollowupList();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         });
     }
 

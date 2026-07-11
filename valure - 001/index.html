@@ -1029,6 +1029,14 @@
                     </div>
                     <button type="submit" class="btn btn-gold" style="width: 100%;">Request Proposal</button>
                 </form>
+                <div class="form-success-toast" id="quote-success" role="alert" aria-live="polite" style="margin-top: 15px;">
+                    <i class="fas fa-check-circle" style="font-size:1.2rem; margin-right: 8px;"></i>
+                    <span>Thank you! Your quotation proposal details have been captured successfully.</span>
+                </div>
+                <div class="form-error-toast" id="quote-error" role="alert" aria-live="polite" style="margin-top: 15px;">
+                    <i class="fas fa-exclamation-circle" style="font-size:1.2rem; margin-right: 8px;"></i>
+                    <span id="quote-error-text">Failed to submit proposal request. Please try again.</span>
+                </div>
             </div>
         </div>
     </section>
@@ -2176,10 +2184,87 @@
             scene.add(screenPlane);
             
             // Submission feedback popup details
-            document.getElementById('quote-form').addEventListener('submit', (e) => {
+            document.getElementById('quote-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                alert('Thank you! Your quotation proposal details have been captured successfully. A specialist will call you shortly.');
-                e.target.reset();
+                
+                const successToast = document.getElementById('quote-success');
+                const errorToast = document.getElementById('quote-error');
+                const errorText = document.getElementById('quote-error-text');
+                
+                if (successToast) successToast.classList.remove('show');
+                if (errorToast) errorToast.classList.remove('show');
+
+                const nameVal = document.getElementById('name').value.trim();
+                const emailVal = document.getElementById('email').value.trim();
+                const phoneVal = document.getElementById('phone').value.trim();
+                const messageVal = document.getElementById('message').value.trim();
+                const productVal = "Free Consultation Request";
+
+                const btnSubmit = e.target.querySelector('button[type="submit"]');
+                const originalBtnContent = btnSubmit.innerHTML;
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Submitting...';
+
+                const inquiry = {
+                    id: 'inq_' + Date.now(),
+                    name: nameVal,
+                    phone: phoneVal,
+                    email: emailVal,
+                    product: productVal,
+                    message: messageVal,
+                    date: new Date().toLocaleDateString('en-IN'),
+                    status: 'New'
+                };
+
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: nameVal,
+                            phone: phoneVal,
+                            email: emailVal,
+                            product: productVal,
+                            message: messageVal
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                        inquiries.unshift(inquiry);
+                        localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                        
+                        if (successToast) successToast.classList.add('show');
+                        if (typeof redirectToWhatsApp === 'function') {
+                            redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'consultation');
+                        }
+                        e.target.reset();
+                        setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 6000);
+                    } else {
+                        throw new Error(data.error || 'Server failed to submit consultation request.');
+                    }
+                } catch (err) {
+                    console.error("Consultation API error (offline fallback):", err);
+                    
+                    // Offline fallback
+                    let inquiries = JSON.parse(localStorage.getItem('valure_inquiries')) || [];
+                    inquiries.unshift(inquiry);
+                    localStorage.setItem('valure_inquiries', JSON.stringify(inquiries));
+                    
+                    if (successToast) successToast.classList.add('show');
+                    if (typeof redirectToWhatsApp === 'function') {
+                        redirectToWhatsApp(nameVal, phoneVal, emailVal, productVal, messageVal, 'consultation');
+                    }
+                    e.target.reset();
+                    setTimeout(() => { if (successToast) successToast.classList.remove('show'); }, 6000);
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalBtnContent;
+                }
             });
             
             return () => {
