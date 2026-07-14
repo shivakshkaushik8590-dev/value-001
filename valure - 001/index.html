@@ -764,10 +764,14 @@
             }
             .teaser-grid, .contact-grid, .footer-grid {
                 grid-template-columns: 1fr;
-                gap: 50px;
+                gap: 40px;
             }
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            /* Room panels don't make sense on narrow tablets */
+            .room-panel {
+                display: none;
             }
         }
 
@@ -782,7 +786,96 @@
                 display: block;
             }
             .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            /* Top bar: wrap flex, replace float layout */
+            .top-contact-bar {
+                display: flex !important;
+                flex-wrap: wrap;
+                gap: 6px 14px;
+                align-items: center;
+                padding: 8px 4%;
+            }
+            .top-contact-bar .whatsapp-link {
+                float: none !important;
+                margin-left: auto;
+            }
+            /* Footer bottom */
+            .footer-bottom {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+            .footer-bottom a { margin-left: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.9rem;
+            }
+            /* CTA buttons stack vertically */
+            .cta-row {
+                flex-direction: column !important;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .cta-row .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            /* Stats single row of 2 */
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            /* Contact & teaser grids */
+            .contact-grid, .teaser-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            /* Footer grid single column */
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            /* Newsletter form stacks */
+            .newsletter-form {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .newsletter-form input {
+                border-radius: 4px;
+            }
+            .newsletter-form button {
+                border-radius: 4px;
+                width: 100%;
+                padding: 12px;
+            }
+            /* Hide "Call Now" from nav bar on very small screens */
+            .nav-actions .btn {
+                display: none !important;
+            }
+            /* Top bar: hide email link to save space */
+            .top-contact-bar a:nth-child(2) {
+                display: none;
+            }
+            .top-contact-bar {
+                font-size: 0.75rem;
+            }
+            /* Room info panels hidden on mobile — WebGL-based, not interactive on touch */
+            .room-panel { display: none; }
+            /* Teaser counter badge smaller */
+            .counter-badge {
+                font-size: 1.8rem;
+                padding: 8px 18px;
+            }
+            /* Teaser text h2 */
+            .teaser-text h2 {
+                font-size: 1.9rem;
+            }
+            /* Contact form */
+            .contact-form {
+                padding: 24px 16px;
             }
         }
     </style>
@@ -798,7 +891,7 @@
     <!-- Top Contact Bar -->
     <div class="top-contact-bar">
         <a href="tel:+917454853045"><i class="fas fa-phone-alt" style="margin-right: 5px; color: var(--accent-gold);"></i> +91 7454853045</a>
-        <a href="mailto:hello@valure.in"><i class="fas fa-envelope" style="margin-right: 5px; color: var(--accent-gold);"></i> hello@valure.in</a>
+        <a href="mailto:hello@valure.in" class="email-link"><i class="fas fa-envelope" style="margin-right: 5px; color: var(--accent-gold);"></i> hello@valure.in</a>
         <a href="https://wa.me/917454853045?text=Hi%2C%20I%27m%20interested%20in%20your%20marble%20products" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp" style="margin-right: 5px;"></i> WhatsApp Us</a>
     </div>
 

@@ -62,10 +62,16 @@
         .top-contact-bar a:hover {
             color: var(--accent-gold);
         }
+        .top-contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px 16px;
+        }
         .top-contact-bar .whatsapp-link {
             color: #25D366;
             font-weight: 600;
-            float: right;
+            margin-left: auto;
         }
 
         /* Navigation */
@@ -571,9 +577,16 @@
             }
         }
         @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
             .qty-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .top-contact-bar { font-size: 0.75rem; gap: 4px 10px; }
+        }
+        @media (max-width: 480px) {
+            .top-contact-bar a:nth-child(2) { display: none; }
+            .nav-actions .btn { display: none !important; }
         }
     </style>
 </head>

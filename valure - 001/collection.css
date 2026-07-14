@@ -1403,3 +1403,13 @@
   }
 }
 
+/* ---- 360px Extra-small phones ---- */
+@media (max-width: 360px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .page-header h1 { font-size: 1.6rem; }
+  .tabs-scroll { gap: 6px; }
+  .cat-tab { padding: 7px 10px; font-size: 0.72rem; }
+  .qv-modal-content { width: 100%; border-radius: 12px 12px 0 0; }
+  .qv-main-img-wrap { height: 200px; }
+  .enquiry-card { padding: 24px 16px; }
+}
