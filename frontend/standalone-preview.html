@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>2AM to PM — Haute European Cafe &amp; Salon (React Standalone Preview)</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-fixed": "#fbdcd0",
+            "on-tertiary-container": "#b3988d",
+            "error": "#ba1a1a",
+            "on-surface": "#1d1c15",
+            "on-primary-fixed": "#002019",
+            "primary-fixed": "#c5ebdd",
+            "on-primary-fixed-variant": "#2b4d43",
+            "on-surface-variant": "#414845",
+            "on-error": "#ffffff",
+            "outline-variant": "#c1c8c4",
+            "surface-container-low": "#f8f3e8",
+            "surface-container-highest": "#e7e2d7",
+            "error-container": "#ffdad6",
+            "surface-variant": "#e7e2d7",
+            "surface": "#fef9ee",
+            "secondary-fixed": "#ffdfa0",
+            "surface-tint": "#42655b",
+            "on-background": "#1d1c15",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#81a599",
+            "background": "#fef9ee",
+            "secondary-container": "#ffdfa0",
+            "primary": "#00251d",
+            "on-tertiary-fixed-variant": "#574239",
+            "tertiary-fixed-dim": "#dec0b4",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#183b32",
+            "inverse-primary": "#a9cec2",
+            "on-secondary-container": "#79612f",
+            "tertiary-container": "#443129",
+            "on-secondary": "#ffffff",
+            "secondary-fixed-dim": "#e1c387",
+            "on-secondary-fixed": "#261a00",
+            "surface-container": "#f2ede2",
+            "surface-dim": "#dedacf",
+            "inverse-on-surface": "#f5f0e5",
+            "secondary": "#725b29",
+            "primary-fixed-dim": "#a9cec2",
+            "on-primary": "#ffffff",
+            "surface-bright": "#fef9ee",
+            "surface-container-high": "#ede8dd",
+            "on-secondary-fixed-variant": "#584414",
+            "on-tertiary-fixed": "#281810",
+            "tertiary": "#2d1c15",
+            "inverse-surface": "#323029",
+            "on-error-container": "#93000a",
+            "outline": "#717975"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-sm": "0.5rem",
+            "margin-desktop": "4rem",
+            "gutter-desktop": "2.5rem",
+            "space-xs": "0.25rem",
+            "margin": "1.25rem",
+            "space-md": "1rem",
+            "space-xl": "3rem",
+            "space-lg": "1.75rem",
+            "gutter": "1.5rem",
+            "margin-tablet": "2.5rem"
+          },
+          fontFamily: {
+            "label-md": ["DM Sans", "sans-serif"],
+            "body-lg": ["DM Sans", "sans-serif"],
+            "body-md": ["DM Sans", "sans-serif"],
+            "display": ["Playfair Display", "serif"],
+            "display-mobile": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "body-sm": ["DM Sans", "sans-serif"],
+            "headline-lg-mobile": ["Playfair Display", "serif"],
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "label-lg": ["DM Sans", "sans-serif"],
+            "label-sm": ["DM Sans", "sans-serif"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.12em", fontWeight: "500" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "body-md": ["15px", { lineHeight: "24px", fontWeight: "400" }],
+            "display": ["56px", { lineHeight: "64px", letterSpacing: "-0.02em", fontWeight: "400" }],
+            "display-mobile": ["38px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "400" }],
+            "headline-sm": ["22px", { lineHeight: "28px", fontWeight: "600" }],
+            "body-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+            "headline-lg-mobile": ["30px", { lineHeight: "36px", letterSpacing: "0em", fontWeight: "400" }],
+            "headline-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.01em", fontWeight: "400" }],
+            "headline-md": ["28px", { lineHeight: "34px", fontWeight: "500" }],
+            "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.08em", fontWeight: "500" }],
+            "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.16em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- React 18 & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary selection:text-surface">
+  <div id="root"></div>
+
+  <!-- React Application Code Transpiled via Babel In-Browser -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const LOGO_URL = "https://lh3.googleusercontent.com/aida/AEtjO1V1bFhWW7LQOU-aU5AZCdURq8XCNU2lBHiUx_-LyWEngNlkaelf4jiwPNPNh4vqqqTR56Jq6abK4_VE34QVXMNzm5lUm5rKZRZXjgv-_NznwUayyS-aeX5RipwNFDYgHTAxxV9TUlYii0G8_Po313ussHVSZDoLzCjhI7mPN71pAPSrQ5B-ZfBg2RMqZIDmO48zmIAejEbOtnqRy7tuB6G58muTYxGZgrfo-E3CCdA";
+    const HERO_BG = "https://lh3.googleusercontent.com/aida-public/AB6AXuCvKNc-7cp0nfpw9BXrTDr4zlwxERIDEQvrTlxabxdSNMKu7WSdM9jhQlBtnhs8BDUv4FeeqardEpqzWDX1cAoW6H9GEPMoJnoen_dtVTpP8vXWKNJg2EtoAAMfWbtQ4i2VnnQYjIye_HYoUX_uyT_RRHC3fN1DSTzaX6tJvtwWFF3WrctqjvipqYzquJd-7IZt-xs-vWd44tx6JizrW1n71MLFT7EGHbWIufQy_ho";
+    const STORY_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuAYLEJoSkfOlUmA5V29-Oqx4oF2LP5Lbfogcsq8nue3Ttc9WRfSHVs06ODxZTwu4dQBocF6QXvhiI2LaN-wUrodKApwsiKrClVsQsH4QKQfcMnkMVTJXbJcuXGC9fnV68vLS8K_V6JPpLgjWsXNwu56WTlyG2tDpoCbTdhuFL8KDdTDpVU8jD-VHAXialBvzlMP9gu0-hjzoPo0ZR-aoon0inh3F30vnI5T3Ufyb1A";
+    const MAP_BG = "https://lh3.googleusercontent.com/aida-public/AB6AXuDXcTHXvzajPMVy66NsCGx83GN2ThrE9ZbgDsNOD89U_Qs3xXYrU1OYeMYRom39VcTdXlGgDzxNOQxmwWabGc1iq6fjPyuNB5-1Fg7el_jlodz7zBeJWl8YNcTYijlkCaYqk3IMfYP1noql1dfgMjSEkHFvcQ5ps1Z7WW7WfNLKt4JmxCRJ0Q5wF02yAy5FdQddCM8rCQHCVKq2VrOYLG8acRKtzoQyR9lBe6p29Fw";
+
+    const menuCategories = [
+      { id: 'all', label: 'All Repertoire' },
+      { id: 'coffee', label: 'Artisan Coffee' },
+      { id: 'patisserie', label: 'Salon Patisserie' },
+      { id: 'libations', label: 'Late Night Libations' },
+    ];
+
+    const menuItems = [
+      { id: 1, name: "Classic Espresso", price: "€5.50", category: "coffee", description: "Double pulled single-origin Ethiopian heirloom. Piquant orange blossom aromatics, bittersweet dark cocoa, and dried fig notes.", tag: "Manual Piston", volume: "30ml" },
+      { id: 2, name: "Spanish Latte", price: "€7.50", category: "coffee", description: "Infused with cured Madagascar vanilla bean and condensed milk silk, harmonized over dense ristretto foundation.", tag: "Velveteen", volume: "180ml" },
+      { id: 3, name: "Cappuccino", price: "€6.50", category: "coffee", description: "Velveteen steamed microfoam, dusted with 70% Valrhona grand cru cacao. Served in Limoges porcelain demitasse.", tag: "Traditional Dry", volume: "150ml" },
+      { id: 4, name: "Caramel Macchiato", price: "€8.00", category: "coffee", description: "Hand-torched artisanal Guérande fleur de sel caramel ribbons over whole Jersey milk foam and double espresso drizzle.", tag: "Signature Flame", volume: "220ml" },
+      { id: 5, name: "Cold Brew", price: "€7.00", category: "coffee", description: "18-hour cold steeped Gesha beans with wine-like clarity, poured over a crystal hand-carved ice sphere with citrus zest.", tag: "Slow Extraction", volume: "200ml" },
+      { id: 6, name: "Mocha Noir", price: "€8.50", category: "coffee", description: "Single-estate Venezuelan dark chocolate melted slowly in steamed jersey milk with a double ristretto float.", tag: "Grand Cru", volume: "240ml" },
+      { id: 7, name: "Signature Desserts", price: "€12.00", category: "patisserie", description: "Selection of Opera Cake finished with 24k gold leaf, Bronte Pistachio Paris-Brest, and Tahitian vanilla Mille-Feuille.", tag: "Patisserie Trolley", volume: "Chef Reserve" },
+      { id: 8, name: "Croissants au Beurre", price: "€5.00", category: "patisserie", description: "Normandy Isigny Sainte-Mère butter laminated pastries, baked hourly from midnight through brunch for peerless crisp flake.", tag: "Baked Hourly", volume: "Pur Beurre" },
+      { id: 9, name: "Espresso Martini Impérial", price: "€16.00", category: "libations", description: "Vodka infused with Bourbon vanilla, fresh double ristretto extraction, Kahlúa reserve, and spun caramelized sugar ribbon.", tag: "Nocturne Craft", volume: "140ml" },
+      { id: 10, name: "Nocturne Absinthe Drip", price: "€18.00", category: "libations", description: "Traditional Pontarlier blanche poured through slow crystal ice-fountain dripping over unrefined demitasse sugar cubes.", tag: "Ceremonial Font", volume: "90ml" },
+    ];
+
+    const experienceItems = [
+      { id: 1, icon: "chair", title: "Vintage Mahogany & Leather", description: "Restored 1920s deep emerald banquettes, aged saddle leather armchairs, and unhurried reading alcoves tailored for long reverie." },
+      { id: 2, icon: "table_restaurant", title: "Hand-Carved Carrara Marble", description: "Cool, veined Italian bistro slabs that mirror chandelier reflections and preserve the optimum thermal balance of cold crystal." },
+      { id: 3, icon: "light_mode", title: "Warm Amber Glow", description: "Custom unlacquered brass lamps cast low-temperature ambient light, shifting to pure beeswax taper candlelight after 8:00 PM." },
+      { id: 4, icon: "coffee", title: "Bone China & Gilded Porcelain", description: "Custom gold-rimmed service cast in Limoges, shaped specifically to focus single-estate coffee crema aromatics towards the palate." },
+      { id: 5, icon: "menu_book", title: "Curated Vinyl & Library", description: "First edition literature in leather bindings, alongside an archive of analog jazz vinyl pressed between 1948 and 1968." },
+      { id: 6, icon: "nightlight", title: "The Nocturne Ritual", description: "The distinct stillness between 02:00 AM and 05:00 AM when coffee is extracted under hushed voices and quiet contemplation." },
+    ];
+
+    const pillarsData = [
+      { numeral: "I", title: "Single-Origin Terroirs", description: "Rare, microlot harvests sourced directly from multi-generational estates, roasted micro-batch in copper drums.", tag: "Zero Blends" },
+      { numeral: "II", title: "Architecture of Silence", description: "Acoustically softened with wool drapery and wood paneling. Zero abrasive blenders, digital kiosks, or bright screens.", tag: "Acoustic Serenity" },
+      { numeral: "III", title: "Ancestral Kitchen", description: "Viennoiserie crafted with 84% butterfat and baked every ninety minutes, alongside delicate nocturnal consommés.", tag: "Hourly Ovens" },
+      { numeral: "IV", title: "Bespoke Comfort", description: "Deep ergonomics meant for five-hour conversations, manuscript drafts, or quiet solitude with the international press.", tag: "Unhurried Stay" },
+      { numeral: "V", title: "The Continuum", description: "The only salon where 2:00 AM candlelit quiet transitions gracefully into morning’s first buttery sunlight.", tag: "Seamless Hours" },
+    ];
+
+    const galleryItems = [
+      { id: 1, colSpan: "md:col-span-8", aspectRatio: "aspect-[16/9]", image: HERO_BG, alt: "Salon interior with marble floors", tag: "Salon Principal", title: "The 2:00 AM Reading Corner", subtext: "Archival Plaque N° 01" },
+      { id: 2, colSpan: "md:col-span-4", aspectRatio: "aspect-[4/5] md:aspect-auto md:h-full", image: STORY_IMG, alt: "Piston lever machine", tag: "Extraction Room", title: "Manual Lever Mechanics", subtext: "Vintage Piston Heritage" },
+      { id: 3, colSpan: "md:col-span-4", aspectRatio: "aspect-[4/3]", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBMYTaRuz_9MnhRZ0h31Lnk3ccW5-vWqfeqnc-PzA3MBhW9G2rSRb9tY8l9iZ85_UQy1CIo72z_IKnmzylNAQqnsgcHhn3BZfL4-9PaASFyM7CaVR-7EMXGSBKWCwAnYYkI-pUPFYpkDrp2I0-2sjJ_O3cGV8YgU7Cv63tnfGbfDApBebk5_PQbjmm5feyAMMVQDOBjIlnI3pXQLzjwW8AwEoAtdLKJx4ufTgjgjEg", alt: "Butter croissant on bone china", tag: "Morning Viennoiserie", title: "03:30 AM Fresh Bake", subtext: "Pur Beurre d'Isigny" },
+      { id: 4, colSpan: "md:col-span-4", aspectRatio: "aspect-[4/3]", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAfR4c-Cv8-N1m6LUCFb2i24_X5_4Ohbg7yV6RBn3aro_4omLXB-Ik_CyTya2p_VU_He8WfibLoPqJJBDwPWcfLgasVbPhvfzmKNPDClPNFNWyRbRPOc9iKGTgiVIUcI8G2HzAi3qjqg_YyOlRqOyVkTEPS_RqOxFOa4LhpfBo7WJtsXDcbn8_kb_JLaI3Pss_J7Rn5UP02vGYo0V50XiRRFuw4l6KO8_Y7H_W9vCA", alt: "Carrara marble table", tag: "Carrara Still Life", title: "Salon Privé Table", subtext: "Italian Marble Slabs" },
+      { id: 5, colSpan: "md:col-span-4", aspectRatio: "aspect-[4/3]", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDwxoa8B91r2ActZoZvb0qfejTQ0Qv9zS4qU-D6CM4j-GDwkbszh6FOU2G4XFI-Riw8i0dAwtGOc-vAwH9wV17gYSXsuaqC34x2Jc802y3oDX-Kxsb76Lq_V1c14u1AmrsFCsBwS35g2koonPoHT3jJcEsAMyfNa4JtcPpsnieScDyrHb2wTiHBW0nAGn8Ty3bJUg6yUw66escTP_63JXbaSLpO0yEEEKW0DGL3xd0", alt: "Turntable and vacuum tubes", tag: "Analog Jazz Archives", title: "Midnight Suite Acoustics", subtext: "Mono Vinyl 1952" },
+    ];
+
+    function Header({ activeSection, onNavigate }) {
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const navItems = [
+        { id: 'hero', label: 'The Salon' },
+        { id: 'our-story', label: 'Our Story' },
+        { id: 'signature-menu', label: 'Signature Menu' },
+        { id: 'the-experience', label: 'The Experience' },
+        { id: 'why-2am-to-pm', label: 'Why 2AM to PM' },
+        { id: 'gallery', label: 'Gallery' },
+        { id: 'visit-us', label: 'Visit Us' },
+      ];
+
+      return (
+        <header className="fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur-md shadow-[0_16px_36px_-8px_rgba(45,28,21,0.25)]">
+          <div className="h-20 max-w-[1320px] mx-auto px-margin-desktop flex items-center justify-between">
+            <div className="flex items-center gap-space-md">
+              <a href="#hero" onClick={(e) => { e.preventDefault(); onNavigate('hero'); }} className="flex items-center gap-3">
+                <img alt="2AM to PM Logo" className="h-8 w-auto object-contain" src={LOGO_URL} />
+                <div className="flex flex-col">
+                  <span className="font-headline-sm text-headline-sm text-surface font-semibold tracking-wider uppercase">2AM to PM</span>
+                  <span className="font-label-sm text-label-sm text-secondary tracking-[0.2em] uppercase">Haute Salon &amp; Cafe</span>
+                </div>
+              </a>
+              <div className="hidden xl:flex items-center gap-space-xs pl-space-md ml-space-md border-l border-secondary/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+                <span className="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-[0.14em]">Salon Open: 02:00 AM – 11:59 PM</span>
+              </div>
+            </div>
+
+            <nav className="hidden lg:flex items-center gap-space-lg">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(item.id); }}
+                  className={`font-label-md text-label-md uppercase tracking-[0.12em] transition-all duration-200 ${
+                    activeSection === item.id ? 'text-secondary font-medium underline underline-offset-8' : 'text-surface-container-high hover:text-secondary-fixed'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-space-md">
+              <a
+                href="#visit-us"
+                onClick={(e) => { e.preventDefault(); onNavigate('visit-us'); }}
+                className="px-space-md py-space-sm bg-transparent border border-secondary/40 hover:bg-secondary-container/20 text-secondary hover:text-secondary-fixed font-label-md text-label-md uppercase tracking-[0.14em] transition-all duration-300 hidden sm:inline-block"
+              >
+                Reserve a Table
+              </a>
+              <div className="w-8 h-8 rounded-full bg-primary-container border border-secondary/40 flex items-center justify-center">
+                <span className="material-symbols-outlined text-secondary-fixed text-[18px]">person</span>
+              </div>
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-surface p-1">
+                <span className="material-symbols-outlined text-2xl text-secondary">{mobileMenuOpen ? 'close' : 'menu'}</span>
+              </button>
+            </div>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className="lg:hidden bg-primary border-t border-secondary/20 px-6 py-6 space-y-4">
+              <nav className="flex flex-col space-y-3">
+                {navItems.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(e) => { e.preventDefault(); onNavigate(item.id); setMobileMenuOpen(false); }}
+                    className={`font-label-md text-label-md uppercase tracking-[0.12em] ${activeSection === item.id ? 'text-secondary font-semibold' : 'text-surface'}`}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <a
+                  href="#visit-us"
+                  onClick={(e) => { e.preventDefault(); onNavigate('visit-us'); setMobileMenuOpen(false); }}
+                  className="block text-center w-full py-3 bg-secondary text-primary font-label-md text-label-md uppercase font-semibold"
+                >
+                  Reserve a Table
+                </a>
+              </nav>
+            </div>
+          )}
+        </header>
+      );
+    }
+
+    function Hero({ onExploreMenu, onDiscoverStory }) {
+      return (
+        <section id="hero" className="relative w-full min-h-[92vh] flex items-center justify-center overflow-hidden bg-primary pt-20">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${HERO_BG}')` }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,37,29,0.7)_100%)]" />
+
+          <div className="relative z-10 max-w-[1320px] mx-auto px-margin-desktop w-full py-space-xl text-center flex flex-col items-center">
+            <div className="flex flex-wrap items-center justify-center gap-space-sm mb-space-lg">
+              <span className="px-space-md py-1 bg-surface-container-highest/20 backdrop-blur-md border border-secondary/40 text-secondary-fixed font-label-sm text-label-sm uppercase tracking-[0.24em]">
+                Salon N° 14 • 48°51'24"N 2°21'07"E
+              </span>
+              <span className="px-space-md py-1 bg-surface-container-highest/15 backdrop-blur-md border border-secondary/30 text-surface-container-high font-label-sm text-label-sm uppercase tracking-[0.2em] flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-ping" />
+                Open 02:00 AM — Midnight
+              </span>
+            </div>
+
+            <h1 className="font-display text-display lg:text-[76px] lg:leading-[84px] text-surface font-normal tracking-tight max-w-4xl mb-space-md">
+              2AM to PM
+            </h1>
+            <p className="font-display italic text-headline-md lg:text-[34px] text-secondary-fixed mb-space-sm">
+              From Late Night Conversations to Golden Morning Coffee.
+            </p>
+            <p className="font-body-lg text-body-lg text-surface-container-high/90 max-w-2xl font-light tracking-wide mb-space-xl">
+              Good Coffee. Timeless Moments. An unbroken sanctuary of European salon heritage where midnight reflections quietly yield to dawn’s first extraction.
+            </p>
+
+            <div className="flex flex-col sm:row items-center gap-space-md w-full sm:w-auto">
+              <button
+                onClick={onExploreMenu}
+                className="w-full sm:w-auto px-8 py-4 bg-secondary text-primary font-label-md text-label-md tracking-[0.16em] uppercase hover:bg-secondary-fixed transition-colors duration-300 font-semibold cursor-pointer"
+              >
+                Explore Our Menu
+              </button>
+              <button
+                onClick={onDiscoverStory}
+                className="w-full sm:w-auto px-8 py-4 bg-transparent border border-secondary/60 text-secondary-fixed font-label-md text-label-md tracking-[0.16em] uppercase hover:bg-secondary/15 transition-all duration-300 cursor-pointer"
+              >
+                Discover Our Story
+              </button>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function OurStory() {
+      return (
+        <section className="w-full py-space-xl bg-surface-container-low" id="our-story">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-center">
+              <div className="lg:col-span-6 relative">
+                <div className="p-3 bg-surface-container border border-secondary/30 shadow-md">
+                  <div className="relative overflow-hidden aspect-[4/5] bg-primary">
+                    <img alt="Artisanal espresso" className="w-full h-full object-cover" src={STORY_IMG} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+                  </div>
+                </div>
+                <div className="absolute -bottom-6 -right-4 lg:-right-8 bg-primary text-surface p-space-md max-w-xs border border-secondary/40 shadow-xl">
+                  <span className="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] block mb-1">Rituel du Matin</span>
+                  <p className="font-display italic text-headline-sm text-secondary-fixed leading-tight">“Coffee conceived as an art of time.”</p>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 space-y-space-md lg:pl-space-md mt-10 lg:mt-0">
+                <div className="flex items-center gap-space-xs">
+                  <span className="w-8 h-px bg-secondary" />
+                  <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.22em]">An Ode to Unhurried Hours</span>
+                </div>
+                <h2 className="font-headline-lg text-headline-lg text-primary leading-tight font-normal">
+                  Where the nocturne mingles with first daylight.
+                </h2>
+                <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                  Conceived inside Paris’s historic Galerie Vivienne passage, <em>2AM to PM</em> honors the uninterrupted rhythm of the Grand Continental Salon. While the capital sleeps, our hearth remains aglow with hand-carved Carrara marble, polished copper extraction levers, and the gentle murmur of writers and nocturnal thinkers.
+                </p>
+                <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                  Here, coffee is never administered in haste. Beans are procured from micro-lot estates in Yirgacheffe and Huila, rested to peak maturity, and drawn through manual piston machinery calibrated to vintage precision.
+                </p>
+                <div className="pt-space-sm grid grid-cols-2 gap-space-md border-t border-secondary/30">
+                  <div className="p-3 bg-surface/50 border border-secondary/15">
+                    <span className="font-display text-headline-md text-secondary block font-semibold">1924</span>
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Heritage Interior Archival</span>
+                  </div>
+                  <div className="p-3 bg-surface/50 border border-secondary/15">
+                    <span className="font-display text-headline-md text-secondary block font-semibold">22 hrs</span>
+                    <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Continuous Table Hospitality</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function SignatureMenu() {
+      const [activeCategory, setActiveCategory] = useState('all');
+      const filteredItems = activeCategory === 'all' ? menuItems : menuItems.filter(i => i.category === activeCategory);
+
+      return (
+        <section className="w-full py-space-xl bg-surface" id="signature-menu">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="text-center max-w-2xl mx-auto mb-space-lg">
+              <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.2em]">The Grand Folio</span>
+              <h2 className="font-headline-lg text-headline-lg text-primary mt-1 mb-2 font-normal">Signature Offerings</h2>
+              <p className="font-body-md text-body-md text-on-surface-variant">
+                Hand-pulled extractions, ancestral viennoiserie, and nocturnal confectionery served with ceremonial grace.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-space-xs mb-space-lg border-b border-secondary/20 pb-4">
+              {menuCategories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-space-md py-2 font-label-md text-label-md uppercase tracking-[0.14em] transition-all ${
+                    activeCategory === cat.id ? 'border-b-2 border-secondary text-primary font-semibold' : 'text-on-surface-variant hover:text-primary'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {filteredItems.map(item => (
+                <div key={item.id} className="bg-surface-container-low p-space-md border border-secondary/25 flex flex-col justify-between hover:border-secondary hover:shadow-lg transition-all duration-300">
+                  <div>
+                    <div className="flex justify-between items-baseline mb-2">
+                      <h3 className="font-headline-sm text-headline-sm text-primary">{item.name}</h3>
+                      <span className="font-label-md text-label-md text-secondary font-semibold">{item.price}</span>
+                    </div>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">{item.description}</p>
+                  </div>
+                  <div className="mt-4 pt-2 border-t border-secondary/20 flex justify-between items-center text-on-surface-variant">
+                    <span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">{item.tag}</span>
+                    <span className="font-label-sm text-label-sm">{item.volume}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function SensoryExperience() {
+      return (
+        <section className="w-full py-space-xl bg-primary text-surface" id="the-experience">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-space-xl gap-space-md">
+              <div>
+                <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.22em] block mb-2">Sensory Architecture</span>
+                <h2 className="font-headline-lg text-headline-lg text-surface font-normal">The Tactile Salon Experience</h2>
+              </div>
+              <p className="font-body-md text-body-md text-surface-container-high max-w-md">
+                A physical homage to the 1920s Parisian bistro. Unvarnished authenticity woven into every material contact point.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter-desktop">
+              {experienceItems.map(item => (
+                <div key={item.id} className="p-space-lg bg-primary-container/40 border border-secondary/25 relative group hover:border-secondary hover:bg-primary-container/60 transition-all duration-300">
+                  <span className="material-symbols-outlined text-secondary text-3xl mb-4 block">{item.icon}</span>
+                  <h3 className="font-headline-sm text-headline-sm text-surface mb-2">{item.title}</h3>
+                  <p className="font-body-sm text-body-sm text-surface-dim leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function PillarsOfDistinction() {
+      return (
+        <section className="w-full py-space-xl bg-surface-container-high/60" id="why-2am-to-pm">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="text-center max-w-xl mx-auto mb-space-xl">
+              <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.2em]">Pillars of Distinction</span>
+              <h2 className="font-headline-lg text-headline-lg text-primary mt-1 font-normal">Why 2AM to PM</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {pillarsData.map(p => (
+                <div key={p.numeral} className="bg-surface p-space-md border border-secondary/30 relative flex flex-col justify-between hover:border-secondary transition-all">
+                  <div>
+                    <span className="font-display text-headline-md text-secondary/50 font-normal">{p.numeral}</span>
+                    <h3 className="font-headline-sm text-headline-sm text-primary mt-2 mb-2">{p.title}</h3>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">{p.description}</p>
+                  </div>
+                  <div className="mt-6 pt-2 border-t border-secondary/20">
+                    <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">{p.tag}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function AtmosphericGallery() {
+      const [activeImg, setActiveImg] = useState(null);
+      return (
+        <section className="w-full py-space-xl bg-surface" id="gallery">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+              <div>
+                <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.22em] block mb-1">Archival Visuals</span>
+                <h2 className="font-headline-lg text-headline-lg text-primary font-normal">Atmospheric Gallery</h2>
+              </div>
+              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Parisian Registry • Series 24</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              {galleryItems.map(item => (
+                <div key={item.id} onClick={() => setActiveImg(item)} className={`${item.colSpan} relative group overflow-hidden border border-secondary/30 bg-primary cursor-pointer`}>
+                  <div className={`${item.aspectRatio} w-full overflow-hidden`}>
+                    <img alt={item.alt} src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  </div>
+                  <div className="absolute bottom-0 inset-x-0 p-space-md bg-gradient-to-t from-primary/95 to-transparent flex justify-between items-end">
+                    <div>
+                      <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest">{item.tag}</span>
+                      <p className="font-headline-sm text-headline-sm text-surface">{item.title}</p>
+                    </div>
+                    <span className="font-label-sm text-label-sm text-surface-dim hidden sm:inline">{item.subtext}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {activeImg && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4" onClick={() => setActiveImg(null)}>
+                <div className="relative max-w-4xl w-full bg-primary border border-secondary/50 p-4 shadow-2xl" onClick={e => e.stopPropagation()}>
+                  <button onClick={() => setActiveImg(null)} className="absolute top-4 right-4 text-surface p-2 hover:text-secondary-fixed">
+                    <span className="material-symbols-outlined text-3xl">close</span>
+                  </button>
+                  <img alt={activeImg.alt} src={activeImg.image} className="max-h-[70vh] w-auto object-contain mx-auto" />
+                  <div className="mt-4 p-3 bg-primary-container text-surface flex justify-between items-center">
+                    <div>
+                      <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest">{activeImg.tag}</span>
+                      <h4 className="font-headline-sm text-headline-sm">{activeImg.title}</h4>
+                    </div>
+                    <span className="font-label-sm text-label-sm text-surface-dim">{activeImg.subtext}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      );
+    }
+
+    function ReservationAndVisit() {
+      const [submitted, setSubmitted] = useState(false);
+      const [data, setData] = useState({ name: '', email: '', guests: '2 Guests', date: '2026-11-05', timeSlot: '10:00 PM (Nocturne)', atmosphere: 'Main Marble Hall', notes: '' });
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitted(true);
+      };
+
+      return (
+        <section className="w-full py-space-xl bg-primary text-surface" id="visit-us">
+          <div className="max-w-[1320px] mx-auto px-margin-desktop">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop">
+              <div className="lg:col-span-6 space-y-space-lg">
+                <div>
+                  <span className="font-label-md text-label-md text-secondary uppercase tracking-[0.22em] block mb-2">Location &amp; Access</span>
+                  <h2 className="font-headline-lg text-headline-lg text-surface font-normal">Palais-Royal Sanctuary</h2>
+                  <p className="font-body-md text-body-md text-surface-container-high mt-2">Discreet passage access. Valet parking on Rue de Beaujolais.</p>
+                </div>
+
+                <div className="space-y-space-md border-t border-secondary/30 pt-space-md">
+                  <div>
+                    <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Salon Addresses</span>
+                    <p className="font-body-md text-body-md text-surface mt-1">14 Rue de Beaujolais, Galerie de Montpensier, 75001 Paris</p>
+                    <p className="font-body-sm text-body-sm text-surface-dim">Secondary Pavilion: 28 Old Burlington St, Mayfair, London W1S</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    <div className="p-3 bg-primary-container/40 border border-secondary/20">
+                      <span className="font-label-sm text-label-sm text-secondary uppercase block">Vigil</span>
+                      <p className="font-label-md text-label-md text-surface">02:00 — 11:00</p>
+                    </div>
+                    <div className="p-3 bg-primary-container/40 border border-secondary/20">
+                      <span className="font-label-sm text-label-sm text-secondary uppercase block">Grand Day</span>
+                      <p className="font-label-md text-label-md text-surface">11:00 — 19:00</p>
+                    </div>
+                    <div className="p-3 bg-primary-container/40 border border-secondary/20">
+                      <span className="font-label-sm text-label-sm text-secondary uppercase block">Nocturne</span>
+                      <p className="font-label-md text-label-md text-surface">19:00 — 02:00</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Direct Concierge</span>
+                    <p className="font-body-md text-body-md text-surface mt-1">+33 (0)1 42 96 56 27 • concierge@2amtopm.com</p>
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden border border-secondary/30">
+                  <div className="w-full h-56 bg-cover bg-center" style={{ backgroundImage: `url('${MAP_BG}')` }} />
+                  <div className="absolute bottom-2 left-2 px-3 py-1 bg-primary/90 text-secondary font-label-sm text-label-sm border border-secondary/30">
+                    Arrondissement I • Paris
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 bg-surface-container-low text-on-surface p-space-lg lg:p-space-xl border border-secondary/40 shadow-2xl relative">
+                <div className="border-b border-secondary/30 pb-space-sm mb-space-md">
+                  <span className="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] block">Salon Privé Registry</span>
+                  <h3 className="font-headline-md text-headline-md text-primary font-normal">Reserve a Salon Table</h3>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                    Table reservations are honored across the full nocturnal cycle. Salon Privé reservations include dedicated sommelier service.
+                  </p>
+                </div>
+
+                {submitted ? (
+                  <div className="py-8 text-center space-y-4">
+                    <span className="material-symbols-outlined text-secondary text-5xl">task_alt</span>
+                    <h4 className="font-headline-sm text-primary">Privilege Confirmed for {data.name || 'Honored Guest'}</h4>
+                    <p className="font-body-md text-on-surface-variant">Your table for {data.guests} on {data.date} ({data.timeSlot}) in the {data.atmosphere} is reserved.</p>
+                    <button onClick={() => setSubmitted(false)} className="px-6 py-2 bg-secondary text-primary font-label-md uppercase font-semibold">Reserve Another</button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-space-md">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+                      <div>
+                        <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Guest Dignitary Name</label>
+                        <input required value={data.name} onChange={e => setData({...data, name: e.target.value})} className="w-full px-space-md py-3 bg-surface border border-secondary/40 text-on-surface font-body-sm text-body-sm" placeholder="e.g. Lord Harrington" />
+                      </div>
+                      <div>
+                        <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Honorary Correspondence</label>
+                        <input required type="email" value={data.email} onChange={e => setData({...data, email: e.target.value})} className="w-full px-space-md py-3 bg-surface border border-secondary/40 text-on-surface font-body-sm text-body-sm" placeholder="name@domain.eu" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+                      <div>
+                        <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Guests</label>
+                        <select value={data.guests} onChange={e => setData({...data, guests: e.target.value})} className="w-full px-space-md py-3 bg-surface border border-secondary/40 text-on-surface font-body-sm">
+                          <option>1 Dignitary</option>
+                          <option>2 Guests</option>
+                          <option>4 Guests</option>
+                          <option>Private Alcove (6+)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Date</label>
+                        <input type="date" required value={data.date} onChange={e => setData({...data, date: e.target.value})} className="w-full px-space-md py-3 bg-surface border border-secondary/40 text-on-surface font-body-sm" />
+                      </div>
+                      <div>
+                        <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Time Slot</label>
+                        <select value={data.timeSlot} onChange={e => setData({...data, timeSlot: e.target.value})} className="w-full px-space-md py-3 bg-surface border border-secondary/40 text-on-surface font-body-sm">
+                          <option>02:30 AM (Vigil)</option>
+                          <option>04:00 AM (Early Roast)</option>
+                          <option>08:30 AM (Viennoiserie)</option>
+                          <option>02:30 PM (Grand Salon)</option>
+                          <option>10:00 PM (Nocturne)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Preferred Salon Atmosphere</label>
+                      <div className="grid grid-cols-2 gap-2 mt-1">
+                        <label className="flex items-center gap-2 p-2 bg-surface border border-secondary/30 cursor-pointer">
+                          <input type="radio" name="atmo" checked={data.atmosphere === 'Main Marble Hall'} onChange={() => setData({...data, atmosphere: 'Main Marble Hall'})} />
+                          <span className="font-body-sm">Main Marble Hall</span>
+                        </label>
+                        <label className="flex items-center gap-2 p-2 bg-surface border border-secondary/30 cursor-pointer">
+                          <input type="radio" name="atmo" checked={data.atmosphere === 'Library Privé'} onChange={() => setData({...data, atmosphere: 'Library Privé'})} />
+                          <span className="font-body-sm">Library Privé</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Special Courtesies / Tasting Preferences</label>
+                      <textarea value={data.notes} onChange={e => setData({...data, notes: e.target.value})} className="w-full px-space-md py-2 bg-surface border border-secondary/40 text-on-surface font-body-sm" placeholder="Dietary restrictions, vintage requests..." rows="2" />
+                    </div>
+
+                    <button className="w-full py-4 bg-primary text-secondary-fixed font-label-md text-label-md uppercase tracking-[0.18em] hover:bg-primary-container border border-secondary/50 font-semibold cursor-pointer" type="submit">
+                      Confirm Salon Table Privilege
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Footer() {
+      const [email, setEmail] = useState('');
+      const [joined, setJoined] = useState(false);
+
+      return (
+        <>
+          <section className="w-full py-space-xl bg-primary text-surface border-t border-secondary/30">
+            <div className="max-w-[1320px] mx-auto px-margin-desktop text-center">
+              <span className="w-12 h-px bg-secondary mx-auto block mb-4" />
+              <p className="font-display italic text-headline-lg lg:text-[44px] text-secondary-fixed max-w-3xl mx-auto leading-relaxed">
+                “2AM to PM — Every Hour Has Its Own Story.”
+              </p>
+              <div className="mt-space-lg flex flex-wrap justify-center items-center gap-space-lg text-secondary font-label-sm text-label-sm uppercase tracking-[0.2em]">
+                <a className="hover:text-surface transition-colors" href="#signature-menu">Curated Cellar</a>
+                <span>•</span>
+                <a className="hover:text-surface transition-colors" href="https://instagram.com" target="_blank">@2AMtoPM.Salon</a>
+                <span>•</span>
+                <a className="hover:text-surface transition-colors" href="#our-story">The Paris Archives</a>
+                <span>•</span>
+                <a className="hover:text-surface transition-colors" href="#visit-us">Salon Privé Inquiries</a>
+              </div>
+            </div>
+          </section>
+
+          <footer className="w-full bg-primary text-surface-container-high pt-space-xl pb-space-lg border-t border-secondary/15">
+            <div className="max-w-[1320px] mx-auto px-margin-desktop">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter-desktop pb-space-xl">
+                <div className="space-y-space-md md:col-span-1">
+                  <div className="flex items-center gap-space-sm">
+                    <img alt="2AM to PM Logo" className="h-7 w-auto object-contain" src={LOGO_URL} />
+                    <span className="font-headline-sm text-headline-sm text-surface tracking-wider uppercase">2AM to PM</span>
+                  </div>
+                  <p className="font-body-sm text-body-sm text-surface-dim leading-relaxed">An unbroken ritual of European bistro heritage, transition hours, fine roast roasteries, and salon gastronomy.</p>
+                  <div className="pt-space-xs">
+                    <span className="font-label-sm text-label-sm text-secondary uppercase tracking-[0.16em]">Salon Hours</span>
+                    <p className="font-body-sm text-body-sm text-surface">02:00 AM – 11:59 PM • Seven Days</p>
+                  </div>
+                </div>
+
+                <div className="space-y-space-sm">
+                  <h4 className="font-headline-sm text-headline-sm text-surface-bright">The Address</h4>
+                  <p className="font-body-sm text-body-sm text-surface-dim leading-loose">Galerie Vivienne Passage<br />4 Rue des Petits-Champs<br />75002 Paris, France</p>
+                  <p className="font-label-sm text-label-sm text-secondary tracking-widest pt-space-xs uppercase">Valet &amp; Private Salon Arrival</p>
+                </div>
+
+                <div className="space-y-space-sm">
+                  <h4 className="font-headline-sm text-headline-sm text-surface-bright">Direct Inquiries</h4>
+                  <p className="font-body-sm text-body-sm text-surface-dim leading-loose">Concierge: +33 (0)1 42 68 02 00<br />Table Reservation: salon@2amtopm.eu<br />Private Hire: events@2amtopm.eu</p>
+                </div>
+
+                <div className="space-y-space-md">
+                  <h4 className="font-headline-sm text-headline-sm text-surface-bright">The Salon Bulletin</h4>
+                  <p className="font-body-sm text-body-sm text-surface-dim">Dispatches on seasonal vintages, midnight roasts, and literary salons.</p>
+                  {joined ? (
+                    <div className="p-3 bg-primary-container text-secondary-fixed text-sm border border-secondary/30">Registered with concierge.</div>
+                  ) : (
+                    <form onSubmit={(e) => { e.preventDefault(); setJoined(true); }} className="flex w-full">
+                      <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-primary-container px-space-md py-space-sm font-body-sm text-surface placeholder:text-surface-dim focus:outline-none border border-secondary/25" placeholder="Your honorable correspondence" />
+                      <button className="px-space-md bg-secondary text-on-secondary font-label-md uppercase tracking-wider">Join</button>
+                    </form>
+                  )}
+                </div>
+              </div>
+
+              <div className="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-sm font-label-sm text-surface-dim border-t border-secondary/15">
+                <p>© MMXXIV 2AM to PM Salon &amp; Brasserie. All privileges reserved.</p>
+                <div className="flex items-center gap-space-md">
+                  <a className="hover:text-secondary" href="#signature-menu">Cellar Registry</a>
+                  <a className="hover:text-secondary" href="#">Terms of Privilège</a>
+                  <a className="hover:text-secondary" href="#">Privacy Manifesto</a>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </>
+      );
+    }
+
+    function App() {
+      const [activeSection, setActiveSection] = useState('hero');
+
+      const handleNavigate = (id) => {
+        setActiveSection(id);
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      return (
+        <div className="bg-surface min-h-screen flex flex-col">
+          <Header activeSection={activeSection} onNavigate={handleNavigate} />
+          <main className="w-full flex-grow">
+            <Hero onExploreMenu={() => handleNavigate('signature-menu')} onDiscoverStory={() => handleNavigate('our-story')} />
+            <OurStory />
+            <SignatureMenu />
+            <SensoryExperience />
+            <PillarsOfDistinction />
+            <AtmosphericGallery />
+            <ReservationAndVisit />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
+
