@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exquisite Material Library | Valure Luxury Interior Studio</title>
+    <meta name="description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request physical concierge samples instantly.">
+    <link rel="canonical" href="https://value-001.vercel.app/materials.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Exquisite Material Library | Valure Luxury Interior Studio" />
+    <meta property="og:description" content="Browse our curated index of high-end finishes, marbles, handcrafted tiles, solid woods, and gold textured coatings. Request physical concierge samples instantly." />
+    <meta property="og:image" content="assets/images/mat-carrara.png" />
+    <meta property="og:url" content="https://value-001.vercel.app/materials.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="materials.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="whatsapp-helper.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="scrolled" role="navigation" aria-label="Main Navigation">
+        <div class="container nav-content">
+            <a href="index.html" class="logo" aria-label="Valure Home">VALURE <span>STUDIO</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="designer.html">AI Room Designer</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="tel:+917454853045" class="btn btn-outline" style="padding: 10px 24px; font-size: 0.75rem;"><i class="fas fa-phone-alt" style="margin-right:6px;"></i> Call Now</a>
+                <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+        <div class="close-menu" role="button" aria-label="Close Mobile Menu"><i class="fas fa-times"></i></div>
+        <ul class="mobile-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="designer.html" style="color: var(--accent-gold); font-weight: 700;">AI Room Designer</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main class="materials-container">
+        <!-- Section Header -->
+        <div class="section-header center" style="margin-top: 30px; margin-bottom: 40px;">
+            <span class="subtitle">Curated Finishes</span>
+            <h2>The Material Library</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0; font-size: 1rem; line-height: 1.6;">
+                Explore our select index of premium marbles, handcrafted tiles, solid woods, metallic epoxy coatings, and luxury wallcoverings sourced globally for high-end residential interiors.
+            </p>
+        </div>
+
+        <!-- Filter and Search controls panel -->
+        <section class="mat-filter-panel reveal">
+            <!-- Search row -->
+            <div class="mat-search-row" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
+                <div class="mat-search-box" style="flex: 1; min-width: 250px;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="mat-search" class="mat-search-input" placeholder="Search by name, description, or origin (e.g. Carrara, Oak)...">
+                </div>
+                <div class="mat-sort-box" style="display: flex; align-items: center;">
+                    <select id="mat-sort" class="mat-sort-select" style="padding: 10px 14px; border-radius: 6px; border: 1.5px solid rgba(212,175,55,0.25); background: var(--primary-blue); color: white; font-size: 0.85rem; font-family: 'Outfit', sans-serif;">
+                        <option value="default">Default Sorting</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                </div>
+                <button id="mat-fav-toggle" class="btn-fav-toggle"><i class="far fa-heart"></i> Show Favorites</button>
+            </div>            <!-- Categories horizontal scroll -->
+            <div class="mat-tabs-row">
+                <button class="mat-tab active" data-category="all">All Finishes</button>
+                <button class="mat-tab" data-category="marble">Marble Series</button>
+                <button class="mat-tab" data-category="tiles">Tile Series</button>
+                <button class="mat-tab" data-category="wood">Wooden Flooring</button>
+                <button class="mat-tab" data-category="epoxy">Epoxy Series</button>
+                <button class="mat-tab" data-category="wallpapers">Wallpapers</button>
+                <button class="mat-tab" data-category="ceiling">Ceiling Materials</button>
+                <button class="mat-tab" data-category="paint">Paint Colors</button>
+            </div>
+        </section>
+
+        <!-- Materials Grid list -->
+        <section class="materials-grid" id="materials-grid">
+            <!-- Dynamic material cards loaded here by materials.js -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 80px;" role="contentinfo">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">VALURE <span>STUDIO</span></a>
+                <p>Premium marble &amp; granite sourcing, visualized instantly with our AI Design Studio.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#srs-docs">Project SRS</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Join our elite list for interior inspiration.</p>
+                <form class="newsletter-form" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your email" required aria-label="Email Address">
+                    <button type="submit" aria-label="Subscribe"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Valure Studio Platform</p>
+                    <p style="margin: 0; opacity: 0.7; font-size: 0.85rem;">&copy; 2026 All rights reserved.</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.5; font-size: 0.8rem; text-align: center;">
+                &copy; 2026 Valure Studio Platform. All rights reserved. | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Terms of Service</a> | 
+                <a href="index.html" style="color: inherit; text-decoration: underline;">Cookie Policy</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         QUICK PREVIEW MODAL
+         ========================================================================== -->
+    <div id="preview-modal" class="modal">
+        <div class="mat-modal-content">
+            <span id="close-preview-modal" class="close-modal">&times;</span>
+            <div class="mat-modal-grid">
+                
+                <!-- Left Visual Preview -->
+                <div class="modal-left-visual">
+                    <img id="modal-img" src="" alt="Material HD Preview">
+                    <span id="modal-category" class="canvas-mode-badge">Marble</span>
+                </div>
+
+                <!-- Right Specifications & Requests -->
+                <div class="modal-right-specs">
+                    <h3 id="modal-title">Statuario Gold Marble</h3>
+                    <p id="modal-desc" class="modal-desc-text">Curated natural stone featuring dark and gold lines.</p>
+
+                    <!-- Technical specs list -->
+                    <div class="modal-specs-list">
+                        <h4>Material Specifications</h4>
+                        <div class="spec-row">
+                            <span class="label">Sourcing Origin</span>
+                            <span id="spec-origin" class="val">Carrara, Italy</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Surface Finish</span>
+                            <span id="spec-finish" class="val">Polished</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Available Thickness</span>
+                            <span id="spec-thick" class="val">20mm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Traffic Durability</span>
+                            <span id="spec-durability" class="val">High</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Sustainability Eco Rating</span>
+                            <span id="spec-eco" class="val" style="color: #10b981;">A</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="label">Sourcing Tier Cost</span>
+                            <span id="spec-price" class="val" style="color: var(--accent-gold);">$$$$$</span>
+                        </div>
+                    </div>
+
+                    <!-- Sample request form -->
+                    <div class="modal-request-box">
+                        <h4>Request Material Sample</h4>
+                        <form id="sample-request-form" class="sample-form">
+                            <input type="hidden" id="sample-item-name" value="">
+                            <div style="display:none;">
+                                <input type="text" id="materials-honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-name" style="font-size: 0.8rem;">Full Name *</label>
+                                <input type="text" id="client-name" placeholder="John Doe" required aria-required="true" style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-phone" style="font-size: 0.8rem;">Phone Number *</label>
+                                <input type="tel" id="client-phone" placeholder="+91 XXXXX XXXXX" required aria-required="true" style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-email" style="font-size: 0.8rem;">Email Address *</label>
+                                <input type="email" id="client-email" placeholder="your@email.com" required aria-required="true" style="padding: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-addr" style="font-size: 0.8rem;">Shipping Address *</label>
+                                <input type="text" id="client-addr" placeholder="123 Design District, NY" required aria-required="true" style="padding: 10px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0; font-size: 0.8rem;">Request Concierge Sample</button>
+                            <a href="https://wa.me/917454853045?text=Hi%2C%20I%27d%20like%20to%20request%20a%20material%20sample%20from%20your%20Valure%20Studio%20collection." target="_blank" class="btn-whatsapp-cta btn-whatsapp-cta-full" style="padding: 10px 0; font-size: 0.8rem;"><i class="fab fa-whatsapp"></i> Request Sample on WhatsApp</a>
+                        </form>
+                        <div class="form-success-toast" id="materials-success" role="alert" aria-live="polite" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                            <i class="fas fa-check-circle" style="font-size:1rem;"></i>
+                            <span>Sample requested successfully!</span>
+                        </div>
+                        <div class="form-error-toast" id="materials-error" role="alert" aria-live="polite" style="margin-top: 10px; padding: 10px 14px; font-size: 0.8rem; border-radius: 6px;">
+                            <i class="fas fa-exclamation-circle" style="font-size:1rem;"></i>
+                            <span id="materials-error-text">Failed to request sample.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Drawer -->
+    <div id="compare-drawer" class="compare-drawer" style="position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(90deg, var(--primary-blue) 0%, #0c152b 100%); border-top: 1.5px solid var(--accent-gold); padding: 15px 30px; display: none; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 -8px 30px rgba(0,0,0,0.4); transition: all 0.3s ease;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span style="color: var(--white); font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600;"><i class="fas fa-balance-scale" style="color: var(--accent-gold); margin-right: 8px;"></i> Compare Materials (<span id="compare-count">0</span>/3):</span>
+            <div id="compare-thumbnails" style="display: flex; gap: 8px; align-items: center;"></div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button id="btn-compare-now" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.8rem; background: var(--accent-gold); color: var(--primary-blue); font-weight: 700; border: none; border-radius: 6px; cursor: pointer;">Compare Selected</button>
+            <button id="btn-compare-clear" class="btn btn-outline" style="padding: 10px 18px; font-size: 0.8rem; border-color: rgba(255,255,255,0.2); color: white; background: transparent; cursor: pointer;">Clear All</button>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div id="compare-modal" class="qv-modal" style="display: none;" role="dialog" aria-modal="true" aria-label="Material Comparison Modal">
+        <div class="qv-modal-overlay" id="compare-modal-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8,13,26,0.85); z-index: 99999;"></div>
+        <div class="qv-modal-content" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 900px; background: #fff; border-radius: 12px; z-index: 100000; box-shadow: var(--shadow-premium); overflow: hidden; max-height: 85vh; display: flex; flex-direction: column;">
+            <div style="padding: 20px 30px; background: var(--primary-blue); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-family: 'Outfit', sans-serif; color: #fff; margin: 0; font-size: 1.3rem;"><i class="fas fa-balance-scale" style="color: var(--accent-gold); margin-right: 8px;"></i> Material Comparison Matrix</h3>
+                <button id="close-compare-modal" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0 5px;">&times;</button>
+            </div>
+            <div style="padding: 30px; overflow-y: auto; flex: 1;">
+                <div class="table-responsive" style="width: 100%; overflow-x: auto;">
+                    <table class="compare-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: #333;">
+                        <thead>
+                            <tr id="compare-table-headers" style="border-bottom: 2px solid var(--accent-gold);">
+                                <th style="padding: 12px; color: var(--primary-blue); font-weight: 700; width: 25%;">Feature</th>
+                                <!-- Dynamic headers -->
+                            </tr>
+                        </thead>
+                        <tbody id="compare-table-body">
+                            <!-- Dynamic comparison matrix details -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="materials.js"></script>
+    <script>
+        // Mobile menu for sub-page
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        if (menuToggle && mobileMenu && closeMenu) {
+            menuToggle.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; });
+            document.querySelectorAll('.mobile-links a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = 'auto'; }));
+        }
+    </script>
+</body>
+</html>
