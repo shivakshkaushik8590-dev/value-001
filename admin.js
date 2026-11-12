@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadLocalStorageData = () => {
-        const APP_VERSION = '2.0.0';
+        const APP_VERSION = '2.0.1';
         const localVersion = localStorage.getItem('valure_custom_marbles_version');
         
         // Load Materials

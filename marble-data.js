@@ -369,7 +369,7 @@ const marbleProducts = [
     isPremium: true,
     description: "Translucent ivory onyx with soft amber and cream banding. Sourced from Iran, it radiates a warm, ethereal glow when backlit, making it ideal for luxurious lobby walls and high-end bar fronts.",
     shortDesc: "Translucent ivory onyx that glows beautifully when backlit.",
-    images: ["https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=800"],
+    images: ["assets/images/onyx-ivory-stone.jpg"],
     specs: {
       "Translucency": "High",
       "Hardness (Mohs)": "6.5",
@@ -380,7 +380,7 @@ const marbleProducts = [
   },
   {
     id: "onyx-green-012",
-    name: "Onyx Green Stone",
+    name: "Green Onyx Marble",
     category: "onyx",
     price: 720,
     originalPrice: 850,
@@ -397,14 +397,14 @@ const marbleProducts = [
     isPremium: true,
     description: "Rich emerald and forest green onyx with swirling patterns of gold, brown, and white. Fully translucent and perfect for high-end accent panels and vanity installations.",
     shortDesc: "Rich forest green onyx with dramatic swirling patterns.",
-    images: ["https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&q=80&w=800"],
+    images: ["assets/images/green-onyx-marble.webp"],
     specs: {
       "Translucency": "High",
       "Hardness (Mohs)": "6.5",
       "Backlit": "Yes",
       "Min. Order": "30 sq.ft."
     },
-    tags: ["onyx", "green", "luxury", "rare"]
+    tags: ["onyx", "green", "luxury", "rare", "green onyx marble"]
   },
 
   // ========== GRANITE ==========
@@ -581,21 +581,23 @@ const marbleProducts = [
 ];
 
 // Synchronize with CRM Admin database if exists (with app version upgrade protection)
-const APP_VERSION = '2.0.0';
-const localVersion = localStorage.getItem('valure_custom_marbles_version');
-const localCustomMarbles = localStorage.getItem('valure_custom_marbles');
+const APP_VERSION = '2.0.1';
+if (typeof localStorage !== 'undefined') {
+    const localVersion = localStorage.getItem('valure_custom_marbles_version');
+    const localCustomMarbles = localStorage.getItem('valure_custom_marbles');
 
-if (localCustomMarbles && localVersion === APP_VERSION) {
-    try {
-        const parsed = JSON.parse(localCustomMarbles);
-        marbleProducts.length = 0;
-        parsed.forEach(p => marbleProducts.push(p));
-    } catch (e) {
-        console.error('Error synchronizing local custom marbles:', e);
+    if (localCustomMarbles && localVersion === APP_VERSION) {
+        try {
+            const parsed = JSON.parse(localCustomMarbles);
+            marbleProducts.length = 0;
+            parsed.forEach(p => marbleProducts.push(p));
+        } catch (e) {
+            console.error('Error synchronizing local custom marbles:', e);
+        }
+    } else {
+        localStorage.setItem('valure_custom_marbles', JSON.stringify(marbleProducts));
+        localStorage.setItem('valure_custom_marbles_version', APP_VERSION);
     }
-} else {
-    localStorage.setItem('valure_custom_marbles', JSON.stringify(marbleProducts));
-    localStorage.setItem('valure_custom_marbles_version', APP_VERSION);
 }
 
 // Helper functions

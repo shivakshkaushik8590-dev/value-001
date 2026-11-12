@@ -626,12 +626,12 @@ const marbleProducts = [
   // ========== ONYX ==========
   {
     id: "onyx-honey-019",
-    name: "Honey Onyx",
+    name: "Onyx Ivory Stone",
     category: "onyx",
     price: 800,
     originalPrice: null,
-    color: "Honey Gold",
-    colorHex: "#C88B30",
+    color: "Ivory",
+    colorHex: "#ECEAE0",
     finish: "Polished",
     thickness: "15mm",
     origin: "Turkey / Iran",
@@ -640,13 +640,10 @@ const marbleProducts = [
     availability: "limited",
     isNew: false,
     isPopular: true,
-    description: "Honey Onyx is nature's stained glass. When backlit, it radiates a stunning warm amber glow. Used in the world's most exclusive hotels, bars, and luxury spas.",
-    shortDesc: "Nature's stained glass — radiates warm amber glow when backlit.",
+    description: "Translucent ivory onyx with soft amber and cream banding. When backlit, it radiates a stunning warm ethereal glow. Used in the world's most exclusive hotels, bars, and luxury spas.",
+    shortDesc: "Translucent ivory onyx that glows beautifully when backlit.",
     images: [
-      "https://images.unsplash.com/photo-1536895058696-a69b1c7ba34f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600210491866-e742330efc00?auto=format&fit=crop&q=80&w=800"
+      "assets/images/onyx-ivory-stone.jpg"
     ],
     specs: {
       "Translucency": "High",
@@ -660,7 +657,7 @@ const marbleProducts = [
 
   {
     id: "onyx-green-020",
-    name: "Forest Green Onyx",
+    name: "Green Onyx Marble",
     category: "onyx",
     price: 750,
     originalPrice: null,
@@ -674,13 +671,10 @@ const marbleProducts = [
     availability: "limited",
     isNew: true,
     isPopular: false,
-    description: "Rich forest green onyx with swirling patterns of lighter green and white. Creates an extraordinary natural focal point. Highly prized in hospitality and luxury retail design.",
+    description: "Rich emerald and forest green onyx with swirling patterns of lighter green and white. Creates an extraordinary natural focal point. Highly prized in hospitality and luxury retail design.",
     shortDesc: "Rich forest green with swirling patterns — a commanding natural focal point.",
     images: [
-      "https://images.unsplash.com/photo-1549187774-b4e9b0445b41?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1536895058696-a69b1c7ba34f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=80&w=800"
+      "assets/images/green-onyx-marble.webp"
     ],
     specs: {
       "Translucency": "Medium",
